@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://v2rayndown.org/sitemap.xml
+Sitemap: https://v2raydown.com/sitemap.xml

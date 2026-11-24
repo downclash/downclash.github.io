@@ -1,6 +1,16 @@
 # 最新版本下载链接自动更新
 
-当前实现保存在本地工作区，尚未推送到 GitHub，因此云端定时检测和网站部署尚未激活。工作流文件为 `.github/workflows/update-releases.yml`。
+工作流文件为 `.github/workflows/update-releases.yml`。用户手动推送 `ee2b596` 后，首次更新与部署任务已显示成功；随后排查发现自定义域名配置错误。当前域名修复仍需重新提交推送，并核对下述 Pages 设置。
+
+## 域名 404 恢复
+
+正式站点必须保持为 `https://v2raydown.com/`，仓库 `CNAME` 应只有一行 `v2raydown.com`。不要仅依据站内链接彼此一致就认定发布域名正确；审核脚本和测试现在也会验证现有生产域名。
+
+1. 在 [仓库 Pages 设置](https://github.com/downclash/downclash.github.io/settings/pages)中，将 **Custom domain** 保存为 `v2raydown.com`。
+2. 提交并推送本次域名修复，确保 `CNAME`、37 页 canonical/结构化数据、robots、sitemap 及更新脚本一并恢复为正式域名。
+3. 查看 [Actions](https://github.com/downclash/downclash.github.io/actions)，确认新提交部署成功，再访问正式域名验证。`ee2b596` 的 [首次自动更新任务](https://github.com/downclash/downclash.github.io/actions/runs/45338935033)成功，并不能证明自定义域名绑定正确。
+
+如果使用自定义 GitHub Actions 发布，GitHub 会忽略仓库中的 `CNAME` 文件；**Custom domain 必须在 Settings → Pages 中保存**。因此仅修复本地文件不等于线上已经恢复。既有 DNS 已将域名请求送到 GitHub Pages（本次观察到 GitHub 自身的站点未找到页），本轮没有要求更改 DNS 记录或关闭 HTTPS。
 
 ## 更新流程
 

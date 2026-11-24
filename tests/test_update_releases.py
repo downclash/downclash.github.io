@@ -74,8 +74,8 @@ class ReleaseSyncTests(unittest.TestCase):
             '{"@context":"https://schema.org","@type":"CollectionPage","dateModified":"2026-01-01"}'
             '</script></head><body><p id="retained">Keep editorial content.</p>' + blocks + '</body></html>')
         self.root.joinpath('sitemap.xml').write_text(
-            '<?xml version="1.0"?><urlset><url><loc>https://v2rayndown.org/</loc>'
-            '<lastmod>2026-01-01</lastmod></url><url><loc>https://v2rayndown.org/download.html</loc>'
+            '<?xml version="1.0"?><urlset><url><loc>https://v2raydown.com/</loc>'
+            '<lastmod>2026-01-01</lastmod></url><url><loc>https://v2raydown.com/download.html</loc>'
             '<lastmod>2026-01-01</lastmod></url></urlset>')
         self.now = datetime(2026, 11, 24, 6, 0, tzinfo=timezone.utc)
 
@@ -129,8 +129,8 @@ class ReleaseSyncTests(unittest.TestCase):
         self.assertIn('2026 年 12 月 02 日 02:05', text)
         self.assertIn('"dateModified": "2026-12-02"', text)
         sitemap = self.root.joinpath('sitemap.xml').read_text()
-        self.assertIn('<loc>https://v2rayndown.org/</loc><lastmod>2026-01-01</lastmod>', sitemap)
-        self.assertIn('<loc>https://v2rayndown.org/download.html</loc><lastmod>2026-12-02</lastmod>', sitemap)
+        self.assertIn('<loc>https://v2raydown.com/</loc><lastmod>2026-01-01</lastmod>', sitemap)
+        self.assertIn('<loc>https://v2raydown.com/download.html</loc><lastmod>2026-12-02</lastmod>', sitemap)
 
     def test_download_counts_and_api_order_do_not_create_update_or_change_timestamp(self):
         before = self.seed()

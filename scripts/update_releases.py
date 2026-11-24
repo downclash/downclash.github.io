@@ -29,7 +29,7 @@ class ReleaseError(ValueError):
 def fetch_release(repo, token=''):
     """Use GitHub's Latest designation, never the highest-looking version number."""
     headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2026-03-10',
-               'User-Agent': 'v2rayndown-release-sync'}
+               'User-Agent': 'v2raydown-release-sync'}
     if token:
         headers['Authorization'] = 'Bearer ' + token
     request = Request('https://api.github.com/repos/' + repo + '/releases/latest', headers=headers)
@@ -220,7 +220,7 @@ def render_download(text, data):
 
 def render_sitemap(text, data):
     date = datetime.fromisoformat(data['updated_at'].replace('Z', '+00:00')).astimezone(ZoneInfo('Asia/Shanghai')).date().isoformat()
-    pattern = r'(<url>\s*<loc>https://v2rayndown\.org/download\.html</loc>\s*<lastmod>)[^<]+(</lastmod>)'
+    pattern = r'(<url>\s*<loc>https://v2raydown\.com/download\.html</loc>\s*<lastmod>)[^<]+(</lastmod>)'
     text, count = re.subn(pattern, lambda match: match[1] + date + match[2], text)
     if count != 1:
         raise ReleaseError('Could not find download.html in sitemap')

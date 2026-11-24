@@ -16,6 +16,7 @@ import csv
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+PRODUCTION_DOMAIN = 'v2raydown.com'
 VOID = set('area base br col embed hr img input link meta param source track wbr'.split())
 
 @dataclass
@@ -77,6 +78,8 @@ def audit():
     base = 'https://' + domain + '/'
     pages = {}
     errors, warnings = [], []
+    if domain != PRODUCTION_DOMAIN:
+        errors.append('CNAME must preserve the production domain: ' + PRODUCTION_DOMAIN)
     for path in sorted(ROOT.glob('*.html')):
         parser = Tree()
         parser.feed(path.read_text())
