@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 配置备份与迁移：换机、恢复和回退 | V2Ray 下载站</title>
+<meta content="V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2ray-backup-migrate.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2ray-backup-migrate.html" property="og:url"/>
+<meta content="V2Ray 配置备份与迁移：换机、恢复和回退" property="og:title"/>
+<meta content="V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 配置备份与迁移：换机、恢复和回退" name="twitter:title"/>
+<meta content="V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做",
+  "description": "V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。",
+  "url": "https://v2rayndown.org/blog-v2ray-backup-migrate.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2ray-backup-migrate.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "订阅与维护",
+  "@id": "https://v2rayndown.org/blog-v2ray-backup-migrate.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "keywords": [
+    "V2Ray 配置备份",
+    "换机迁移",
+    "恢复配置",
+    "升级回退"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "订阅与维护",
+      "item": "https://v2rayndown.org/tutorials.html#learn-subscription"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做",
+      "item": "https://v2rayndown.org/blog-v2ray-backup-migrate.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-subscription">订阅与维护</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">订阅与维护</p>
+<h1>V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做</h1>
+<p class="article-lead">V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-label="快速解答" class="quick-answer"><h2 id="quick-answer">V2Ray 配置怎么备份和迁移？</h2><p>V2Ray 配置备份应覆盖订阅来源、手动节点、自定义路由与 DNS，并记录客户端和内核版本。使用当前软件支持的导出或备份功能；换设备后先恢复一个节点验证，再恢复规则和系统权限。升级回退要保留升级前配置，不能只换回旧程序。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#inventory">V2Ray 备份应保存哪些配置？</a></li><li><a href="#create">v2rayN、v2rayNG 与 V2rayU 如何生成备份？</a></li><li><a href="#same-client">换电脑或手机后，怎样恢复 V2Ray 配置？</a></li><li><a href="#different-client">更换客户端时，不直接覆盖数据目录</a></li><li><a href="#rollback">V2Ray 升级失败时，如何使用备份回退？</a></li><li><a href="#symptoms">恢复后异常，按现象检查缺少哪一层</a></li><li><a href="#finish">验收备份与处理旧设备</a></li><li><a href="#article-faq-heading">V2Ray 备份与迁移常见问题</a></li><li><a href="#sources">官方资料</a></li></ul></nav>
+<p>备份的目标是重新获得可用连接及原有分流行为，而不仅是保存一张节点截图。订阅 URL 能重新获取节点，却不一定包含手动节点、自定义 DNS 和系统权限；复制软件目录也未必能跨操作系统恢复。本教程以自己的设备和已有配置为范围，先建立备份，再测试迁移。</p>
+<h2 id="inventory">V2Ray 备份应保存哪些配置？</h2>
+<div aria-label="V2Ray 备份应保存哪些配置？，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">内容</th><th scope="col">建议保存方式</th><th scope="col">恢复后要检查</th></tr></thead><tbody><tr><td>订阅来源</td><td>客户端支持的导出或可信私人记录</td><td>URL 有效、格式匹配、更新路径可达</td></tr><tr><td>手动节点</td><td>支持的节点导出或分享格式</td><td>认证、传输、安全参数完整</td></tr><tr><td>路由与 DNS</td><td>导出配置并记录自定义部分</td><td>规则顺序、资源路径和核心版本</td></tr><tr><td>客户端数据</td><td>官方备份功能或确认位置后的离线副本</td><td>数据结构与目标客户端兼容</td></tr><tr><td>系统设置</td><td>记录代理端口、VPN / TUN、启动方式</td><td>在新设备重新授权，不直接复制权限状态</td></tr></tbody></table></div>
+<p>备份中可能包含订阅令牌、UUID、密码和浏览记录相关日志。把它当作敏感文件保存到自己控制的位置；启用同步时确认接收账户及文件权限，而不是把公开仓库当成配置保险箱。</p>
+<h2 id="create">v2rayN、v2rayNG 与 V2rayU 如何生成备份？</h2>
+<ol><li>记录客户端与实际内核版本、系统架构、当前节点、代理方式及备份时间。</li><li>使用当前版本支持的导出或备份入口；检查输出文件不是空文件，并在旁边写清楚适用软件与版本。</li><li>需要复制数据目录时，先通过项目文档或客户端入口确认实际存储位置，再关闭连接并退出程序，避免复制正在写入的数据库。</li><li>将旧安装包或下载来源一同记录，保留升级前备份，随后才创建新的测试环境。</li></ol>
+<p><a href="https://github.com/2dust/v2rayN/wiki/Release-files-introduction" rel="noopener noreferrer" target="_blank">v2rayN 当前发布文件说明</a>区分便携 ZIP 与安装包的数据位置。其 Wiki 已注明面向 v8.x，操作旧版时仍应核对对应说明，不能把互联网上某个固定目录当作所有版本的答案。<a href="https://github.com/yanue/V2rayU/releases/tag/v5.4.0" rel="noopener noreferrer" target="_blank">V2rayU v5.4.0 发布记录</a>明确增加配置备份与恢复；更早版本应使用其实际支持的方法。</p>
+<h2 id="same-client">换电脑或手机后，怎样恢复 V2Ray 配置？</h2>
+<p>新设备先从项目发布源安装匹配系统及架构的版本，然后导入备份或节点。Android 的 APK 与桌面 ZIP 不能互用，VPN 授权、桌面 TUN 服务和系统代理都需要按新系统重新设置。若新旧版本跨度较大，先阅读迁移说明，再决定直接恢复还是通过中间版本迁移。</p>
+<ol><li>暂不启用自动启动和复杂自定义规则，只恢复一个已知有效节点。</li><li>验证核心启动、节点握手和目标应用请求，确认活动配置和本地代理端口。</li><li>恢复路由与 DNS，再测试一个预期代理目标和一个预期直连或内网目标。</li><li>最后设置后台运行、自动更新与启动项，重启设备后再次验证。</li></ol>
+<p>原设备在新设备验证完成前保持可恢复。必要时先关闭原设备连接，避免把账户或设备数量限制误判为导入错误。</p>
+<h2 id="different-client">更换客户端时，不直接覆盖数据目录</h2>
+<p>从 v2rayN 换到 v2rayNG 或 V2rayU，应把节点格式、订阅格式和完整配置分别处理。接收端支持标准分享链接时，先导入一个节点检查；订阅则重新取得匹配目标软件的 URL。旧软件的数据库、内部编号、策略组和用户界面设置，不应直接放进另一软件的数据目录。</p>
+<p>路径也是常见差异：Windows 文件路径、Mac 应用目录和 Android 私有存储并不相同。自定义规则引用本地文件时，确认新路径存在且格式适用于实际内核。跨软件迁移的验证标准是目标请求的行为一致，不能只看列表中的节点名字相同。</p>
+<h2 id="rollback">V2Ray 升级失败时，如何使用备份回退？</h2>
+<p>升级可能修改配置数据库或默认行为。旧程序未必能读取新程序写过的数据，因此回退时应使用<strong>升级前的备份</strong>，不能假定换回旧可执行文件就能恢复。便携版可在项目支持的情况下将旧环境保留为独立副本；两份程序测试时只运行一份，避免端口和系统代理争用。</p>
+<p>Android 覆盖安装还受到包名、签名及版本限制。不要为了尝试降级先卸载唯一可用应用；先确认导出已经完成，再按系统及项目支持方式处理。若发布说明涉及安全修复，应优先寻找受支持的修复版本，而不是长期停留在已知存在问题的版本。</p>
+<h2 id="symptoms">恢复后异常，按现象检查缺少哪一层</h2>
+<div aria-label="恢复后异常，按现象检查缺少哪一层，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">先检查</th><th scope="col">恢复结果</th></tr></thead><tbody><tr><td>节点列表恢复了，浏览器仍直连</td><td>系统代理 / VPN 权限与活动节点</td><td>请求进入目标客户端日志</td></tr><tr><td>核心提示文件不存在</td><td>规则集、核心文件与自定义路径</td><td>相关资源加载成功</td></tr><tr><td>只有内网或某类网站失败</td><td>规则顺序、DNS 和 TUN 排除</td><td>分别命中原计划的出口</td></tr><tr><td>备份无法识别</td><td>生成软件、版本与备份文件完整性</td><td>使用兼容恢复入口，或从标准节点重新开始</td></tr></tbody></table></div>
+<h2 id="finish">验收备份与处理旧设备</h2>
+<p>完成恢复后，记录新设备的有效配置与验证时间，生成一份新的备份，但保留上一份已知可用副本。旧设备不再使用时，先清除其代理 / VPN 设置，再按自己的设备处理计划移除配置；对已经转交他人的设备，还应确认订阅令牌与导出文件没有遗留。</p>
+<p>若怀疑备份被公开，联系配置提供方更换相应令牌或凭据，随后更新受影响设备。文件改名、压缩或 Base64 编码都不能撤销旧凭据。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">V2Ray 备份与迁移常见问题</h2>
+<details class="faq-entry"><summary><h3>只保存订阅链接，算完整备份吗？</h3></summary><div><p>订阅能重新获取其管理的节点，但通常不能替代手工节点、自定义规则、DNS 和客户端设置的备份。先按本页清单确认哪些内容来自订阅、哪些由自己维护，再使用客户端支持的方式导出。</p>
+</div></details><details class="faq-entry"><summary><h3>v2rayN 的数据目录可以直接复制给 v2rayNG 吗？</h3></summary><div><p>不应直接覆盖另一客户端的数据目录。两者的数据模型和平台存储不同。迁移时使用接收端支持的节点或订阅格式，再分别恢复规则及权限，以实际连接和分流结果作为验收。</p>
+</div></details><details class="faq-entry"><summary><h3>降级时，为什么不能只换回旧版可执行文件？</h3></summary><div><p>新版本可能已经迁移数据库或重写配置，旧版本未必兼容。回退应配合升级前备份，并在停止当前连接后按项目支持的流程进行；恢复后还要检查活动节点、代理入口和退出后的网络状态。</p>
+<p><strong>下一步：</strong>新设备完成节点、代理、直连及内网检查后，再生成新的可用备份；在此之前保留原设备或升级前副本，避免只剩一个未经验证的恢复点。</p></div></details></section>
+<h2 id="sources">官方资料</h2>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki/Release-files-introduction" rel="noopener noreferrer" target="_blank">v2rayN：发布包与存储位置说明</a></li><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-subscription" rel="noopener noreferrer" target="_blank">v2rayN：内部分享格式与备份用途</a></li><li><a href="https://github.com/2dust/v2rayNG/wiki/Release-files-introduction-for-Android" rel="noopener noreferrer" target="_blank">v2rayNG：包类型、架构与校验</a></li><li><a href="https://github.com/yanue/V2rayU/releases/tag/v5.4.0" rel="noopener noreferrer" target="_blank">V2rayU v5.4.0：配置备份与恢复</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-config-formats.html">配置格式与跨客户端导入</a></li><li><a href="blog-v2ray-core-update.html">客户端与内核升级</a></li><li><a href="blog-v2ray-install-errors.html">安装失败与签名问题</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

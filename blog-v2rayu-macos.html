@@ -1,198 +1,190 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式 | V2Ray 下载站</title>
-  <meta name="description" content="V2RayU 是 macOS 平台上的 V2Ray 客户端。本文详细介绍 V2RayU v5.4.1 的安装、订阅配置、PAC/全局模式切换及常见问题解决方案。">
-  <meta name="keywords" content="V2RayU, V2RayU教程, V2RayU下载, macOS代理, Mac VPN, V2Ray Mac, V2RayU最新版, Mac科学上网">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blog-v2rayu-macos.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://v2raydown.com/blog-v2rayu-macos.html">
-  <meta property="og:title" content="V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式">
-  <meta property="og:description" content="V2RayU 是 macOS 平台上的 V2Ray 客户端。本文详细介绍安装、配置和使用方法。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-05-05">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式">
-  <meta name="twitter:description" content="V2RayU 是 macOS 平台上的 V2Ray 客户端。本文详细介绍安装、配置和使用方法。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式",
-    "description": "V2RayU 是 macOS 平台上的 V2Ray 客户端。本文详细介绍安装、配置和使用方法。",
-    "author": { "@type": "Organization", "name": "V2Ray Official" },
-    "datePublished": "2026-05-05"
-  }
-  </script>
-</head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-cyan-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置 | V2Ray 下载站</title>
+<meta content="为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。" name="description"/>
+<meta content="V2RayU, V2RayU教程, V2RayU下载, macOS代理, Mac VPN, V2Ray Mac, V2RayU最新版, Mac科学上网" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2rayu-macos.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
 
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <main class="pt-24 pb-20">
-    <article class="max-w-3xl mx-auto px-6">
-      <nav class="mb-8 flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">首页</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <a href="blogs.html" class="hover:text-blue-400 transition-colors">博客</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <span style="color: var(--text-muted);">V2RayU 教程</span>
-      </nav>
-
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">V2RayU</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20">macOS</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">教程</span>
-      </div>
-
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6" style="color: var(--text-primary);">V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式</h1>
-
-      <div class="flex items-center gap-4 mb-12 text-sm" style="color: var(--text-dim);">
-        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> 2026-05-05</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 阅读约 6 分钟</span>
-      </div>
-
-      <div class="article-content">
-        <p>V2RayU 是 macOS 平台上一款优秀的 V2Ray 图形化客户端，基于 Swift 原生开发，提供菜单栏快捷操作和直观的配置界面。它支持 VMess、VLESS、Trojan、Shadowsocks 等主流协议，是 Mac 用户使用 V2Ray 的理想选择。</p>
-
-        <h2>一、V2RayU 下载安装</h2>
-
-        <ol>
-          <li>访问 <a href="https://github.com/yanue/V2rayU/releases" class="text-blue-400 hover:underline" target="_blank">github.com/yanue/V2rayU/releases</a>（当前最新版本 <strong>v5.4.1</strong>）</li>
-          <li>下载适合你 Mac 架构的版本：<code>V2rayU-arm64.dmg</code>（Apple Silicon）或 <code>V2rayU-64.dmg</code>（Intel）</li>
-          <li>打开 DMG 文件，将 V2RayU 拖入 Applications 文件夹</li>
-          <li>首次打开时，系统可能提示"无法验证开发者"，前往「系统设置 → 隐私与安全性」中点击「仍要打开」</li>
-        </ol>
-
-        <h2>二、导入订阅与配置节点</h2>
-
-        <h3>通过订阅链接导入</h3>
-        <ol>
-          <li>点击菜单栏中的 V2RayU 图标</li>
-          <li>选择「订阅设置」→「添加」</li>
-          <li>粘贴你的订阅链接地址，点击「保存」</li>
-          <li>点击「更新订阅」获取节点列表</li>
-        </ol>
-
-        <h3>手动添加节点</h3>
-        <p>如果你有单个节点的链接（vmess://、vless:// 等格式），可以直接在菜单栏中选择「从剪贴板导入」。</p>
-
-        <h2>三、代理模式选择</h2>
-
-        <p>V2RayU 提供三种代理模式：</p>
-
-        <h3>PAC 模式（推荐）</h3>
-        <p>PAC（Proxy Auto-Config）模式根据预设的规则自动决定哪些流量走代理、哪些直连。国内常用网站直连，被墙网站走代理。这是最常用的模式，兼顾速度和便利性。</p>
-
-        <h3>全局模式</h3>
-        <p>所有网络流量都通过代理服务器。适合需要确保所有连接都走代理的场景，但可能影响国内网站的访问速度。</p>
-
-        <h3>手动模式</h3>
-        <p>不自动配置系统代理，需要手动设置应用程序的代理。适合高级用户或只需要特定应用走代理的场景。</p>
-
-        <h2>四、菜单栏快捷操作</h2>
-
-        <p>V2RayU 的一大特色是菜单栏集成，你可以直接从菜单栏快速操作：</p>
-        <ul>
-          <li><strong>开关代理：</strong>点击菜单栏图标，选择「开启/关闭」</li>
-          <li><strong>切换节点：</strong>在「服务器」子菜单中快速切换</li>
-          <li><strong>切换模式：</strong>在「PAC模式」「全局模式」「手动模式」之间切换</li>
-          <li><strong>复制终端代理命令：</strong>快速设置终端的 http_proxy 环境变量</li>
-        </ul>
-
-        <h2>五、终端代理设置</h2>
-
-        <p>很多开发者需要在终端中使用代理。V2RayU 可以一键复制终端代理命令：</p>
-
-        <ol>
-          <li>点击菜单栏 V2RayU 图标</li>
-          <li>选择「复制终端代理命令」</li>
-          <li>在终端中粘贴执行即可</li>
-        </ol>
-
-        <p>也可以手动设置：</p>
-        <ul>
-          <li><code>export http_proxy=http://127.0.0.1:1080</code></li>
-          <li><code>export https_proxy=http://127.0.0.1:1080</code></li>
-          <li><code>export all_proxy=socks5://127.0.0.1:1081</code></li>
-        </ul>
-
-        <h2>六、常见问题</h2>
-
-        <h3>macOS 提示"无法打开，因为无法验证开发者"</h3>
-        <p>前往「系统设置 → 隐私与安全性」，在底部找到被阻止的应用，点击「仍要打开」。或者在终端执行 <code>xattr -cr /Applications/V2rayU.app</code>。</p>
-
-        <h3>节点延迟测试超时</h3>
-        <p>检查网络连接，确认节点信息正确。部分节点可能需要较长时间才能响应，可以增加超时时间设置。</p>
-
-        <h3>PAC 模式下某些网站仍无法访问</h3>
-        <p>可能是 PAC 规则未包含该网站。可以临时切换到全局模式，或手动将该域名添加到代理规则中。</p>
-
-        <h2>总结</h2>
-
-        <p>V2RayU 是 macOS 用户使用 V2Ray 的优秀选择。它原生支持 Apple Silicon，菜单栏操作方便快捷，PAC 模式智能分流。通过本文的指南，你应该已经能够顺利安装和使用 V2RayU 了。</p>
-      </div>
-
-      <div class="mt-16 pt-8" style="border-top: 1px solid var(--border-primary);">
-        <h3 class="text-xl font-bold mb-6" style="color: var(--text-primary);">相关文章</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="blog-v2rayn-guide.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">V2RayN</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayN 完整使用教程</h4>
-          </a>
-          <a href="blog-v2rayng-android.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">V2RayNG</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayNG 安卓手机配置教程</h4>
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-      <a href="index.html" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">返回首页</a>
-    </div>
-  </footer>
-  <script src="assets/js/main.js"></script>
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2rayu-macos.html" property="og:url"/>
+<meta content="V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置 | V2Ray 下载站" property="og:title"/>
+<meta content="为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-05-05" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置 | V2Ray 下载站" name="twitter:title"/>
+<meta content="为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置",
+  "description": "为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-05-05",
+  "dateModified": "2026-11-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2rayu-macos.html"
+  },
+  "inLanguage": "zh-CN",
+  "@id": "https://v2rayndown.org/blog-v2rayu-macos.html#article",
+  "url": "https://v2rayndown.org/blog-v2rayu-macos.html",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "articleSection": "平台入门"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "平台入门",
+      "item": "https://v2rayndown.org/tutorials.html#learn-platform-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置",
+      "item": "https://v2rayndown.org/blog-v2rayu-macos.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-platform-guides">平台入门</a><span aria-hidden="true">/</span><span aria-current="page">V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置</span></nav>
+<div class="content-hero page-heading"><p class="eyebrow">V2RayU · macOS · 教程</p><h1>V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置</h1><p class="article-lead">为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。</p><p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 8 分钟</p><p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div><div class="article-content">
+<p>V2rayU 是 macOS 图形代理客户端，可以从菜单栏和主窗口管理节点。当前发布版本具备 Xray / sing-box 相关能力、路由管理、TUN 与应用内日志；旧版以 PAC 为主的教程不能完整代表新版界面。需要在多个桌面系统使用同一客户端时，也可比较<a href="blog-v2rayn-guide.html">支持 macOS 的 v2rayN</a>。</p>
+<div class="notice"><strong>开始前准备：</strong>确认 Mac 芯片、macOS 版本和配置来源，准备兼容订阅或节点参数。先记录已有系统代理与 DNS，暂时停用其他会接管流量的 VPN，再逐步验证。</div>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul>
+<li><a href="#install">选择安装包并首次启动</a></li><li><a href="#import">导入订阅与单个节点</a></li><li><a href="#modes">分清系统代理、路由与 TUN</a></li><li><a href="#verify">验证浏览器、终端与退出后的网络</a></li><li><a href="#troubleshoot">按现象排查</a></li><li><a href="#sources">项目来源与适用范围</a></li>
+</ul></nav>
+<h2 id="install">选择安装包并首次启动</h2>
+<ol>
+<li>打开“苹果菜单 → 关于本机”：显示 Apple M 系列芯片时选 <code>arm64</code>，显示 Intel 处理器时选 <code>64</code> / Intel 包。</li>
+<li>从<a href="download.html?platform=macos">Mac 下载入口</a>进入 <a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">yanue/V2rayU Releases</a>，核对所选版本对 macOS 的要求并下载对应 DMG。</li>
+<li>打开 DMG，将应用拖入“应用程序”，再从“应用程序”启动，避免直接在磁盘映像中运行。</li>
+<li>遇到来源验证提示，先重新确认下载来源和文件完整性，再按系统“隐私与安全性”中的应用级提示处理。如果提示含有恶意软件或文件损坏，暂停安装并查看项目当前说明。</li>
+</ol>
+<p>安装包、核心与系统版本需要配套。升级前先通过应用可用的备份功能导出配置，保留可恢复副本；订阅、节点密码和导出的配置文件都应私密保存。</p>
+<h2 id="import">导入订阅与单个节点</h2>
+<h3>订阅：管理一组可更新的节点</h3>
+<ol>
+<li>打开主窗口的订阅管理入口，新增订阅并填写备注与完整 URL。旧版可能从菜单栏的“订阅设置”进入。</li>
+<li>保存后执行订阅更新；若有导入确认窗口，核对来源、类型和节点数量，再确认导入。</li>
+<li>在服务器列表确认节点已显示，选择要使用的服务器。订阅存在与节点可用是两件事，需要继续完成连接验证。</li>
+</ol>
+<h3>分享链接：添加单个服务器</h3>
+<p>复制客户端支持的 <code>vmess://</code>、<code>vless://</code> 或其他协议链接，使用“从剪贴板导入”；二维码可通过应用支持的扫描或导入入口处理。只有订阅链接才适合放入定期更新的订阅管理，单个节点链接不应当作订阅 URL。</p>
+<p>当前版本对 Clash 订阅、Xray 或 sing-box 配置的导入能力与旧版不同，格式和协议支持需核对所装版本的发布说明。导入后检查传输、TLS、SNI 和节点认证信息，不能因节点名称相同就假定参数完整；格式差异见<a href="docs.html">配置文档</a>。</p>
+<h2 id="modes">分清系统代理、路由与 TUN</h2>
+<div aria-label="分清系统代理、路由与 TUN，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">设置</th><th scope="col">决定什么</th><th scope="col">如何使用</th></tr></thead><tbody>
+<tr><td>系统代理</td><td>让遵循 macOS 代理设置的应用把流量交给本地核心。</td><td>首次连接可先启用此方式，确认活动服务器和本地监听端口。</td></tr>
+<tr><td>核心路由</td><td>进入核心的请求走代理、直连还是被拦截。</td><td>根据实际需求选择路由，结合日志检查命中；“全局”路由不等于所有应用都被接管。</td></tr>
+<tr><td>TUN</td><td>通过虚拟网络接口接管更多应用流量。</td><td>按应用提示配置所需 helper 和权限；核对 DNS、局域网排除及其他 VPN。</td></tr>
+<tr><td>PAC（部分旧版）</td><td>用脚本决定遵循系统代理的请求如何转发。</td><td>仅在安装版本仍提供此入口时使用；它不能代表新版全部路由功能。</td></tr>
+</tbody></table></div>
+<ol>
+<li>选定一个服务器，先启用系统代理，查看应用中核心的运行状态与日志。</li>
+<li>浏览器可正常访问目标后，再按需求调整直连、代理和拦截规则。</li>
+<li>需要接管不读取系统代理的应用时，再启用 TUN。出现内网或 DNS 异常，先关闭 TUN 恢复基线，再逐项调整。</li>
+</ol>
+<p>协议支持取决于当前版本与实际使用的核心。不能仅修改协议下拉框就把 VMess 服务端变成 VLESS 或 Trojan，也不要用跳过证书验证处理 TLS 报错。</p>
+<h2 id="verify">验证浏览器、终端与退出后的网络</h2>
+<p>先运行客户端的连接测试，再访问实际目标网站，并访问一个应当直连的网站；同时查看日志或连接页，确认请求确实经过预期出口。客户端延迟测试不代表所有网站的实际速度。</p>
+<p>macOS 终端工具不一定读取系统代理。需要单独配置时，从 V2rayU 当前设置读取 <strong>HTTP / SOCKS 类型、监听地址和端口</strong>，然后按照该命令或应用的代理参数配置。不要照抄其他教程的 <code>1080</code>、<code>1081</code> 等端口，也不要同时留下多个来源的代理环境变量。</p>
+<p>结束使用时，先在应用内关闭 TUN 和系统代理，再退出程序；恢复临时修改的终端代理与 DNS。若恢复直连仍失败，到“系统设置 → 网络 → 当前网络 → 详细信息 → 代理”检查是否残留本机代理地址，并与开始前记录的设置对照。</p>
+<h2 id="troubleshoot">按现象排查</h2>
+<div aria-label="按现象排查，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">先检查</th><th scope="col">修复后的结果</th></tr></thead><tbody>
+<tr><td>安装后无法打开</td><td>芯片架构、macOS 要求、原发布文件与系统安全提示；不要在 DMG 内运行。</td><td>应用正常打开，核心能启动。</td></tr>
+<tr><td>订阅导入为空 / 缺少部分节点</td><td>配置格式、当前版本兼容性、更新日志和单节点必要字段。</td><td>服务器列表中有参数完整的目标节点。</td></tr>
+<tr><td>浏览器可用，终端失败</td><td>终端是否独立设置代理，代理协议与端口是否一致。</td><td>终端的实际请求出现在客户端日志中。</td></tr>
+<tr><td>TUN 开启后内网不通</td><td>私有网段、默认出口、企业 VPN、DNS 和路由规则；暂停 TUN 对照。</td><td>局域网服务可访问，目标公网请求按预期代理。</td></tr>
+<tr><td>休眠唤醒后无法连接</td><td>网络是否已恢复、活动服务器、核心 / TUN 日志及 helper 状态。</td><td>重新连接后核心持续运行，DNS 与路由恢复。</td></tr>
+<tr><td>关闭应用后断网</td><td>系统代理、本地监听、DNS 和终端环境变量是否残留。</td><td>恢复原设置后可以直接联网。</td></tr>
+</tbody></table></div>
+<p>继续查看<a href="faq.html">常见问题</a>和<a href="tutorials.html">教程中心</a>；需要比较桌面端工作流时，阅读<a href="clients.html">客户端对比</a>。</p>
+<h2 id="sources">项目来源与适用范围</h2>
+<p>更新于 2026-11-24。当前能力依据项目 Releases 整理；旧版菜单和主分支历史 README 可能与新版存在差异。本文未在用户 Mac 上实测节点连接。</p>
+<ul class="source-list">
+<li><a href="https://github.com/yanue/V2rayU" rel="noopener noreferrer" target="_blank">V2rayU 项目来源</a></li>
+<li><a href="https://github.com/yanue/V2rayU/releases/tag/v5.4.1" rel="noopener noreferrer" target="_blank">v5.4.1 发布说明：协议、TUN 与订阅修复</a></li>
+<li><a href="https://github.com/yanue/V2rayU/releases/tag/v5.4.0" rel="noopener noreferrer" target="_blank">v5.4.0 发布说明：日志、连接与配置备份</a></li>
+<li><a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">全部版本与安装包</a></li>
+</ul>
+</div>
+<section class="related-guides article-content"><h2>相关文章</h2><ul><li><a href="blog-v2rayn-guide.html">V2RayN · V2RayN 完整使用教程</a></li><li><a href="blog-v2rayng-android.html">V2RayNG · V2RayNG 安卓手机配置教程</a></li></ul></section>
+<section class="related-guides article-content"><h2>按操作继续学习</h2><ul><li><a href="blog-v2ray-dns.html">DNS 解析检查</a></li><li><a href="blog-v2ray-backup-migrate.html">备份和迁移</a></li><li><a href="blog-v2ray-system-proxy.html">系统代理与退出恢复</a></li></ul></section>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

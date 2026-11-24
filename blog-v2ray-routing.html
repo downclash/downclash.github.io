@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 规则分流：域名、IP 与路由顺序 | V2Ray 下载站</title>
+<meta content="V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2ray-routing.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2ray-routing.html" property="og:url"/>
+<meta content="V2Ray 规则分流：域名、IP 与路由顺序" property="og:title"/>
+<meta content="V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 规则分流：域名、IP 与路由顺序" name="twitter:title"/>
+<meta content="V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序",
+  "description": "V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。",
+  "url": "https://v2rayndown.org/blog-v2ray-routing.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2ray-routing.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "代理与网络",
+  "@id": "https://v2rayndown.org/blog-v2ray-routing.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "keywords": [
+    "V2Ray 规则分流",
+    "路由规则",
+    "GeoData",
+    "出站顺序"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "代理与网络",
+      "item": "https://v2rayndown.org/tutorials.html#learn-network"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序",
+      "item": "https://v2rayndown.org/blog-v2ray-routing.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-network">代理与网络</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">代理与网络</p>
+<h1>V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序</h1>
+<p class="article-lead">V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">V2Ray 规则分流不生效，怎样定位？</h2><p><strong>先确认请求已进入核心，再检查活动规则、匹配顺序和出站标签。</strong>Xray 常规规则按顺序寻找首条匹配项；前面的宽泛规则、错误的域名写法或未加载的 GeoData 都可能改变结果。修改后用一条应匹配和一条不应匹配的请求核对出站。</p><ol><li>记录核心与活动路由模式，备份当前规则。</li><li>检查实际目标是域名还是 IP，以及解析策略是否满足匹配条件。</li><li>通过客户端支持的入口保存并重新加载，再用日志确认出站。</li></ol></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#model">V2Ray 分流中的入站、规则和出站是什么？</a></li><li><a href="#match">域名、IP、GeoIP 与 Geosite 规则怎么匹配？</a></li><li><a href="#example">Xray routing 规则结构示例</a></li><li><a href="#apply">v2rayN 自定义路由的修改与验证步骤</a></li><li><a href="#symptoms">V2Ray 分流规则不生效的排查表</a></li><li><a href="#rollback">路由修改失败后怎样恢复？</a></li><li><a href="#article-faq-heading">V2Ray 规则分流常见问题</a></li><li><a href="#sources">Xray 与 sing-box 路由的官方资料</a></li></ul></nav>
+<p>规则分流回答的是：核心收到一条连接后，应该从哪个出站发送。本文以 Xray 的字段讲解，供 v2rayN、v2rayNG 等客户端理解配置；V2Fly 和 sing-box 应对照各自文档。开始前先确认节点本身可用，再改规则，避免把连接故障误判为分流问题。</p>
+<h2 id="model">V2Ray 分流中的入站、规则和出站是什么？</h2>
+<p>系统代理或 TUN 把请求送进来；路由读取目标域名、IP、端口等条件；出站负责直连、节点代理或拒绝。给某个网站设置代理规则，并不能让原本没有进入核心的应用自动受到这条规则影响。</p>
+<p>按<a href="https://xtls.github.io/config/routing.html" rel="noopener noreferrer" target="_blank">Xray 路由文档</a>的常规规则机制，规则从上到下寻找首条匹配项；未匹配时使用第一个出站。客户端的“全局”“绕过局域网”等模式可能生成不同规则和出站顺序，必须核对当前生效配置，不能只凭规则列表里有一个域名就判断它会被命中。</p>
+<h2 id="match">域名、IP、GeoIP 与 Geosite 规则怎么匹配？</h2>
+<ul><li><strong>域名：</strong>Xray 的 <code>domain:example.com</code> 匹配该域名与子域名；精确单域名可查看 <code>full:</code> 写法。需要留意“子域名”与任意字符串包含不是一回事。</li><li><strong>IP / CIDR：</strong>匹配实际 IP 或地址段。域名目标是否先被解析为 IP，受路由的解析策略与请求所携带的信息影响。</li><li><strong>GeoIP / Geosite：</strong>引用数据文件中的 IP 或域名分类。分类名称、文件来源和核心格式都要匹配，不能把其他软件的规则集只改后缀使用。</li><li><strong>多个条件：</strong>同一条 Xray 规则中不同属性通常要同时满足。例如同时填写域名和端口时，不是任选一个符合就匹配。</li></ul>
+<p>应用连接一个网站还可能访问登录、静态资源、图片和 API 等其他域名。首页命中代理不等于所有后续请求都走同一路径，排查时观察真正失败的那条连接。</p>
+<h2 id="example">Xray routing 规则结构示例</h2>
+<p>下面只演示 <code>routing</code> 结构，没有入站、出站和节点参数，<strong>不能独立运行，也不能直接替换客户端完整配置</strong>。<code>example.com</code>、网段和两个出站标签都是演示值；标签必须对应完整配置中已存在的出站。</p>
+<pre tabindex="0"><code>{
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "domain": ["domain:example.com"],
+        "outboundTag": "proxy-example"
+      },
+      {
+        "type": "field",
+        "ip": ["192.168.50.0/24"],
+        "outboundTag": "direct-example"
+      }
+    ]
+  }
+}</code></pre>
+<p>第一条把示例域名交给 <code>proxy-example</code>；第二条匹配示例私有网段。<code>AsIs</code> 不为 IP 分流主动解析域名，所以“只提供域名、尚无原始 IP”的请求不能仅因最终可能解析到该网段，就被认为一定会命中第二条。需要域名转 IP 匹配时，再研究对应的解析策略和 DNS 路径。</p>
+<h2 id="apply">v2rayN 自定义路由的修改与验证步骤</h2>
+<ol><li>备份当前路由与配置，记录活动规则模式、核心版本及一个可复现目标。</li><li>优先使用客户端的路由编辑或自定义配置入口。直接改它生成的临时 JSON，可能在订阅更新、切节点或重启后被覆盖。</li><li>只添加一条必要规则，并放在会覆盖它的宽泛规则之前。保存并按客户端要求重新加载。</li><li>重新发起目标请求，在日志或连接视图中核对目标、规则或出站标签；界面不显示规则名时，使用支持的访问日志判断出站。</li><li>再请求一个不应匹配的目标，确认默认行为和内网访问仍符合预期。</li></ol>
+<p>从 Xray 切换到 sing-box 后，应按<a href="https://sing-box.sagernet.org/configuration/route/rule/" rel="noopener noreferrer" target="_blank">sing-box 路由规则文档</a>使用 <code>route</code> 及其版本对应的规则与动作，不能照搬这里的 <code>routing.rules</code>。GUI 是否能为多个核心生成等价规则，应由实际请求验证。</p>
+<h2 id="symptoms">V2Ray 分流规则不生效的排查表</h2>
+<div aria-label="V2Ray 分流规则不生效的排查表，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">优先检查</th><th scope="col">预期结果</th></tr></thead><tbody><tr><td>新规则始终不生效</td><td>活动模式、规则顺序及配置是否被重写</td><td>新请求命中对应出站</td></tr><tr><td>IP 规则对域名不起作用</td><td>原始目标与 domainStrategy</td><td>明确该路径是否触发解析</td></tr><tr><td>启动报分类不存在</td><td>数据文件和 geosite / geoip 名称</td><td>规则校验通过后再测路由</td></tr><tr><td>网页只有部分资源失败</td><td>实际失败域名和附加连接</td><td>每项必要资源都有正确路径</td></tr><tr><td>“直连”后公司服务仍失败</td><td>系统路由、企业 VPN 与内网 DNS</td><td>不只改核心规则，还核对接入层</td></tr></tbody></table></div>
+<h2 id="rollback">路由修改失败后怎样恢复？</h2>
+<p>修改导致核心无法启动时，恢复上一次可用规则，再核对报错字段。更新 GeoData 后出现变化，应保存数据版本与分类名，避免用临时宽泛规则长期掩盖问题。每次修改记录目标、预期出口和实测结果，方便升级后复查。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">V2Ray 规则分流常见问题</h2><details class="faq-entry"><summary><h3>添加了域名规则，为什么请求还是走别的出站？</h3></summary><div><p>先看请求是否进入核心，以及是否命中了更靠前的规则。再核对客户端当前启用的路由模式、实际失败域名和配置是否被重新生成。规则存在于编辑列表，不等于它已在运行配置中生效。</p></div></details><details class="faq-entry"><summary><h3>域名最终解析到内网，IP 直连规则一定会命中吗？</h3></summary><div><p>不一定。要看原始目标信息和路由解析策略。以 Xray 的 AsIs 为例，它不会为了 IP 分流主动解析一个仅有域名的目标；还需区分系统 TUN 排除与核心直连。</p></div></details><details class="faq-entry"><summary><h3>Clash 的规则可以直接粘贴到 Xray 或 sing-box 吗？</h3></summary><div><p>不能直接照搬字段。Clash YAML、Xray 的 routing 和 sing-box 的 route 有各自结构与版本要求；分类数据的格式也可能不同。应按目标核心重建规则，并用相同请求验证实际行为。</p>
+</div></details></section><h2 id="sources">Xray 与 sing-box 路由的官方资料</h2>
+<ul class="source-list"><li><a href="https://xtls.github.io/config/routing.html" rel="noopener noreferrer" target="_blank">Xray：规则顺序、域名与 IP 匹配</a></li><li><a href="https://xtls.github.io/config/outbound.html" rel="noopener noreferrer" target="_blank">Xray：出站标签与默认出站</a></li><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-system-proxy-routing" rel="noopener noreferrer" target="_blank">v2rayN：系统代理与核心路由边界</a></li><li><a href="https://sing-box.sagernet.org/configuration/route/rule/" rel="noopener noreferrer" target="_blank">sing-box：独立的路由规则结构</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-geodata.html">核对 GeoIP、Geosite 与规则数据</a></li><li><a href="blog-v2ray-dns.html">了解规则匹配时的域名解析</a></li><li><a href="blog-v2ray-logs.html">用日志确认实际出站</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

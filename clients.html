@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 客户端怎么选：按平台、内核与配置方式比较 | V2Ray 下载与教程</title>
+<meta content="对比 v2rayN、v2rayNG 与 V2rayU 的支持平台、内核与使用方式，先选适合设备的客户端，再确认订阅格式和安装包架构。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/clients.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="website" property="og:type"/>
+<meta content="https://v2rayndown.org/clients.html" property="og:url"/>
+<meta content="V2Ray 客户端怎么选：按平台、内核与配置方式比较 | V2Ray 下载与教程" property="og:title"/>
+<meta content="对比 v2rayN、v2rayNG 与 V2rayU 的支持平台、内核与使用方式，先选适合设备的客户端，再确认订阅格式和安装包架构。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 客户端怎么选：按平台、内核与配置方式比较 | V2Ray 下载与教程" name="twitter:title"/>
+<meta content="对比 v2rayN、v2rayNG 与 V2rayU 的支持平台、内核与使用方式，先选适合设备的客户端，再确认订阅格式和安装包架构。" name="twitter:description"/>
+
+
+
+
+
+
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "V2Ray 客户端怎么选：按平台、内核与配置方式比较",
+  "description": "对比 v2rayN、v2rayNG 与 V2rayU 的支持平台、内核与使用方式，先选适合设备的客户端，再确认订阅格式和安装包架构。",
+  "url": "https://v2rayndown.org/clients.html",
+  "inLanguage": "zh-CN",
+  "dateModified": "2026-11-24",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "V2Ray 下载与教程",
+    "url": "https://v2rayndown.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "V2Ray 客户端怎么选：按平台、内核与配置方式比较",
+      "item": "https://v2rayndown.org/clients.html"
+    }
+  ]
+}
+</script>
+</head>
+<body class="site-page guide-page">
+
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a aria-current="page" href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a aria-current="page" href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="page-main" id="main-content">
+<div class="content-shell">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a> / V2Ray 客户端怎么选：按平台、内核与配置方式比较</nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">V2RAY / 使用指南</p>
+<h1>V2Ray 客户端怎么选：按平台、内核与配置方式比较</h1>
+<p>对比 v2rayN、v2rayNG 与 V2rayU 的支持平台、内核与使用方式，先选适合设备的客户端，再确认订阅格式和安装包架构。</p>
+<p class="page-meta">内容核对：<time datetime="2026-11-24">2026-11-24</time> · 独立整理，项目能力以所装版本与发布说明为准</p>
+</div>
+<div class="article-content">
+<div class="notice"><strong>先看设备，再看配置。</strong>V2Ray 是代理核心与相关工具生态中的名称；v2rayN、v2rayNG 和 V2rayU 是不同图形客户端。安装客户端不会自动获得节点或订阅。</div>
+<nav aria-label="本页目录" class="article-toc"><strong>本页内容</strong><ul><li><a href="#platforms">按操作系统选择</a></li><li><a href="#comparison">客户端能力比较</a></li><li><a href="#core-and-client">核心与客户端是什么关系</a></li><li><a href="#before-download">下载前确认四件事</a></li></ul></nav>
+<section id="platforms"><h2>按操作系统找到入口</h2>
+<div class="content-grid">
+<div class="resource-card"><h3>Windows：v2rayN</h3><p>需要管理多个节点、订阅和路由时，可从 v2rayN 开始。先在系统信息中确认 x64、x86 或 ARM64，再对应发布包；最低系统要求和运行时依赖应看该版本说明。</p><p><a href="download.html?platform=windows">查看 Windows 下载</a> · <a href="blog-v2rayn-guide.html">阅读 v2rayN 教程</a></p></div>
+<div class="resource-card"><h3>Android：v2rayNG</h3><p>面向 Android 的客户端，通过 VPN 接口接入设备流量，也支持节点链接与二维码等导入方式。安装 APK 前先确认架构，运行后按系统提示授予 VPN 连接权限。</p><p><a href="download.html?platform=android">查看 Android 下载</a> · <a href="blog-v2rayng-android.html">阅读 v2rayNG 教程</a></p></div>
+<div class="resource-card"><h3>macOS：v2rayN 或 V2rayU</h3><p>想在多种桌面系统使用相近界面，可比较 v2rayN；偏好 Mac 菜单栏操作，可比较独立项目 V2rayU。V2rayU 的 v5 系列包含 TUN 功能，切勿照搬旧教程中的功能限制。</p><p><a href="download.html?platform=macos">比较 Mac 安装包</a> · <a href="blog-v2rayu-macos.html">阅读 V2rayU 教程</a></p></div>
+<div class="resource-card"><h3>Linux：v2rayN 或自行管理核心</h3><p>图形桌面可使用 v2rayN，按发行版和 CPU 选择包。没有桌面的服务器通常需要直接配置核心与服务进程，不能把桌面客户端的系统代理步骤直接套用到服务器。</p><p><a href="download.html?platform=linux">查看 Linux 下载</a> · <a href="blog-v2ray-linux.html">Linux 安装与使用</a> · <a href="docs.html">查看核心配置文档</a></p></div>
+</div>
+<p><strong>iOS / iPadOS：</strong>v2rayN 的桌面安装包与 v2rayNG 的 APK 均不能直接安装到 iPhone。需另选支持所需协议的 Apple 平台工具，并核对其官方分发方式、系统版本与配置格式。<a href="download.html?platform=ios">查看 Apple 平台入口说明</a>。</p></section>
+<section id="comparison"><h2>客户端、内核与工作方式</h2><div aria-label="客户端、内核与工作方式，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">项目</th><th scope="col">平台与定位</th><th scope="col">核心 / 配置重点</th><th scope="col">官方来源</th></tr></thead><tbody>
+<tr><th scope="row">v2rayN</th><td>Windows、Linux、macOS 的桌面 GUI</td><td>支持 Xray、sing-box 等核心；具体节点能力随核心、版本和客户端配置入口变化</td><td><a href="https://github.com/2dust/v2rayN" rel="noopener noreferrer" target="_blank">2dust/v2rayN</a></td></tr>
+<tr><th scope="row">v2rayNG</th><td>Android 客户端</td><td>项目说明支持 Xray 与 v2fly 核心；导入后仍需核对协议与当前核心匹配</td><td><a href="https://github.com/2dust/v2rayNG" rel="noopener noreferrer" target="_blank">2dust/v2rayNG</a></td></tr>
+<tr><th scope="row">V2rayU</th><td>独立 macOS 项目，带菜单栏操作</td><td>v5 发布说明包含 Xray / sing-box 与基于 sing-box 的 TUN；v5 系列需核对 macOS 14+ 要求</td><td><a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">yanue/V2rayU Releases</a></td></tr>
+</tbody></table></div><p>同一个协议名称不代表所有参数都能跨核心复用。需要 VLESS 的特定加密、REALITY 或新传输参数时，先查服务器要求与对应核心文档，再看客户端是否暴露这些设置。<a href="blog-v2ray-protocols.html">查看协议与传输兼容说明</a>。</p></section>
+<section id="core-and-client"><h2>为什么不能把 V2Ray、Xray 与客户端混为一谈？</h2><p><strong>图形客户端</strong>负责导入、编辑和管理配置，设置系统代理或启动 TUN；<strong>代理核心</strong>负责处理连接、协议与路由。界面显示的是客户端版本，日志中启动的核心还会有自己的版本，两者应分别确认。</p><p>V2Fly 维护的 V2Ray、Xray-core 和 sing-box 是各自发展的项目。排查“未知字段”或“不支持协议”时，应拿实际运行核心的文档核对。给某个核心写的 JSON，也不能仅更换扩展名就用于另一个核心。</p><p><a href="docs.html#formats">认识配置格式</a> · <a href="blog-v2ray-vs-clash.html">与 Clash / Mihomo 工作方式比较</a></p></section>
+<section id="before-download"><h2>下载前确认四件事</h2><ol><li><strong>系统与架构：</strong>Windows 的 ARM64 与 x64、Mac 的 Apple Silicon 与 Intel、Android 的 arm64-v8a 与通用包分别对应不同设备。</li><li><strong>软件来源：</strong>核对 GitHub 仓库所有者与 Releases 页面；项目提供签名或校验值时，按同一发布来源的说明核验文件。</li><li><strong>配置类型：</strong>确认拿到的是订阅 URL、单节点分享链接，还是完整核心配置。格式不匹配时先找提供方获取对应格式。</li><li><strong>流量接入方式：</strong>浏览器场景可先验证系统代理；终端或部分应用可能需要自行设置代理，或在客户端支持时使用 TUN。</li></ol><p><a href="tutorials.html">开始首次连接</a> · <a href="faq.html">下载或导入遇到问题</a></p></section>
+<section><h2>项目来源与核对依据</h2><ul class="source-list"><li><a href="https://github.com/2dust/v2rayN" rel="noopener noreferrer" target="_blank">v2rayN README：支持平台与核心</a></li><li><a href="https://github.com/2dust/v2rayNG" rel="noopener noreferrer" target="_blank">v2rayNG README：Android 与核心说明</a></li><li><a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">V2rayU 发布说明：v5 系列系统要求与 TUN</a></li></ul></section>
+</div>
+</div>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

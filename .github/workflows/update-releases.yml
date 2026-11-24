@@ -1,0 +1,120 @@
+name: Update releases and deploy site
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-release-updates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      deploy: ${{ steps.commit.outputs.deploy }}
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Detect latest stable releases and render download links
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/update_releases.py
+
+      - name: Validate generated site
+        run: |
+          python3 -m unittest discover -s tests -p 'test_*.py'
+          python3 scripts/update_releases.py --check
+          python3 scripts/audit_seo.py
+          node scripts/check_download_links.cjs
+          git diff --check
+
+      - name: Commit generated release changes
+        id: commit
+        run: |
+          git add -- data/releases.json download.html sitemap.xml
+          if git diff --cached --quiet; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: update latest stable download links'
+          git push origin HEAD:main
+          echo "deploy=true" >> "$GITHUB_OUTPUT"
+
+      - name: Package public site files only
+        if: steps.commit.outputs.deploy == 'true'
+        run: |
+          python3 - <<'PY'
+          import os
+          import shutil
+          from pathlib import Path
+
+          source = Path.cwd()
+          output = Path(os.environ['RUNNER_TEMP']) / 'pages-site'
+          output.mkdir(parents=True, exist_ok=True)
+          files = sorted(source.glob('*.html'))
+          files += [source / name for name in ('CNAME', 'robots.txt', 'sitemap.xml', 'data/releases.json')]
+          files += sorted(path for path in (source / 'assets').rglob('*') if path.is_file())
+          for path in files:
+              relative = path.relative_to(source)
+              if path.is_symlink() or any(parent.is_symlink() for parent in path.parents if parent != source):
+                  raise SystemExit(f'Symlink is not allowed in Pages artifact: {relative}')
+              if any(part.startswith('.') for part in relative.parts):
+                  continue
+              destination = output / relative
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(path, destination)
+          print(f'Prepared public site at {output}')
+          PY
+
+      - name: Upload Pages artifact
+        if: steps.commit.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: ${{ runner.temp }}/pages-site
+
+  deploy:
+    needs: update
+    if: needs.update.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy verified artifact
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1

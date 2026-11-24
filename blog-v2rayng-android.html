@@ -1,219 +1,186 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置 | V2Ray 下载站</title>
-  <meta name="description" content="V2RayNG 是 Android 平台上最好用的 V2Ray 客户端。本文手把手教你在安卓手机上使用 V2RayNG v2.2.5，包含扫码导入订阅、分应用代理等实用技巧。">
-  <meta name="keywords" content="V2RayNG, V2RayNG教程, V2RayNG下载, 安卓代理, Android VPN, V2Ray Android, V2RayNG最新版, 安卓科学上网">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blog-v2rayng-android.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://v2raydown.com/blog-v2rayng-android.html">
-  <meta property="og:title" content="V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置">
-  <meta property="og:description" content="V2RayNG 是 Android 平台上最好用的 V2Ray 客户端。手把手教你在安卓手机上使用 V2RayNG。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-05-10">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置">
-  <meta name="twitter:description" content="V2RayNG 是 Android 平台上最好用的 V2Ray 客户端。手把手教你在安卓手机上使用 V2RayNG。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置",
-    "description": "V2RayNG 是 Android 平台上最好用的 V2Ray 客户端。手把手教你在安卓手机上使用 V2RayNG。",
-    "author": { "@type": "Organization", "name": "V2Ray Official" },
-    "datePublished": "2026-05-10",
-    "dateModified": "2026-05-10"
-  }
-  </script>
-</head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-emerald-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置 | V2Ray 下载站</title>
+<meta content="在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。" name="description"/>
+<meta content="V2RayNG, V2RayNG教程, V2RayNG下载, 安卓代理, Android VPN, V2Ray Android, V2RayNG最新版, 安卓科学上网" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2rayng-android.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
 
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <main class="pt-24 pb-20">
-    <article class="max-w-3xl mx-auto px-6">
-      <nav class="mb-8 flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">首页</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <a href="blogs.html" class="hover:text-blue-400 transition-colors">博客</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <span style="color: var(--text-muted);">V2RayNG 教程</span>
-      </nav>
-
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">V2RayNG</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Android</span>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">教程</span>
-      </div>
-
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6" style="color: var(--text-primary);">V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置</h1>
-
-      <div class="flex items-center gap-4 mb-12 text-sm" style="color: var(--text-dim);">
-        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> 2026-05-10</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 阅读约 7 分钟</span>
-      </div>
-
-      <div class="article-content">
-        <p>V2RayNG 是 Android 平台上最受欢迎的 V2Ray 客户端，由知名开发者 2dust 维护。它基于 V2Ray 核心，支持 VMess、VLESS、Trojan、Shadowsocks 等多种协议，提供 VPN 模式全局代理和分应用代理功能。本文将详细介绍 V2RayNG 的安装和使用方法。</p>
-
-        <h2>一、V2RayNG 下载安装</h2>
-
-        <p>获取 V2RayNG 有以下几种方式：</p>
-
-        <ol>
-          <li><strong>GitHub Releases（推荐）：</strong>访问 <a href="https://github.com/2dust/v2rayNG/releases" class="text-blue-400 hover:underline" target="_blank">github.com/2dust/v2rayNG/releases</a>，下载最新的 APK 文件（当前最新版本 <strong>v2.2.5</strong>）</li>
-          <li><strong>Google Play：</strong>在 Google Play 商店搜索 "V2RayNG" 直接安装</li>
-          <li><strong>第三方应用商店：</strong>部分国内应用商店也有收录</li>
-        </ol>
-
-        <blockquote>注意：安装 APK 前需要在系统设置中开启「允许安装未知来源应用」。建议始终从官方渠道下载，避免使用来路不明的修改版。</blockquote>
-
-        <h2>二、导入订阅的三种方式</h2>
-
-        <h3>方式一：扫码导入（最方便）</h3>
-        <ol>
-          <li>打开 V2RayNG，点击右上角的「+」按钮</li>
-          <li>选择「从二维码扫描」</li>
-          <li>使用手机摄像头扫描机场提供的二维码</li>
-          <li>扫描成功后，节点信息将自动添加到列表中</li>
-        </ol>
-
-        <h3>方式二：订阅链接导入</h3>
-        <ol>
-          <li>点击左上角的「三横线」菜单按钮</li>
-          <li>选择「订阅设置」</li>
-          <li>点击右上角的「+」添加订阅</li>
-          <li>在地址栏粘贴你的订阅链接，填写备注名</li>
-          <li>保存后返回主界面，点击右上角「更新订阅」</li>
-        </ol>
-
-        <h3>方式三：从剪贴板导入</h3>
-        <ol>
-          <li>复制包含节点信息的文本（支持 vmess://、vless://、trojan:// 等链接格式）</li>
-          <li>打开 V2RayNG，点击右上角「+」</li>
-          <li>选择「从剪贴板导入」</li>
-        </ol>
-
-        <h2>三、连接与 VPN 模式</h2>
-
-        <p>导入节点后，按以下步骤连接：</p>
-
-        <ol>
-          <li>在节点列表中选择一个节点，点击使其变为选中状态</li>
-          <li>点击主界面右下角的「V」按钮（三角形图标）启动连接</li>
-          <li>首次连接时，系统会弹出 VPN 权限请求，点击「确定」允许</li>
-          <li>连接成功后，状态栏会显示 VPN 图标</li>
-        </ol>
-
-        <h3>分应用代理</h3>
-
-        <p>V2RayNG 支持分应用代理功能，你可以指定哪些应用走代理，哪些直连：</p>
-        <ul>
-          <li>进入「设置」→「分应用代理」</li>
-          <li>开启「启用分应用代理」</li>
-          <li>勾选需要走代理的应用，未勾选的应用将直连</li>
-        </ul>
-
-        <p>这个功能非常实用，比如你可以让浏览器走代理，而微信、支付宝等国内应用直连，避免不必要的代理开销。</p>
-
-        <h2>四、路由与分流设置</h2>
-
-        <p>V2RayNG 内置了预设的路由规则，通常使用默认设置即可。如果你需要自定义：</p>
-
-        <ul>
-          <li><strong>绕过局域网及大陆地址：</strong>国内 IP 和局域网地址直连，海外地址走代理（推荐）</li>
-          <li><strong>绕过局域网地址：</strong>仅局域网直连，其他全部走代理</li>
-          <li><strong>全部走代理：</strong>所有流量都通过代理服务器</li>
-        </ul>
-
-        <h2>五、节点测速与选择</h2>
-
-        <p>V2RayNG 提供了节点测速功能：</p>
-
-        <ol>
-          <li>在主界面点击右上角「...」菜单</li>
-          <li>选择「测试全部配置」</li>
-          <li>等待测速完成后，列表会显示每个节点的延迟</li>
-          <li>延迟越低的节点速度越快，建议优先使用延迟低于 200ms 的节点</li>
-        </ol>
-
-        <h2>六、常见问题解决</h2>
-
-        <h3>连接后无法上网？</h3>
-        <p>检查节点是否可用（测速），尝试切换其他节点。确认 VPN 权限已授予，检查手机时间是否准确（时间偏差过大会导致 VMess 连接失败）。</p>
-
-        <h3>网速很慢怎么办？</h3>
-        <p>尝试切换到延迟更低的节点，或者更换协议（如从 VMess 切换到 Trojan）。避开网络高峰期使用。</p>
-
-        <h3>订阅更新失败？</h3>
-        <p>检查网络连接，确认订阅链接未过期。部分地区可能需要使用订阅转换服务来绕过封锁。</p>
-
-        <h2>总结</h2>
-
-        <p>V2RayNG 是 Android 用户使用 V2Ray 的最佳选择。它支持多种导入方式，VPN 模式稳定可靠，分应用代理功能实用方便。通过本文的教程，你应该已经掌握了 V2RayNG 的基本使用方法。建议定期更新客户端和订阅，以获得最佳的使用体验。</p>
-      </div>
-
-      <div class="mt-16 pt-8" style="border-top: 1px solid var(--border-primary);">
-        <h3 class="text-xl font-bold mb-6" style="color: var(--text-primary);">相关文章</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="blog-v2rayn-guide.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">V2RayN</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayN 完整使用教程</h4>
-          </a>
-          <a href="blog-v2rayu-macos.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">V2RayU</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayU macOS 安装配置指南</h4>
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-      <a href="index.html" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">返回首页</a>
-    </div>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2rayng-android.html" property="og:url"/>
+<meta content="v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置 | V2Ray 下载站" property="og:title"/>
+<meta content="在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-05-10" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置 | V2Ray 下载站" name="twitter:title"/>
+<meta content="在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置",
+  "description": "在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-05-10",
+  "dateModified": "2026-11-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2rayng-android.html"
+  },
+  "inLanguage": "zh-CN",
+  "@id": "https://v2rayndown.org/blog-v2rayng-android.html#article",
+  "url": "https://v2rayndown.org/blog-v2rayng-android.html",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "articleSection": "平台入门"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "平台入门",
+      "item": "https://v2rayndown.org/tutorials.html#learn-platform-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置",
+      "item": "https://v2rayndown.org/blog-v2rayng-android.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-platform-guides">平台入门</a><span aria-hidden="true">/</span><span aria-current="page">v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置</span></nav>
+<div class="content-hero page-heading"><p class="eyebrow">V2RayNG · Android · 教程</p><h1>v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置</h1><p class="article-lead">在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。</p><p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 8 分钟</p><p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div><div class="article-content">
+<p>v2rayNG 是 Android 客户端，项目支持 Xray 与 V2Fly 核心。它可以管理订阅和节点，并通过 Android VPN 接口接管应用流量。VPN 权限只解决本机流量进入客户端的问题，实际连接仍需要可用节点与兼容配置。</p>
+<div class="notice"><strong>开始前准备：</strong>可用的订阅或自建节点参数、适合设备的 APK，以及能直接联网的 Wi-Fi 或移动数据。安装与导入阶段不需要开放手机热点，也不需要开启局域网代理共享。</div>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul>
+<li><a href="#install">选择并安装 APK</a></li><li><a href="#import">订阅 URL、分享链接与二维码如何导入</a></li><li><a href="#connect">选择节点、允许 VPN 并验证连接</a></li><li><a href="#apps">分应用代理与后台运行</a></li><li><a href="#troubleshoot">按现象排查与恢复</a></li><li><a href="#sources">项目来源与适用范围</a></li>
+</ul></nav>
+<h2 id="install">选择并安装 APK</h2>
+<p>从<a href="download.html?platform=android">Android 下载入口</a>前往 <a href="https://github.com/2dust/v2rayNG/releases" rel="noopener noreferrer" target="_blank">2dust/v2rayNG Releases</a>，确认发布标签、文件名与版本一致。优先选择适用的稳定发布；发布页上的 Source code 和 <code>.sig</code> 文件均不是安装包。</p>
+<div aria-label="选择并安装 APK，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">文件标记</th><th scope="col">适用设备</th></tr></thead><tbody>
+<tr><td><code>arm64-v8a.apk</code></td><td>支持 64 位 ARM 应用的手机和平板。</td></tr>
+<tr><td><code>armeabi-v7a.apk</code></td><td>需要 32 位 ARM 应用的设备；还应核对系统版本要求。</td></tr>
+<tr><td><code>x86_64.apk</code> / <code>x86.apk</code></td><td>相应架构的模拟器或 x86 设备。</td></tr>
+<tr><td><code>universal.apk</code></td><td>不确定架构时可选的通用包，文件通常更大。</td></tr>
+</tbody></table></div>
+<p>按系统提示，只给实际用于安装 APK 的浏览器或文件管理器授予“安装未知应用”权限。升级时保持原渠道和签名；若提示签名冲突，先备份配置并查明原因，避免直接卸载造成配置丢失。项目另有 F-Droid 构建，选择前阅读其发布说明，不应把变体名称等同于特定网络功能。</p>
+<h2 id="import">订阅 URL、分享链接与二维码如何导入</h2>
+<h3>订阅 URL：保存后还要更新</h3>
+<ol>
+<li>复制配置提供方给出的完整订阅 URL。进入“订阅分组设置”或对应订阅管理入口，新增分组并填写备注和 URL。</li>
+<li>保存后返回列表，选择该分组，再执行“更新订阅”。更新成功后检查列表中是否出现节点。</li>
+<li>没有节点时，核对链接有效期、账户状态、返回格式与当前网络；不要把服务商登录页面 URL 当作订阅。</li>
+</ol>
+<h3>单个节点：使用剪贴板或二维码入口</h3>
+<p>复制 <code>vmess://</code>、<code>vless://</code>、<code>trojan://</code> 等完整分享链接，在“+”菜单选择“从剪贴板导入”。二维码本质上是承载文本：节点二维码使用“扫描二维码”导入，扫描到订阅 URL 时需确认应用识别为订阅并完成分组保存与更新。扫码成功不等于订阅已更新。</p>
+<p>只在使用摄像头扫描时授予相机权限。导入后核对协议、地址、端口和 TLS 等参数；Clash YAML、sing-box JSON 与节点订阅不是同一种格式，兼容性见<a href="docs.html">配置文档</a>。</p>
+<h2 id="connect">选择节点、允许 VPN 并验证连接</h2>
+<ol>
+<li>点选一个节点，确认其已被选中；需要时先执行客户端的真实连接或延迟测试。</li>
+<li>在设置中确认使用 <strong>VPN 模式</strong>，点击连接按钮。首次连接时，阅读并允许 Android 的 VPN 连接请求。</li>
+<li>确认客户端显示运行状态、系统出现 VPN 标识，并查看日志中有无核心启动或握手错误。</li>
+<li>打开需要代理的目标网站，再测试应当直连的网站；最后单独检查目标应用，避免仅凭 VPN 标识判断成功。</li>
+</ol>
+<p>节点测试成功只覆盖测试请求；低延迟不一定意味着高带宽，也不保证所有站点可用。可在相近时段对同一目标做小流量测试，比较 Wi-Fi 与移动数据结果，定位网络差异。</p>
+<div class="notice"><strong>VPN 模式与“仅代理”模式：</strong>VPN 模式用于接管本机应用流量；“仅代理”模式主要提供本地 HTTP / SOCKS 入口，需要在使用方手动配置地址和实际端口。Android 上的其他 VPN、使用 VPN 接口的防火墙或广告过滤工具可能与当前连接互斥。</div>
+<h2 id="apps">分应用代理与后台运行</h2>
+<p>需要只代理少数应用时，进入设置中的分应用代理功能，先确认当前是“选中应用走代理”还是“选中应用绕过代理”。选中清单的含义取决于该开关，设置后重新连接并分别测试一个选中应用与一个未选中应用。应用选择解决接管范围，域名和 IP 路由仍决定已接管流量的出口。</p>
+<p>锁屏后频繁断开时，先查看系统是否限制后台运行、电池使用或自动启动。只针对该应用按需调整，并通过锁屏后恢复的实际测试确认效果。自动更新订阅需要可用网络与后台执行条件，不能替代连接状态检查。</p>
+<h2 id="troubleshoot">按现象排查与恢复</h2>
+<div aria-label="按现象排查与恢复，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">先检查</th><th scope="col">修复后的结果</th></tr></thead><tbody>
+<tr><td>APK 无法安装</td><td>架构、Android 版本、存储空间及旧包签名；重下原发布文件核对完整性。</td><td>系统正常完成安装或原渠道升级。</td></tr>
+<tr><td>更新成功但列表为空</td><td>当前订阅分组、格式、账户到期情况，确认没有仅导入 URL 而漏做更新。</td><td>正确分组中出现可选节点。</td></tr>
+<tr><td>点击连接后立即停止</td><td>VPN 权限、另一款 VPN 是否运行、日志中的配置或核心错误。</td><td>服务保持运行，VPN 连接持续存在。</td></tr>
+<tr><td>VPN 已连接但应用不可用</td><td>当前节点、分应用名单、路由、DNS、TLS 参数与设备时间。</td><td>目标请求被正确接管，日志无连续连接错误。</td></tr>
+<tr><td>仅移动数据失败</td><td>同一节点在 Wi-Fi 的结果、IPv4 / IPv6 差异与运营商网络；每次只改一项。</td><td>能明确复现差异，再针对节点或 DNS 配置处理。</td></tr>
+<tr><td>锁屏后断开</td><td>后台与省电限制、客户端日志、网络切换时间。</td><td>恢复亮屏后目标应用仍能按规则连接。</td></tr>
+</tbody></table></div>
+<p>停止时使用客户端断开按钮，确认系统 VPN 标识消失，再验证直连。若使用过“仅代理”模式，还需移除自己在 Wi-Fi 或应用中设置的本地代理。继续阅读<a href="faq.html">常见问题</a>，或回到<a href="tutorials.html">教程中心</a>、<a href="clients.html">客户端对比</a>。</p>
+<h2 id="sources">项目来源与适用范围</h2>
+<p>更新于 2026-11-24。依据项目说明整理；菜单名称和系统权限入口会随版本、手机系统变化。本文未在用户手机上实测节点连接。</p>
+<ul class="source-list">
+<li><a href="https://github.com/2dust/v2rayNG" rel="noopener noreferrer" target="_blank">v2rayNG 项目与核心说明</a></li>
+<li><a href="https://github.com/2dust/v2rayNG/wiki/Release-files-introduction-for-Android" rel="noopener noreferrer" target="_blank">Android 发布文件介绍</a></li>
+<li><a href="https://github.com/2dust/v2rayNG/wiki/Mode" rel="noopener noreferrer" target="_blank">VPN 与仅代理模式说明</a></li>
+<li><a href="https://github.com/2dust/v2rayNG/releases" rel="noopener noreferrer" target="_blank">版本与安装包来源</a></li>
+</ul>
+</div>
+<section class="related-guides article-content"><h2>相关文章</h2><ul><li><a href="blog-v2rayn-guide.html">V2RayN · V2RayN 完整使用教程</a></li><li><a href="blog-v2rayu-macos.html">V2RayU · V2RayU macOS 安装配置指南</a></li></ul></section>
+<section class="related-guides article-content"><h2>按操作继续学习</h2><ul><li><a href="blog-v2ray-android-app-routing.html">Android 分应用代理</a></li><li><a href="blog-v2ray-android-background.html">锁屏掉线排查</a></li><li><a href="blog-v2ray-subscription-errors.html">订阅更新失败</a></li></ul></section>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

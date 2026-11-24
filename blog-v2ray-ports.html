@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayN 本地端口查询：HTTP、SOCKS 与端口占用 | V2Ray 下载站</title>
+<meta content="v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2ray-ports.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2ray-ports.html" property="og:url"/>
+<meta content="v2rayN 本地端口查询：HTTP、SOCKS 与端口占用" property="og:title"/>
+<meta content="v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayN 本地端口查询：HTTP、SOCKS 与端口占用" name="twitter:title"/>
+<meta content="v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查",
+  "description": "v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。",
+  "url": "https://v2rayndown.org/blog-v2ray-ports.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2ray-ports.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "代理与网络",
+  "@id": "https://v2rayndown.org/blog-v2ray-ports.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "keywords": [
+    "v2rayN 本地端口",
+    "HTTP 端口",
+    "SOCKS 端口",
+    "端口占用"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "代理与网络",
+      "item": "https://v2rayndown.org/tutorials.html#learn-network"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查",
+      "item": "https://v2rayndown.org/blog-v2ray-ports.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-network">代理与网络</a><span aria-hidden="true">/</span><span aria-current="page">v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">代理与网络</p>
+<h1>v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查</h1>
+<p class="article-lead">v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">v2rayN 本地端口在哪里查，冲突时怎么办？</h2><p><strong>先从客户端设置读取监听地址、端口和协议，再用系统命令确认哪个进程正在监听。</strong>本地 HTTP、SOCKS 或混合端口是应用交给代理的入口，和远端节点端口不同。确认占用者之后，正常关闭不再使用的程序或调整本地端口，并同步更新依赖它的应用。</p><ol><li>读取真实入站信息，避免把示例端口或控制 API 当作代理端口。</li><li>使用 Get-NetTCPConnection、lsof 或 ss 查看监听与进程。</li><li>修改后用显式代理请求复测，不强行结束不认识的进程。</li></ol></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#identify">v2rayN 本地 HTTP、SOCKS 和混合端口在哪里看？</a></li><li><a href="#inspect">Windows、macOS、Linux 如何查询端口占用？</a></li><li><a href="#classify">端口未监听、代理协议错误和节点故障怎么区分？</a></li><li><a href="#test">用 curl 验证 HTTP 与 SOCKS 本地端口</a></li><li><a href="#conflict">v2rayN 端口占用的处理步骤</a></li><li><a href="#symptoms">本地代理端口故障对照表</a></li><li><a href="#restore">端口修改后怎样恢复代理设置？</a></li><li><a href="#article-faq-heading">v2rayN 本地端口常见问题</a></li><li><a href="#sources">端口查询命令与代理协议资料</a></li></ul></nav>
+<p>“本地端口”是其他程序把请求交给代理客户端的入口；节点的服务器端口是客户端连接远端服务的位置。二者可以完全不同。本文面向 v2rayN 和同类桌面客户端，帮助确认 HTTP / SOCKS / 混合入口与端口冲突；Android VPN 模式的正常使用不需要照搬桌面系统代理端口。</p>
+<h2 id="identify">v2rayN 本地 HTTP、SOCKS 和混合端口在哪里看？</h2>
+<p>打开客户端设置中的本地监听、端口或入站相关项目，记下监听地址、协议、端口及是否允许局域网连接。不要把教程中的 <code>10808</code>、<code>10809</code> 或其他数字当作所有版本默认值。部分构建使用混合入口，其他构建将 HTTP 和 SOCKS 分开；是否兼容由实际运行的核心和配置决定。</p>
+<p>还要区分控制 API、统计接口和代理入口。控制面板的端口不是浏览器应该填写的 HTTP 代理端口，不应为了连接方便把控制接口暴露给局域网。读取设置后，再通过监听状态判断这份配置有没有真正加载。</p>
+<h2 id="inspect">Windows、macOS、Linux 如何查询端口占用？</h2>
+<p>以下示例统一假设要检查 TCP <code>10809</code>，它只是演示值，必须替换。命令仅查看信息，不会修改网络或结束进程。进程信息显示范围取决于当前账号权限；查不到进程名不等于不存在监听。</p>
+<h3>Windows PowerShell</h3>
+<pre tabindex="0"><code>Get-NetTCPConnection -State Listen -LocalPort 10809 |
+  Select-Object LocalAddress, LocalPort, OwningProcess</code></pre>
+<p>按 <a href="https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection" rel="noopener noreferrer" target="_blank">Microsoft 命令说明</a>查看并记下 <code>OwningProcess</code> 的进程号，再把下面的 <code>1234</code> 替换为实际值：</p>
+<pre tabindex="0"><code>Get-Process -Id 1234</code></pre>
+<h3>macOS</h3>
+<pre tabindex="0"><code>lsof -nP -iTCP:10809 -sTCP:LISTEN</code></pre>
+<h3>Linux</h3>
+<pre tabindex="0"><code>ss -ltnp 'sport = :10809'</code></pre>
+<p>预期看到与客户端配置相符的地址、端口和程序。只监听 <code>127.0.0.1</code> 适合本机应用；监听 LAN 地址或全接口时，应额外核对访问边界。如果客户端报 UDP 端口冲突，要检查相应 UDP 套接字，不能只用 TCP 结果作结论。</p>
+<h2 id="classify">端口未监听、代理协议错误和节点故障怎么区分？</h2>
+<p>没有监听时，先看核心是否启动、配置是否保存、是否被其他模式覆盖。不能只因为 GUI 窗口还在，就认为核心必定运行。出现 <code>address already in use</code> 时，说明绑定遇到占用；可能是另一个客户端，也可能是上一次启动留下的同一服务。</p>
+<p>端口存在却不能用，还需要核对协议。HTTP 代理入口、SOCKS 入口和原始远端节点协议不能任意互换。若客户端提供兼容混合入口，应按该构建文档判断，而非凭端口名称推断。</p>
+<p>本地握手成功之后仍有远端超时，则问题已经进入节点、DNS 或路由层。此时随机换本地端口通常不会修复服务器不可达。</p>
+<h2 id="test">用 curl 验证 HTTP 与 SOCKS 本地端口</h2>
+<p>选一个自己要验证的 HTTPS 目标，并用真实代理端口替换示例。Windows 可使用 <code>curl.exe</code>。下面两条分别演示 HTTP 与 SOCKS，选择与入口匹配的一种即可：</p>
+<pre tabindex="0"><code>curl --noproxy "" --proxy http://127.0.0.1:10809 --head --max-time 15 https://example.com
+curl --noproxy "" --proxy socks5h://127.0.0.1:10808 --head --max-time 15 https://example.com</code></pre><p><code>--noproxy ""</code> 用于本次显式代理测试，避免环境中的 <code>NO_PROXY</code> / <code>no_proxy</code> 绕过列表使请求改走直连；它不会改变客户端路由规则。</p>
+<p>按 <a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl 的代理参数说明</a>，<code>socks5h</code> 表示由 SOCKS 代理处理目标域名解析；它与本机先解析的测试路径可能不同。观察 curl 返回、核心日志中的目标与出站，再判断连接进行到了哪里。某些站点不支持 HEAD 或返回业务状态码，收到 HTTP 响应本身也不等于目标业务已完全可用。</p>
+<h2 id="conflict">v2rayN 端口占用的处理步骤</h2>
+<ol><li>确认占用者属于哪个程序，查看它是否仍在使用。不结束不认识的进程，不使用批量强制结束命令。</li><li>若是自己不再使用的另一个代理，通过它的正常退出或停止服务入口关闭。</li><li>必须并行运行时，在当前客户端选择一个未占用且被系统允许的本地端口，保存并按要求重新加载。</li><li>重新检查监听，再同步修改系统代理、浏览器、终端环境变量和其他应用中手写的旧端口。</li><li>用同一目标复测，记录新旧值。端口无人占用仍绑定失败时，继续核对系统保留范围、地址是否存在及安全软件记录。</li></ol>
+<h2 id="symptoms">本地代理端口故障对照表</h2>
+<div aria-label="本地代理端口故障对照表，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">表现</th><th scope="col">优先检查</th><th scope="col">修复后的证据</th></tr></thead><tbody><tr><td>查询无监听</td><td>核心启动日志、配置保存与实际端口</td><td>目标端口出现正确进程</td></tr><tr><td>端口属于另一个程序</td><td>程序用途及是否确需并行</td><td>正常关闭冲突者或使用独立端口</td></tr><tr><td>本地立即 connection refused</td><td>地址、端口及客户端是否运行</td><td>本地代理握手能够建立</td></tr><tr><td>握手后远端超时</td><td>活动节点、DNS 和路由</td><td>核心完成远端连接与目标响应</td></tr><tr><td>改端口后浏览器失效</td><td>系统代理与应用仍指向旧值</td><td>新请求使用更新后的入口</td></tr></tbody></table></div>
+<h2 id="restore">端口修改后怎样恢复代理设置？</h2>
+<p>不继续使用时，清除这次客户端设置的系统代理，停止 TUN 后再退出。恢复旧端口前先确认它仍可用，并同步恢复依赖它的应用。若原来就有企业代理，恢复原始记录；不要为了清理测试而覆盖组织设置。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">v2rayN 本地端口常见问题</h2><details class="faq-entry"><summary><h3>v2rayN 一定使用 10808 和 10809 吗？</h3></summary><div><p>不一定。端口随版本、配置和用户修改而变化，HTTP 与 SOCKS 也可能共用混合入口。以客户端当前设置和系统监听结果为准，文中的数字只用于演示命令。</p></div></details><details class="faq-entry"><summary><h3>端口存在，为什么 curl 还是连接失败？</h3></summary><div><p>存在监听只说明有程序接受该地址的连接，还要核对它是否属于预期客户端、代理协议是否匹配。若请求已经进入核心，再看 DNS、活动节点和远端握手，而不是不断更换本地端口。</p></div></details><details class="faq-entry"><summary><h3>提示端口被占用，可以直接强制结束那个进程吗？</h3></summary><div><p>先确认进程用途和依赖，不结束不认识的程序。自己不再使用的代理可通过正常入口停止；必须并行运行时选择未冲突的新端口，并更新系统代理、终端与其他应用中的旧值。</p>
+</div></details></section><h2 id="sources">端口查询命令与代理协议资料</h2>
+<ul class="source-list"><li><a href="https://learn.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection" rel="noopener noreferrer" target="_blank">Microsoft：Get-NetTCPConnection</a></li><li><a href="https://lsof.readthedocs.io/en/stable/manpage/" rel="noopener noreferrer" target="_blank">lsof 项目手册：网络套接字与监听筛选</a></li><li><a href="https://www.man7.org/linux/man-pages/man8/ss.8.html" rel="noopener noreferrer" target="_blank">Linux ss 手册：只读套接字查询</a></li><li><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl：HTTP、SOCKS 与代理参数</a></li><li><a href="https://xtls.github.io/config/inbound.html" rel="noopener noreferrer" target="_blank">Xray：入站监听与端口</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-system-proxy.html">将正确入口接到系统代理</a></li><li><a href="blog-v2ray-lan-sharing.html">只向可信局域网共享入口</a></li><li><a href="blog-v2ray-logs.html">从核心日志继续定位启动失败</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

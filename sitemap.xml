@@ -1,57 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://v2raydown.com/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://v2rayndown.org/</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/download.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-android-app-routing.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blogs.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-android-background.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2rayn-guide.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-backup-migrate.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2rayng-android.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-config-formats.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2rayu-macos.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-core-update.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2ray-vs-clash.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-dns.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2ray-protocols.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-geodata.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
-    <loc>https://v2raydown.com/blog-v2ray-speed.html</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://v2rayndown.org/blog-v2ray-git-proxy.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-install-errors.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-ipv6-udp.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-lan-sharing.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-linux.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-logs.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-ports.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-protocols.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-routing.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-speed.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-subscription-errors.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-subscription.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-system-proxy.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-terminal-proxy.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-trojan.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-tun.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-vless-reality.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-vmess.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-vs-clash.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2ray-vscode-proxy.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2rayn-guide.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2rayng-android.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blog-v2rayu-macos.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/blogs.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/clients.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/docs.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/download.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/faq.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://v2rayndown.org/tutorials.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
 </urlset>

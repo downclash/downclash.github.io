@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray IPv6 与 UDP 排查：网页、语音和游戏 | V2Ray 下载站</title>
+<meta content="V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2ray-ipv6-udp.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2ray-ipv6-udp.html" property="og:url"/>
+<meta content="V2Ray IPv6 与 UDP 排查：网页、语音和游戏" property="og:title"/>
+<meta content="V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray IPv6 与 UDP 排查：网页、语音和游戏" name="twitter:title"/>
+<meta content="V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同",
+  "description": "V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。",
+  "url": "https://v2rayndown.org/blog-v2ray-ipv6-udp.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2ray-ipv6-udp.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "协议与移动端",
+  "@id": "https://v2rayndown.org/blog-v2ray-ipv6-udp.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "keywords": [
+    "V2Ray IPv6 与 UDP",
+    "IPv6 连接",
+    "UDP 游戏",
+    "QUIC"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "协议与移动端",
+      "item": "https://v2rayndown.org/tutorials.html#learn-protocol-mobile"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同",
+      "item": "https://v2rayndown.org/blog-v2ray-ipv6-udp.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-protocol-mobile">协议与移动端</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">协议与移动端</p>
+<h1>V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同</h1>
+<p class="article-lead">V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">V2Ray IPv6 与 UDP 异常，先检查什么？</h2><p>先分开检查地址族和传输协议：IPv6 涉及本机、节点和目标的网络可达性；UDP 涉及应用入口、内核、服务端及目标的转发支持。网页或 TCP 测试成功，不能代替 UDP 业务验证，也不足以得出应该永久关闭 IPv6 的结论。</p><ol><li>固定节点和目标，记录在哪种网络、哪项操作失败。</li><li>确认请求是否进入客户端，再核对对应出站与远端路径。</li><li>每次只调整一个有证据的问题，复测后恢复无效改动。</li></ol></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#record">IPv6 或 UDP 排查前要记录什么？</a></li><li><a href="#ipv6">IPv6 连接检查：本机、代理与远端分别验证</a></li><li><a href="#udp">V2Ray UDP 不通：沿入口到目标检查</a></li><li><a href="#compare">IPv6 与 UDP 常见症状对照表</a></li><li><a href="#change">IPv6 与 UDP 设置修改后怎样验证与回退</a></li><li><a href="#article-faq-heading">IPv6 与 UDP常见问题</a></li><li><a href="#sources">官方依据</a></li></ul></nav>
+<p>网页能打开、语音却连不上，或者 Wi-Fi 正常而移动网络失败，并不能直接说明要关闭 IPv6。IPv6 是网络地址体系，UDP 是传输层协议；IPv4 上也能出现 UDP 故障，IPv6 上也能正常承载 TCP。本教程适用于需要定位差异的 v2rayN、v2rayNG 用户。</p>
+<h2 id="record">IPv6 或 UDP 排查前要记录什么？</h2>
+<p>记录客户端、内核版本、节点、网络类型、接管方式和受影响应用，选择一项能稳定复现的操作。把“首页能打开”与“登录后语音失败”分别记录。节点服务器、代理出口和最终目标可能使用不同地址族，不能从手机获得 IPv6 地址推定三段连接均使用 IPv6。</p>
+<p>保留系统与客户端原配置，每次只改变一个条件。先对比同一操作在两种网络或两个已知节点上的结果，再决定查本机接管、解析、远端转发还是目标服务。不要同时关 IPv6、换 DNS、换协议并开 TUN。</p>
+<h2 id="ipv6">IPv6 连接检查：本机、代理与远端分别验证</h2>
+<p>确认目标确实提供 A 与 AAAA 记录，并核对本机是否有可用的 IPv6 路由。以下命令只用于受控的直接连接对照：先停止 TUN / VPN，确认没有其他透明接管，再把示例域名替换成你要测试、且支持双栈的 HTTPS 服务。</p>
+<pre tabindex="0"><code>curl --noproxy '*' --ipv4 --connect-timeout 10 --head https://example.com
+curl --noproxy '*' --ipv6 --connect-timeout 10 --head https://example.com</code></pre>
+<p><code>example.com</code> 为示例，不保证你选定目标在所有网络下可达。<code>--noproxy</code> 排除 curl 的显式代理，不会绕过系统 TUN；如果接管仍开启，这组结果不能当作纯直连基线。Windows 请确认运行的是 <code>curl.exe</code>，避免某些 PowerShell 环境中的同名别名。</p>
+<p><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl 的 IPv4、IPv6 与 no-proxy 参数说明</a>界定了这些选项的范围。这两个选项限制 curl 自身解析使用的地址族。通过 HTTP 代理或远端解析的 SOCKS 代理访问时，不能据此强制远端节点采用相同地址族；远端目标的解析与选择应看核心日志和对应 DNS / 出站配置。</p>
+<p>如果节点服务器只有 IPv6 入口，本机到该入口的网络必须先可达；远端能够访问 IPv4 网站并不能补足本机缺失的 IPv6 路径。反过来，本机通过 IPv4 连上节点后，远端是否能访问 IPv6 目标，又取决于服务器侧网络和配置。这是两段独立的能力，反馈时应分别写清。</p>
+<h2 id="udp">V2Ray UDP 不通：沿入口到目标检查</h2>
+<ol><li><strong>应用：</strong>确认受影响功能实际使用 UDP；同一应用的文字消息与音视频可能走不同连接。</li><li><strong>入口：</strong>普通 HTTP 系统代理不会自动接管设备所有 UDP。检查 TUN / Android VPN 或应用提供的 SOCKS UDP 能力，不能只看网页。</li><li><strong>内核与配置：</strong>核对当前出站协议、UDP 封装和网络限制，按实际内核版本查说明。例如 <a href="https://sing-box.sagernet.org/configuration/outbound/vless/" rel="noopener noreferrer" target="_blank">sing-box VLESS 文档</a>单独列出了网络类型与 UDP 编码，不能与其他核心字段直接互换。</li><li><strong>服务端与出口：</strong>确认配置提供方支持对应 UDP 转发、目标端口及其网络路径。</li><li><strong>目标：</strong>用实际语音、游戏或由自己控制的 UDP 测试服务验证，记录时间并查看日志。</li></ol>
+<p>TCP 端口测试、普通 HTTPS curl 和单次 ping 都不能证明 UDP 已通。即使 DNS 查询可用，也只说明该解析路径，不代表游戏所用的 UDP 目的地址与端口可达。不要拿一个无关 UDP 服务的结果替代目标业务。</p>
+<p>测试 UDP 时还要区分“请求没有进入客户端”和“进入后没有回应”。前者先查接管与应用名单，后者再查出站和服务端路径。核心日志未提供足够细节时，可先用另一条明确支持该业务的节点作对照，而不是根据没有日志就推定流量已经绕过。</p>
+<h2 id="compare">IPv6 与 UDP 常见症状对照表</h2>
+<div aria-label="IPv6 与 UDP 常见症状对照表，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">下一项检查</th><th scope="col">能缩小的范围</th></tr></thead><tbody>
+<tr><td>直连 IPv4 成功，IPv6 失败</td><td>目标 AAAA、本机 IPv6 路由与当前网络</td><td>先定位直接网络路径，不直接归因代理节点</td></tr>
+<tr><td>网页正常，目标 UDP 功能失败</td><td>入口是否接管 UDP、出站与服务端支持</td><td>区分 TCP 可用与 UDP 转发可用</td></tr>
+<tr><td>Wi-Fi 正常，移动数据失败</td><td>同节点同目标的解析、握手及 UDP 错误</td><td>确认与底层网络变化相关的阶段</td></tr>
+<tr><td>只有一个应用异常</td><td>分应用名单、应用独立代理和目标限制</td><td>检查该应用是否真的进入客户端</td></tr>
+<tr><td>小请求正常，大包或长连接异常</td><td>丢包、链路 MTU、超时与服务端日志</td><td>为链路问题建立证据，避免套用通用 MTU 数字</td></tr>
+</tbody></table></div>
+<h2 id="change">IPv6 与 UDP 设置修改后怎样验证与回退</h2>
+<p>如果证据指向地址选择，仅在所用客户端提供的相应配置里做一次受控对照，记录旧值并复测相同目标；不要为一个节点永久关闭整台设备的 IPv6。若证据指向 UDP，先核对提供方支持的节点与封装，不随意关闭防火墙或改变系统安全策略。</p>
+<p>调整后同时复测受影响业务与正常网页，确认没有损坏内网访问。未改善就恢复原值。需要协助时提供分阶段结果，而不是只有“UDP 不通”一句话；日志隐藏节点身份、订阅与个人目标信息。</p>
+<section aria-labelledby="article-faq"><section class="article-faq" id="article-faq"><h2 id="article-faq-heading">IPv6 与 UDP常见问题</h2><details class="faq-entry"><summary><h3>curl --ipv6 通过 HTTP 代理时，能强制目标走 IPv6 吗？</h3></summary><div><p>不能据此保证。该选项约束 curl 自身地址解析，而 HTTP 代理或远端解析路径可能由代理端决定目标地址族。需要判断远端连接时，应检查核心 DNS、出站配置和对应日志。</p></div></details><details class="faq-entry"><summary><h3>HTTPS 网页正常，能证明 UDP 已经可用吗？</h3></summary><div><p>不能。普通 HTTPS 请求通常验证的是 TCP 路径；语音、游戏等功能使用的 UDP 目的地址与端口还需单独验证。先确认该业务的流量进入客户端，再检查出站、服务端和目标回应。</p></div></details><details class="faq-entry"><summary><h3>UDP 不通应该永久关闭 IPv6 吗？</h3></summary><div><p>不应直接这样处理。UDP 可运行在不同地址族上，先用同一业务区分地址选择、接管范围和远端转发问题。只有证据指向某项配置时才做可恢复的对照，避免用系统级改动掩盖真正原因。</p></div></details></section></section>
+<h2 id="sources">官方依据</h2>
+<ul class="source-list"><li><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl 手册：IPv4、IPv6 与 no-proxy 的范围</a></li><li><a href="https://sing-box.sagernet.org/configuration/outbound/vless/" rel="noopener noreferrer" target="_blank">sing-box VLESS：网络类型与 UDP 编码</a></li><li><a href="https://sing-box.sagernet.org/configuration/outbound/trojan/" rel="noopener noreferrer" target="_blank">sing-box Trojan：网络与传输选项</a></li><li><a href="https://developer.android.com/reference/android/net/VpnService.Builder" rel="noopener noreferrer" target="_blank">Android VPN Builder：地址、路由与地址族</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-tun.html">系统代理与 TUN 接管区别</a></li><li><a href="blog-v2ray-dns.html">DNS 解析路径排查</a></li><li><a href="blog-v2ray-android-app-routing.html">Android 分应用代理</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 订阅更新失败：401、403、超时与空列表 | V2Ray 下载站</title>
+<meta content="V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2rayndown.org/blog-v2ray-subscription-errors.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2rayndown.org/blog-v2ray-subscription-errors.html" property="og:url"/>
+<meta content="V2Ray 订阅更新失败：401、403、超时与空列表" property="og:title"/>
+<meta content="V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。" property="og:description"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 订阅更新失败：401、403、超时与空列表" name="twitter:title"/>
+<meta content="V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2rayndown.org/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查",
+  "description": "V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。",
+  "url": "https://v2rayndown.org/blog-v2ray-subscription-errors.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2rayndown.org/blog-v2ray-subscription-errors.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "订阅与维护",
+  "@id": "https://v2rayndown.org/blog-v2ray-subscription-errors.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2rayndown.org/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2rayndown.org/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2rayndown.org/"
+  },
+  "keywords": [
+    "V2Ray 订阅更新失败",
+    "订阅导入失败",
+    "订阅超时",
+    "节点为空"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2rayndown.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2rayndown.org/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "订阅与维护",
+      "item": "https://v2rayndown.org/tutorials.html#learn-subscription"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查",
+      "item": "https://v2rayndown.org/blog-v2ray-subscription-errors.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-subscription">订阅与维护</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">订阅与维护</p>
+<h1>V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查</h1>
+<p class="article-lead">V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-label="快速解答" class="quick-answer"><h2 id="quick-answer">V2Ray 订阅更新失败，先查哪一步？</h2><p>V2Ray 订阅更新失败时，先保留可用节点，再按“请求是否到达服务器 → HTTP 状态码 → 响应格式 → 节点列表”定位。401 / 403 需核对凭据与访问权限，超时先查更新路径；HTTP 200 但节点为空，还要排除网页响应、格式不匹配和列表筛选。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#preserve">订阅更新失败后，先保留可用节点</a></li><li><a href="#status">V2Ray 订阅 401、403、429 分别怎么处理？</a></li><li><a href="#network">没有 HTTP 状态码时，先查请求路径</a></li><li><a href="#response">HTTP 200 仍可能不是有效订阅</a></li><li><a href="#empty">订阅更新成功但节点为空，怎么检查？</a></li><li><a href="#escalate">什么情况需要配置提供方处理？</a></li><li><a href="#recover">结束测试与恢复原设置</a></li><li><a href="#article-faq-heading">V2Ray 订阅更新失败常见问题</a></li><li><a href="#sources">官方资料</a></li></ul></nav>
+<p>订阅更新涉及下载响应、识别格式、保存节点和显示列表。看到“更新失败”时，应先找到失败阶段，而不是同时重装软件、更换 DNS 和删除旧节点。本教程适合已有订阅来源的客户端用户；无法判断服务端限制时，需要配置提供方协助核对。</p>
+<h2 id="preserve">订阅更新失败后，先保留可用节点</h2>
+<ol><li>保留已有可用节点并导出当前配置。尚未确定原因前，不要批量删除订阅或覆盖唯一备份。</li><li>记录客户端版本、订阅分组、故障时间、直连或通过代理更新、错误码及错误发生的先后顺序。</li><li>只更新有问题的一个来源，排除其他分组带来的混杂提示；检查列表是否仍停留在旧筛选条件。</li></ol>
+<p>截图中隐藏 URL 的令牌、账户标识和二维码。保留错误类型与状态码有助于判断层次，而完整凭据通常没有必要交给第三方。</p>
+<h2 id="status">V2Ray 订阅 401、403、429 分别怎么处理？</h2>
+<div aria-label="V2Ray 订阅 401、403、429 分别怎么处理？，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">提示</th><th scope="col">已经发生的阶段</th><th scope="col">优先检查</th></tr></thead><tbody>
+<tr><td>401 Unauthorized</td><td>HTTP 请求得到需要认证的响应</td><td>URL 是否完整、令牌是否仍有效、是否复制成网页登录地址</td></tr><tr><td>403 Forbidden</td><td>响应端拒绝处理请求</td><td>账户权限、访问限制、提供方支持的客户端与请求要求</td></tr><tr><td>404 Not Found</td><td>所请求资源没有被提供</td><td>路径是否变更，是否使用过期分享入口</td></tr><tr><td>429 Too Many Requests</td><td>请求受到频率限制</td><td>停止连续重试，按服务端说明等待并降低更新频率</td></tr><tr><td>5xx</td><td>服务端或中间服务报告错误</td><td>提供方状态、同时间其他网络的对照结果</td></tr>
+</tbody></table></div>
+<p>依据<a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes" rel="noopener noreferrer" target="_blank">HTTP 状态码语义</a>，这些响应需按认证、拒绝访问或服务错误分别判断，不能单独证明“订阅到期”。例如 403 也可能来自中间访问控制；应结合响应说明与提供方后台确认。不要盲目修改 User-Agent 来掩盖问题；若项目或提供方明确要求特定兼容方式，先更新到支持该方式的客户端版本。</p>
+<h2 id="network">没有 HTTP 状态码时，先查请求路径</h2>
+<p>域名解析失败、TCP 超时和 TLS 握手失败发生在不同阶段。先确认设备直连可访问普通网站，再检查失败的是否为订阅服务器域名。只有这个来源失败时，优先核对其域名、端口和网络可达性；所有联网都失败时，先恢复本机正常网络。</p>
+<ol><li>没有任何可用活动节点时，使用客户端提供的不通过代理更新方式，避免让订阅依赖尚未建立的代理。</li><li>订阅服务器需要通过代理访问时，先用已有节点验证实际 HTTPS 请求，再尝试通过代理更新同一来源。</li><li>Wi-Fi 与移动数据行为不同时，保留同一链接、同一客户端版本和同一测试时间，记录对照；不要据此直接认定客户端故障。</li><li>TLS 错误先核对系统时间、服务器名称和证书链，保留证书验证，不把跳过验证作为修复。</li></ol>
+<h2 id="response">HTTP 200 仍可能不是有效订阅</h2>
+<p>成功的 HTTP 响应可能返回登录页、过期提示、验证码页面或另一种配置格式。浏览器能够打开网页，只说明浏览器拿到了内容；它可能携带登录状态，而客户端没有。不要把整个服务商首页地址当成订阅端点。</p>
+<p>需要检查内容时，优先使用客户端诊断信息，或在自己设备上谨慎查看响应类型与开头的结构，避免把原始响应上传到公开工具。如果内容像 HTML，应向提供方重新获取专用订阅 URL；若是 YAML 或核心 JSON，确认接收客户端的当前版本是否支持这种导入方式。</p>
+<h2 id="empty">订阅更新成功但节点为空，怎么检查？</h2>
+<ol><li>切换到正确分组并清除关键词筛选，确认不是显示条件隐藏了节点。</li><li>比较更新前后的节点数量；部分节点缺少地址、UUID、密码或新协议字段时，解析器可能忽略该项或报告错误。</li><li>从提供方获取当前客户端对应的原生订阅格式，不能仅把文件名从 YAML 改成 JSON。</li><li>查看所装版本的发布说明是否已有订阅解析修复。<a href="https://github.com/yanue/V2rayU/releases/tag/v5.3.2" rel="noopener noreferrer" target="_blank">V2rayU v5.3.2 发布说明</a>记录了订阅更新和错误响应处理修复，不能推定所有旧版都会保留旧节点。</li></ol>
+<p>若原列表已经清空，应先恢复已保存的备份或一个已确认有效的手工节点。反复点击更新不会修复服务端返回的错误内容，还可能触发频率限制。</p>
+<h2 id="escalate">什么情况需要配置提供方处理？</h2>
+<p>账户后台确认有效，但同一来源持续返回拒绝响应、返回不兼容数据、或服务端部分节点字段缺失时，需要提供方核查。提交失败时间、客户端及版本、网络类型、HTTP 状态码和脱敏后的结构说明；不要公开完整 URL，也不要要求无关维护者代登录自己的账户。</p>
+<p>在问题修复后，重新更新一个分组，确认节点出现，再选择活动节点并完成网页与日志验证。订阅恢复只解决配置分发，不代表每一个远程节点都可用。</p>
+<h2 id="recover">结束测试与恢复原设置</h2>
+<p>如果为对照临时调整了更新路径、DNS 或代理模式，应保留已确认有效的一项，恢复其他临时修改。不要让旧的错误代理端口残留在系统中。客户端恢复连接后，再根据提供方频率要求设置合理更新间隔，并保留最近一次可用备份。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">V2Ray 订阅更新失败常见问题</h2>
+<details class="faq-entry"><summary><h3>订阅显示 403，就是账户到期了吗？</h3></summary><div><p>不能只凭 403 判断到期。它表示响应端拒绝请求，还可能与权限、来源限制或中间访问控制有关。先核对完整 URL 和提供方后台，再提交故障时间、客户端版本及脱敏错误码，请提供方确认限制原因。</p>
+</div></details><details class="faq-entry"><summary><h3>浏览器能打开订阅，为什么 v2rayN 仍导入失败？</h3></summary><div><p>浏览器拿到的可能是带登录状态的网页，客户端需要的则是兼容配置内容。先确认复制了专用订阅地址，再检查响应类型及客户端支持范围。浏览器可打开与客户端下载、解析成功并不是同一件事。</p>
+</div></details><details class="faq-entry"><summary><h3>节点全部消失后，应先重装客户端吗？</h3></summary><div><p>先检查分组与筛选，再确认更新响应是否有效。如果原记录已被清空，优先恢复备份或一个已知可用节点。重装可能丢失诊断和配置，不能修复服务端持续返回的错误内容。</p>
+<p><strong>下一步：</strong>以“同一来源可获取兼容内容、节点重新出现、活动节点能完成请求”为恢复结果；若仍持续返回认证或拒绝响应，带脱敏记录联系配置提供方。</p></div></details></section>
+<h2 id="sources">官方资料</h2>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-subscription" rel="noopener noreferrer" target="_blank">v2rayN：订阅功能说明</a></li><li><a href="https://github.com/2dust/v2rayN/wiki/Faq" rel="noopener noreferrer" target="_blank">v2rayN：常见问题</a></li><li><a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">V2rayU：订阅更新与解析修复记录</a></li><li><a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes" rel="noopener noreferrer" target="_blank">RFC 9110：HTTP 状态码语义</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-subscription.html">正确导入订阅</a></li><li><a href="blog-v2ray-dns.html">DNS 解析问题定位</a></li><li><a href="blog-v2ray-logs.html">读取并脱敏日志</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2rayndown.org · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
