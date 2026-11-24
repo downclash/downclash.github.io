@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayN 终端代理：curl、环境变量与 SOCKS | V2Ray 下载站</title>
+<meta content="v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-terminal-proxy.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-terminal-proxy.html" property="og:url"/>
+<meta content="v2rayN 终端代理：curl、环境变量与 SOCKS" property="og:title"/>
+<meta content="v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayN 终端代理：curl、环境变量与 SOCKS" name="twitter:title"/>
+<meta content="v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS",
+  "description": "v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。",
+  "url": "https://v2raydown.com/blog-v2ray-terminal-proxy.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-terminal-proxy.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "开发与排查",
+  "@id": "https://v2raydown.com/blog-v2ray-terminal-proxy.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "v2rayN 终端代理",
+    "curl 代理",
+    "环境变量",
+    "socks5h"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "开发与排查",
+      "item": "https://v2raydown.com/tutorials.html#learn-developer"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS",
+      "item": "https://v2raydown.com/blog-v2ray-terminal-proxy.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-developer">开发与排查</a><span aria-hidden="true">/</span><span aria-current="page">v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">开发与排查</p>
+<h1>v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS</h1>
+<p class="article-lead">v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">v2rayN 终端代理怎么设置？</h2><p>先在 v2rayN 中确认实际 HTTP 监听端口，再用 curl 显式指定这个入口；请求成功并且日志出现预期连接后，才给需要的工具设置环境变量。浏览器的系统代理不能证明终端程序也已使用代理。</p><pre tabindex="0"><code>curl --noproxy "" --proxy http://127.0.0.1:10809 --head https://example.com</code></pre><p><code>10809</code> 是示例端口，需替换；Windows PowerShell 可使用 <code>curl.exe</code>。这次请求显式清空绕过名单，避免已有 <code>NO_PROXY</code> 影响测试。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#prepare">确认 v2rayN 的 HTTP / SOCKS 监听端口</a></li><li><a href="#curl">用 curl 验证终端 HTTP 代理</a></li><li><a href="#socks">socks5 与 socks5h 的 DNS 解析有何区别？</a></li><li><a href="#environment">在 Bash / Zsh 中临时设置代理环境变量</a></li><li><a href="#diagnose">curl 连接失败：按错误定位</a></li><li><a href="#recover">结束终端代理测试与恢复原配置</a></li><li><a href="#article-faq-heading">终端代理常见问题</a></li><li><a href="#sources">curl 与 v2rayN 官方资料</a></li></ul></nav>
+<p>打开 v2rayN 的系统代理后，浏览器能联网，并不表示终端中的每个程序都会读取同一设置。终端只是启动程序的环境：curl、Git、Python 和包管理器分别决定是否读取代理参数或环境变量。下面先验证一条请求，再把设置限制到一次命令或一个子 shell，便于判断问题。</p>
+<h2 id="prepare">确认 v2rayN 的 HTTP / SOCKS 监听端口</h2>
+<p>本教程适用于已经启动 v2rayN 或其他兼容客户端的 Windows、macOS 和 Linux。先在客户端设置中找到真实的 HTTP、SOCKS 或混合监听端口，确认活动节点可用；不要把远程服务器端口填成这里的本地端口。示例中的 <code>10809</code> 与 <code>10808</code> 仅用于说明，必须改成自己的值。</p>
+<p>如果在 SSH、WSL 或容器内运行命令，还要确认命令所在的机器。那里的 <code>127.0.0.1</code> 指向该环境自身，未必是运行桌面客户端的电脑。先在客户端所在的系统中完成一次测试，再研究跨环境访问，避免同时改变多个条件。</p>
+<h2 id="curl">用 curl 验证终端 HTTP 代理</h2>
+<p>先执行以下请求。Windows PowerShell 建议使用 <code>curl.exe</code>，以免调用到同名别名；macOS / Linux 使用 <code>curl</code>。<code>example.com</code> 是测试用示例域名，可替换为你有权访问的实际目标。</p>
+<pre tabindex="0"><code>curl --noproxy "" --proxy http://127.0.0.1:10809 --connect-timeout 10 --max-time 20 --head https://example.com</code></pre>
+<p><code>--noproxy ""</code> 让这次测试不被已有绕过名单跳过；<code>http://</code> 描述的是本机代理入口，目标仍然可以是 HTTPS。对 HTTPS 目标，HTTP 代理通常通过 CONNECT 建立隧道，不能因为目标是 HTTPS 就把本机普通 HTTP 入口改写成 <code>https://</code>。</p>
+<p>同时观察客户端日志：应出现这次目标连接及其出站。看到 HTTP 响应说明请求走到了某个响应端；403、429 或登录页面仍需按目标服务的权限和限流解释。若服务不允许 HEAD，可改用实际 GET 请求复测，不能仅凭 HEAD 被拒绝认定代理失效。</p>
+<h2 id="socks">socks5 与 socks5h 的 DNS 解析有何区别？</h2>
+<p>客户端提供 SOCKS5 时，可用对应端口测试。以下写法把目标域名交给 SOCKS 代理解析：</p>
+<pre tabindex="0"><code>curl --noproxy "" --proxy socks5h://127.0.0.1:10808 --connect-timeout 10 --max-time 20 --head https://example.com</code></pre>
+<p>curl 中 <code>socks5://</code> 与 <code>socks5h://</code> 的区别涉及目标域名由哪一端解析，后者由代理端处理。<a href="https://curl.se/docs/manpage.html#--proxy" rel="noopener noreferrer" target="_blank">curl 的代理参数说明</a>明确区分这些 SOCKS 类型。它不等于“整台电脑的 DNS 都经过代理”，也不决定远程代理服务器域名如何被客户端解析。出现解析错误时，应先区分这两个域名，再检查对应解析路径。</p>
+<h2 id="environment">在 Bash / Zsh 中临时设置代理环境变量</h2>
+<p>确认显式请求正常后，macOS / Linux 的 Bash 或 Zsh 可以在子 shell 中给支持这些变量的程序传递代理。括号里的设置在子 shell 退出后结束，既不改启动配置文件，也不覆盖父 shell 的原设置。</p>
+<pre tabindex="0"><code>(
+  export http_proxy=http://127.0.0.1:10809
+  export https_proxy=http://127.0.0.1:10809
+  export no_proxy=localhost,127.0.0.1,::1
+  curl --head https://example.com
+)</code></pre>
+<p>curl 对 HTTP 代理变量有大小写规则，在区分大小写的系统中应使用小写 <code>http_proxy</code>。<code>ALL_PROXY</code> 是未指定对应协议代理时的候选，不一定覆盖 <code>https_proxy</code>。其他工具的读取规则可能不同，因此不要把这段设置当作对所有开发工具的统一配置。变量优先级与大小写规则可对照 <a href="https://curl.se/docs/manpage.html#ENVIRONMENT" rel="noopener noreferrer" target="_blank">curl 环境变量说明</a>。</p>
+<p>暂时不要把 export 写进 shell 启动文件。长期配置前先确认客户端能随需要运行，并保留原有变量值及绕过企业内网的要求。代理地址若包含凭据，不应直接写进公开脚本或发到聊天记录。</p>
+<h2 id="diagnose">curl 连接失败：按错误定位</h2>
+<div aria-label="curl 连接失败：按错误定位，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">先检查</th><th scope="col">应看到的结果</th></tr></thead><tbody>
+<tr><td>立即 connection refused</td><td>客户端是否运行、协议和本机端口是否正确</td><td>本机入口能够接受连接</td></tr>
+<tr><td>显式代理正常，环境变量无效</td><td>工具是否读取变量、是否存在工具自身代理和绕过名单</td><td>同一请求出现在客户端日志中</td></tr>
+<tr><td>SOCKS 域名解析失败</td><td>区分本机解析与代理解析，确认节点和目标域名</td><td>解析完成后进入握手或目标响应阶段</td></tr>
+<tr><td>本机正常，容器或远程终端失败</td><td>请求进程所在机器与回环地址</td><td>使用该环境实际能到达的受控代理入口</td></tr>
+<tr><td>HTTP 有响应但证书失败</td><td>系统时间、目标名称和所需的可信证书链</td><td>保留证书校验并完成 TLS 验证</td></tr>
+</tbody></table></div>
+<h2 id="recover">结束终端代理测试与恢复原配置</h2>
+<p>显式 <code>--proxy</code> 只影响这次命令；子 shell 示例在结束时自然恢复。若此前手动写过启动文件，应只移除自己添加的条目，重新打开终端并检查，不要清空整个企业代理配置。关闭客户端之前先停止依赖它的测试请求，按客户端正常关闭系统代理或 TUN。</p>
+<p>需要对照“未指定应用代理”的请求时，可以使用 <code>curl --noproxy '*' --head https://example.com</code>；但开启 TUN 时，这个请求仍可能被系统路由接管，不能把它直接当作物理网络直连结果。最终验证应同时记录命令参数、接管方式和日志出站。</p>
+<section class="article-faq"><section class="article-faq" id="article-faq"><h2 id="article-faq-heading">终端代理常见问题</h2><details class="faq-entry"><summary><h3>设置了 https_proxy，为什么 curl 仍没有进入客户端？</h3></summary><div><p>先检查命令是否运行在预期机器上，再核对本地协议和端口，以及 <code>no_proxy</code> / <code>NO_PROXY</code> 是否匹配目标。用上方带 <code>--noproxy ""</code> 的显式请求做对照，并检查日志；其他工具仍需分别验证自己的代理规则。</p></div></details><details class="faq-entry"><summary><h3>socks5h 会让整台设备的 DNS 都经过代理吗？</h3></summary><div><p>不会。它指定的是这次 curl 请求的目标域名由 SOCKS 代理解析。系统、浏览器或其他进程可以继续走自己的 DNS，客户端解析远程节点地址的路径也需要单独核对。</p></div></details><details class="faq-entry"><summary><h3>关闭终端能恢复代理环境变量吗？</h3></summary><div><p>本文的子 shell 示例结束后不会改变父 shell。若你把 export 写进了启动文件，新终端仍会加载它；应恢复自己修改的条目，并保留原有企业代理与绕过名单。显式 <code>--proxy</code> 参数则只影响一次命令。</p></div></details></section></section>
+<h2 id="sources">curl 与 v2rayN 官方资料</h2>
+<ul class="source-list"><li><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl 手册：proxy、noproxy、SOCKS 与环境变量</a></li><li><a href="https://github.com/2dust/v2rayN/wiki/Faq" rel="noopener noreferrer" target="_blank">v2rayN Wiki：日志与本地代理相关说明</a></li><li><a href="https://xtls.github.io/config/log.html" rel="noopener noreferrer" target="_blank">Xray 日志配置：用请求记录检查流量</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-system-proxy.html">系统代理为何没有覆盖终端</a></li><li><a href="blog-v2ray-git-proxy.html">Git 的 HTTPS 与 SSH 代理</a></li><li><a href="blog-v2ray-dns.html">DNS 路径与解析失败</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

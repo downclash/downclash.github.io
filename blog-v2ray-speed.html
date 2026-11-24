@@ -1,218 +1,164 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2Ray 速度优化技巧：如何选择最快节点并提升连接速度 | V2Ray 下载站</title>
-  <meta name="description" content="分享 V2Ray 节点测速、线路选择、协议优化、DNS 配置等实用技巧，帮助你获得最佳的网络速度体验。包含 V2RayN/V2RayNG 客户端优化设置。">
-  <meta name="keywords" content="V2Ray加速, V2Ray速度优化, 代理提速, 节点选择, V2Ray测速, 代理速度慢, V2Ray优化设置, 代理加速">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blog-v2ray-speed.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://v2raydown.com/blog-v2ray-speed.html">
-  <meta property="og:title" content="V2Ray 速度优化技巧：如何选择最快节点并提升连接速度">
-  <meta property="og:description" content="分享 V2Ray 节点测速、线路选择、协议优化等实用技巧。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-04-12">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2Ray 速度优化技巧：如何选择最快节点并提升连接速度">
-  <meta name="twitter:description" content="分享 V2Ray 节点测速、线路选择、协议优化等实用技巧。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "V2Ray 速度优化技巧：如何选择最快节点并提升连接速度",
-    "description": "分享 V2Ray 节点测速、线路选择、协议优化等实用技巧。",
-    "author": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "publisher": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "datePublished": "2026-04-12",
-    "dateModified": "2026-04-12",
-    "mainEntityOfPage": "https://v2raydown.com/blog-v2ray-speed.html"
-  }
-  </script>
-</head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-rose-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN | V2Ray 下载站</title>
+<meta content="按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。" name="description"/>
+<meta content="V2Ray加速, V2Ray速度优化, 代理提速, 节点选择, V2Ray测速, 代理速度慢, V2Ray优化设置, 代理加速" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-speed.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
 
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <main class="pt-24 pb-20">
-    <article class="max-w-3xl mx-auto px-6">
-      <nav class="mb-8 flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">首页</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <a href="blogs.html" class="hover:text-blue-400 transition-colors">博客</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <span style="color: var(--text-muted);">优化技巧</span>
-      </nav>
-
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">优化技巧</span>
-      </div>
-
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6" style="color: var(--text-primary);">V2Ray 速度优化技巧：如何选择最快节点并提升连接速度</h1>
-
-      <div class="flex items-center gap-4 mb-12 text-sm" style="color: var(--text-dim);">
-        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> 2026-04-12</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 阅读约 7 分钟</span>
-      </div>
-
-      <div class="article-content">
-        <p>使用 V2Ray 时，速度是用户最关心的问题之一。代理速度受多种因素影响，包括节点质量、协议选择、网络环境等。本文将分享一系列实用的速度优化技巧，帮助你获得最佳的网络体验。</p>
-
-        <h2>一、选择合适的节点</h2>
-
-        <p>节点质量是影响速度的最关键因素。以下是选择节点的建议：</p>
-
-        <h3>延迟测试</h3>
-        <ul>
-          <li>使用客户端内置的测速功能，测试所有节点的延迟</li>
-          <li>延迟低于 100ms 的节点通常体验最好</li>
-          <li>延迟 100-200ms 的节点可以正常使用</li>
-          <li>延迟超过 300ms 的节点建议避免使用</li>
-        </ul>
-
-        <h3>线路选择</h3>
-        <ul>
-          <li><strong>BGP 线路：</strong>通常速度最快，但价格较高</li>
-          <li><strong>CN2 GIA：</strong>中国电信优质线路，稳定性和速度都很好</li>
-          <li><strong>CN2 GT：</strong>性价比较高的选择</li>
-          <li><strong>IPLC/IEPL：</strong>专线接入，不受国际出口影响，稳定性极佳</li>
-        </ul>
-
-        <h3>地理位置</h3>
-        <p>选择距离你较近的节点通常能获得更低的延迟。对于中国大陆用户，香港、日本、新加坡节点延迟最低；美国、欧洲节点延迟较高但带宽可能更大。</p>
-
-        <h2>二、协议优化</h2>
-
-        <p>不同协议在速度表现上有差异：</p>
-
-        <ul>
-          <li><strong>VLESS + Reality：</strong>零加密开销，速度最快</li>
-          <li><strong>Trojan：</strong>轻量级协议，速度优秀</li>
-          <li><strong>Shadowsocks AEAD：</strong>使用硬件加速的加密方式，速度快</li>
-          <li><strong>VMess + WS + TLS：</strong>多重封装，速度相对较慢</li>
-        </ul>
-
-        <p>如果你对速度要求较高，建议优先使用 VLESS 或 Trojan 协议。</p>
-
-        <h2>三、传输层优化</h2>
-
-        <h3>WebSocket vs TCP</h3>
-        <p>WebSocket 传输层可以利用 CDN 中转，在某些网络环境下速度更稳定。但如果不需要 CDN，直接 TCP 连接通常更快。</p>
-
-        <h3>mKCP 传输</h3>
-        <p>mKCP 基于 UDP，适合网络丢包严重的环境。它通过 FEC（前向纠错）技术弥补丢包，但会增加带宽消耗。</p>
-
-        <h3>HTTP/2</h3>
-        <p>HTTP/2 传输层支持多路复用，在高延迟环境下表现更好，可以减少连接建立的开销。</p>
-
-        <h2>四、客户端设置优化</h2>
-
-        <h3>V2RayN 优化</h3>
-        <ul>
-          <li>在「设置」→「V2RayN 设置」中，开启「启用本地 DNS」</li>
-          <li>将 DNS 设置为可靠的公共 DNS（如 8.8.8.8 或 1.1.1.1）</li>
-          <li>开启「启用速度显示」方便监控</li>
-        </ul>
-
-        <h3>V2RayNG 优化</h3>
-        <ul>
-          <li>在设置中开启「启用流量探测」</li>
-          <li>选择「绕过局域网及大陆地址」模式</li>
-          <li>开启「启用分应用代理」避免不必要的代理开销</li>
-        </ul>
-
-        <h2>五、DNS 优化</h2>
-
-        <p>DNS 解析速度直接影响网页加载速度：</p>
-
-        <ul>
-          <li>使用代理内置的 DNS 功能（如 V2Ray 的 freedom outbound 的 domainStrategy 设置为 "UseIP"）</li>
-          <li>配置远程 DNS 为快速的公共 DNS 服务</li>
-          <li>避免使用运营商默认的 DNS</li>
-        </ul>
-
-        <h2>六、网络环境优化</h2>
-
-        <h3>避开高峰期</h3>
-        <p>每天的 19:00-23:00 是网络使用高峰期，国际出口带宽紧张，代理速度会明显下降。如果可能，错峰使用可以获得更好的体验。</p>
-
-        <h3>使用有线连接</h3>
-        <p>Wi-Fi 连接可能存在信号干扰和不稳定因素。如果条件允许，使用有线网络连接可以获得更稳定的代理体验。</p>
-
-        <h3>关闭不必要的应用</h3>
-        <p>后台运行的应用可能占用带宽。关闭自动更新、云同步等功能可以释放更多带宽给代理使用。</p>
-
-        <h2>七、进阶技巧</h2>
-
-        <h3>多节点负载均衡</h3>
-        <p>V2Ray 支持配置多个出站节点，通过 balancer 实现负载均衡。当某个节点速度下降时，自动切换到其他节点。</p>
-
-        <h3>使用 Mux 多路复用</h3>
-        <p>V2Ray 的 Mux（多路复用）功能可以在一个 TCP 连接上承载多个并发请求，减少连接建立的开销，适合高延迟环境。</p>
-
-        <h2>总结</h2>
-
-        <p>V2Ray 速度优化是一个综合性的工作，需要从节点选择、协议配置、客户端设置等多个方面入手。最重要的还是选择一个高质量的代理服务商和合适的节点。在此基础上，通过本文介绍的优化技巧，你可以进一步提升代理的使用体验。</p>
-      </div>
-
-      <div class="mt-16 pt-8" style="border-top: 1px solid var(--border-primary);">
-        <h3 class="text-xl font-bold mb-6" style="color: var(--text-primary);">相关文章</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="blog-v2ray-protocols.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">协议解析</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 支持的协议详解</h4>
-          </a>
-          <a href="blog-v2rayn-guide.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">V2RayN</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayN 完整使用教程</h4>
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-      <a href="index.html" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">返回首页</a>
-    </div>
-  </footer>
-  <script src="assets/js/main.js"></script>
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-speed.html" property="og:url"/>
+<meta content="V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN | V2Ray 下载站" property="og:title"/>
+<meta content="按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-04-12" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN | V2Ray 下载站" name="twitter:title"/>
+<meta content="按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN",
+  "description": "按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "datePublished": "2026-04-12",
+  "dateModified": "2026-11-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-speed.html"
+  },
+  "inLanguage": "zh-CN",
+  "@id": "https://v2raydown.com/blog-v2ray-speed.html#article",
+  "url": "https://v2raydown.com/blog-v2ray-speed.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "articleSection": "概念与诊断"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "概念与诊断",
+      "item": "https://v2raydown.com/tutorials.html#learn-advanced-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN",
+      "item": "https://v2raydown.com/blog-v2ray-speed.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-advanced-guides">概念与诊断</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN</span></nav>
+<div class="content-hero page-heading"><p class="eyebrow">优化技巧</p><h1>V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN</h1><p class="article-lead">按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。</p><p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 8 分钟</p><p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div><div class="article-content">
+<p>“连接慢”和“连接不上”需要不同的检查。先确定问题发生在客户端启动、节点握手、DNS、流量接管，还是目标服务，再修改对应设置。以下步骤适用于 v2rayN、v2rayNG 等工具的日常排查；菜单名称会随版本变化，底层字段应以实际核心文档为准。</p>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#baseline">记录一组可复现的对照</a></li><li><a href="#symptoms">按症状定位问题层次</a></li><li><a href="#measure">延迟、带宽与线路选择</a></li><li><a href="#dns">DNS 与路由核对</a></li><li><a href="#capture">系统代理、TUN 与 VPN</a></li><li><a href="#rollback">修改与恢复</a></li><li><a href="#sources">资料来源与继续阅读</a></li></ul></nav>
+<h2 id="baseline">记录一组可复现的对照</h2>
+<ol><li>记下系统、客户端版本、当前核心及版本、节点、网络类型、代理模式和故障时间。</li><li>选一个需要验证的目标网站或应用，再选一个预期可直连的本地服务，保持测试对象一致。</li><li>先测试系统正常直连是否可用，再启用一个已导入的节点，记录实际加载结果和核心日志。</li><li>每次只改变一个条件，例如节点 A / B，或 Wi-Fi / 移动数据，重复相同请求。</li></ol>
+<p>不要同时更换节点、DNS、协议与 TUN 设置；否则即使恢复，也难以判断是哪项产生作用。测速可能消耗流量，应按需要测试少量候选节点。</p>
+<h2 id="symptoms">按症状定位问题层次</h2>
+<div aria-label="按症状定位问题层次，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>症状</th><th>可能层次</th><th>先检查</th><th>预期结果</th></tr></thead><tbody><tr><td>启动即退出，提示配置字段错误</td><td>配置 / 核心兼容性</td><td>记录首个错误，核对实际核心与字段版本要求</td><td>核心正常启动并监听本机端口</td></tr><tr><td>TCP 测试成功，实际连接失败</td><td>认证 / 安全 / 传输</td><td>UUID 或密码、SNI、REALITY 参数、路径、系统时间</td><td>完整握手后能访问同一目标</td></tr><tr><td>所有节点连接超时</td><td>本机网络 / 服务器路径</td><td>直连状态，换一个节点或网络作对照，查看目标地址和端口</td><td>区分单节点故障与网络共同问题</td></tr><tr><td>日志出现域名解析失败</td><td>DNS / 解析路径</td><td>解析的是节点域名还是目标域名，DNS 是否可达、是否依赖未建立的代理</td><td>该域名能解析，连接进入下一阶段</td></tr><tr><td>浏览器可用，其他应用不通</td><td>应用接入 / 分流</td><td>应用是否读取系统代理；TUN / VPN、分应用名单和日志是否包含该连接</td><td>应用请求进入核心并命中预期出站</td></tr><tr><td>局域网或公司内网无法访问</td><td>路由 / DNS 冲突</td><td>内网域名解析、私有网段路由，以及其他 VPN 的接管范围</td><td>所需内网目标按规则直连或走企业隧道</td></tr><tr><td>晚上变慢，稍后恢复</td><td>链路负载或节点负载</td><td>同一节点、目标和网络在不同时段的对照</td><td>得到可复现的时段差异，再决定切换节点</td></tr><tr><td>只有一个网站不可用</td><td>服务本身 / 规则 / 出口</td><td>网站状态、日志命中与其他节点对照</td><td>区分目标服务限制与整体代理故障</td></tr></tbody></table></div>
+<h2 id="measure">延迟、带宽与线路选择</h2>
+<p><strong>TCP 延迟</strong>主要反映服务器端口建立连接所需时间；<strong>客户端的实际连接测试</strong>会按其测试方式检查更多链路；<strong>文件下载速度</strong>反映指定目标、时段与连接方式下的吞吐。三者不能互相替代，某个节点延迟更低，也可能因拥塞而下载更慢。</p>
+<p>日常网页可比较首屏打开是否稳定；视频可比较持续播放与缓冲；远程桌面可比较交互延迟与抖动。保持相同设备、网络和目标，先测试两个可用节点，再按自己的实际任务选择。</p>
+<p>地区距离与线路名称可以作为筛选信息，但不能单独证明质量。BGP、CN2、专线等标签不能替代实际测量；更换客户端或把协议改成某个名称，也没有固定的提速百分比。协议与传输必须先兼容服务端。</p>
+<h2 id="dns">DNS 与路由核对</h2>
+<p>节点服务器本身需要解析、目标网站需要解析、规则也可能在匹配时触发解析。这些请求可能走不同路径。先从日志确认失败的是哪个域名，以及发往哪个 DNS，再判断是否需要调整。</p>
+<ul><li><strong>节点域名解析失败：</strong>检查建立代理前可使用的解析路径，避免解析服务器必须经由尚未建立的同一代理。</li><li><strong>目标域名解析失败：</strong>核对当前配置中的解析器、DNS 分流与出站路由；仅替换一个公共 DNS 地址不一定能修复可达性。</li><li><strong>内网域名异常：</strong>保留公司或本地网络需要的解析器与路由，不能让内网名称全部交给公网解析器。</li><li><strong>规则命中不符：</strong>核对规则顺序、最终出站，以及所用 GeoIP / Geosite 或规则集是否存在、是否适用于该核心。</li></ul>
+<p>V2Fly、Xray、sing-box 的 DNS 与路由字段并不相同。按<a href="docs.html">配置文档</a>查实际核心的语法，调整后重启相关连接，并重新运行同一测试。</p>
+<h2 id="capture">系统代理、TUN 与 VPN</h2>
+<h3>桌面端先确认应用有没有进入客户端</h3>
+<p>系统代理是给支持它的应用提供本机代理地址，并不保证终端、游戏或所有桌面程序自动使用。如果浏览器可用而某个应用没有任何连接日志，先检查该应用的代理配置；确需覆盖更多应用时，再按客户端说明启用 TUN。</p>
+<h3>TUN 开启后检查接管范围与冲突</h3>
+<p>TUN 涉及虚拟接口、系统路由和 DNS。若开启后连内网也失效，先关闭 TUN 作一次对照，并核对其他 VPN、虚拟机与容器网络。sing-box 文档明确提示自动路由需避免回环，部分严格路由设置也可能影响其他软件，因此不宜套用来源不明的整段配置。</p>
+<h3>Android 同时核对 VPN 权限与应用名单</h3>
+<p>确认 v2rayNG 已获系统 VPN 连接授权，再核对分应用代理是“只代理所选应用”还是“绕过所选应用”。若仅锁屏后停止，复现时观察 VPN 状态和进程是否仍在运行，再按设备系统设置允许所需的后台运行。</p>
+<p>只有大文件或某类 UDP 应用异常时，才进一步核对服务端 UDP 支持、路由与链路 MTU。修改 MTU 前记录原值，按项目建议逐项验证；不存在适用于所有网络的一组万能数值。</p>
+<h2 id="rollback">修改与恢复</h2>
+<p>每次保留原配置并写下一条记录：“改了什么、在哪个网络测试、哪个目标恢复、是否出现新的问题”。升级前备份自定义规则，升级后重新核对所用核心和默认行为。</p>
+<p>不用代理时，通过客户端清除系统代理并关闭 TUN / VPN 后再退出。如果异常退出导致直连也不可用，检查系统是否残留指向已停止本机端口的代理设置；恢复后再重新打开客户端。</p>
+<p class="notice">证书校验失败应核对时间、服务器名称、证书链和配置来源。不要把关闭证书校验当作提速或长期修复。提供诊断日志时隐藏订阅 token、UUID、密码和个人访问记录。</p>
+<h2 id="sources">资料来源与继续阅读</h2>
+<p>内容核对：2026-11-24。上文的对照流程是按故障层次整理的排查建议，具体配置字段请查对应核心。</p>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki" rel="noopener noreferrer" target="_blank">v2rayN 项目 Wiki</a>、<a href="https://github.com/2dust/v2rayNG/wiki" rel="noopener noreferrer" target="_blank">v2rayNG 项目 Wiki</a></li><li><a href="https://www.v2fly.org/config/dns.html" rel="noopener noreferrer" target="_blank">V2Fly：DNS</a>、<a href="https://www.v2fly.org/config/routing.html" rel="noopener noreferrer" target="_blank">路由</a>、<a href="https://www.v2fly.org/config/protocols/vmess.html" rel="noopener noreferrer" target="_blank">VMess 时间要求</a></li><li><a href="https://sing-box.sagernet.org/configuration/inbound/tun/" rel="noopener noreferrer" target="_blank">sing-box：TUN 路由与平台限制</a></li><li><a href="https://xtls.github.io/config/transport.html" rel="noopener noreferrer" target="_blank">Xray：传输与安全配置</a></li></ul>
+<p>继续阅读：<a href="tutorials.html">首次连接教程</a> · <a href="faq.html">常见问题</a> · <a href="clients.html">客户端与内核选择</a>。</p>
+</div>
+<section class="related-guides article-content"><h2>相关文章</h2><ul><li><a href="blog-v2ray-protocols.html">协议解析 · V2Ray 支持的协议详解</a></li><li><a href="blog-v2rayn-guide.html">V2RayN · V2RayN 完整使用教程</a></li></ul></section>
+<section class="related-guides article-content"><h2>按操作继续学习</h2><ul><li><a href="blog-v2ray-ports.html">检查本地监听端口</a></li><li><a href="blog-v2ray-logs.html">按错误读日志</a></li><li><a href="blog-v2ray-ipv6-udp.html">IPv6 与 UDP 排查</a></li></ul></section>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

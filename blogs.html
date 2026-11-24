@@ -1,278 +1,309 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2Ray 博客 - 使用教程、协议解析、速度优化 | V2Ray 下载站</title>
-  <meta name="description" content="V2Ray 技术博客，提供 V2RayN、V2RayNG、V2RayU 使用教程，VMess/VLESS/Trojan 协议解析，代理速度优化技巧等实用内容。">
-  <meta name="keywords" content="V2Ray教程, V2RayN教程, V2RayNG教程, V2RayU教程, 代理教程, V2Ray博客, 代理协议教程, V2Ray使用方法">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blogs.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://v2raydown.com/blogs.html">
-  <meta property="og:title" content="V2Ray 博客 - 使用教程、协议解析、速度优化">
-  <meta property="og:description" content="V2Ray 技术博客，提供 V2RayN、V2RayNG、V2RayU 使用教程，代理协议解析，速度优化技巧。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2Ray 博客 - 使用教程、协议解析、速度优化">
-  <meta name="twitter:description" content="V2Ray 技术博客，提供 V2RayN、V2RayNG、V2RayU 使用教程。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "V2Ray 使用教程与技术文章",
-    "description": "V2Ray 技术博客，提供 V2RayN、V2RayNG、V2RayU 使用教程，代理协议解析，速度优化技巧。",
-    "url": "https://v2raydown.com/blogs.html",
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "V2RayN 完整使用教程", "url": "https://v2raydown.com/blog-v2rayn-guide.html" },
-        { "@type": "ListItem", "position": 2, "name": "V2RayNG 安卓手机配置教程", "url": "https://v2raydown.com/blog-v2rayng-android.html" },
-        { "@type": "ListItem", "position": 3, "name": "V2RayU macOS 安装配置指南", "url": "https://v2raydown.com/blog-v2rayu-macos.html" },
-        { "@type": "ListItem", "position": 4, "name": "V2Ray vs Clash 详细对比", "url": "https://v2raydown.com/blog-v2ray-vs-clash.html" },
-        { "@type": "ListItem", "position": 5, "name": "V2Ray 支持的协议详解", "url": "https://v2raydown.com/blog-v2ray-protocols.html" },
-        { "@type": "ListItem", "position": 6, "name": "V2Ray 速度优化技巧", "url": "https://v2raydown.com/blog-v2ray-speed.html" }
-      ]
-    }
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 技术文章：专题配置与故障排查 | V2Ray 下载站</title>
+<meta content="分类查找 V2Ray 订阅、TUN、DNS、路由、Git、VS Code 和 Android 连接教程。输入关键词筛选具体问题，每篇包含操作、验证和项目资料。" name="description"/>
+<meta content="V2Ray教程, V2RayN教程, V2RayNG教程, V2RayU教程, 代理教程, V2Ray博客, 代理协议教程, V2Ray使用方法" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blogs.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="website" property="og:type"/>
+<meta content="https://v2raydown.com/blogs.html" property="og:url"/>
+<meta content="V2Ray 技术文章：专题配置与故障排查 | V2Ray 下载站" property="og:title"/>
+<meta content="分类查找 V2Ray 订阅、TUN、DNS、路由、Git、VS Code 和 Android 连接教程。输入关键词筛选具体问题，每篇包含操作、验证和项目资料。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 技术文章：专题配置与故障排查 | V2Ray 下载站" name="twitter:title"/>
+<meta content="分类查找 V2Ray 订阅、TUN、DNS、路由、Git、VS Code 和 Android 连接教程。输入关键词筛选具体问题，每篇包含操作、验证和项目资料。" name="twitter:description"/>
+
+
+
+
+
+
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "V2Ray 技术文章：专题配置与故障排查",
+  "url": "https://v2raydown.com/blogs.html",
+  "description": "分类查找 V2Ray 订阅、TUN、DNS、路由、Git、VS Code 和 Android 连接教程。输入关键词筛选具体问题，每篇包含操作、验证和项目资料。",
+  "inLanguage": "zh-CN",
+  "dateModified": "2026-11-24",
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": 30,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "v2rayN 使用教程：下载安装、订阅导入与系统代理 / TUN",
+        "url": "https://v2raydown.com/blog-v2rayn-guide.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置",
+        "url": "https://v2raydown.com/blog-v2rayng-android.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置",
+        "url": "https://v2raydown.com/blog-v2rayu-macos.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点",
+        "url": "https://v2raydown.com/blog-v2ray-subscription.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查",
+        "url": "https://v2raydown.com/blog-v2ray-subscription-errors.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML",
+        "url": "https://v2raydown.com/blog-v2ray-config-formats.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做",
+        "url": "https://v2raydown.com/blog-v2ray-backup-migrate.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "V2Ray 客户端安装失败：架构、运行时、签名与 Mac 提示怎么查",
+        "url": "https://v2raydown.com/blog-v2ray-install-errors.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "name": "V2Ray 客户端与内核升级：Xray、sing-box 版本兼容和回退检查",
+        "url": "https://v2raydown.com/blog-v2ray-core-update.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "name": "v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复",
+        "url": "https://v2raydown.com/blog-v2ray-system-proxy.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "name": "v2rayN TUN 模式教程：启用条件、权限、DNS 与路由排查",
+        "url": "https://v2raydown.com/blog-v2ray-tun.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "name": "V2Ray DNS 设置与排查：节点解析、DoH、内网域名与 TUN",
+        "url": "https://v2raydown.com/blog-v2ray-dns.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 13,
+        "name": "V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序",
+        "url": "https://v2raydown.com/blog-v2ray-routing.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 14,
+        "name": "v2rayN 局域网共享代理教程：监听地址、认证与设备验证",
+        "url": "https://v2raydown.com/blog-v2ray-lan-sharing.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 15,
+        "name": "v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查",
+        "url": "https://v2raydown.com/blog-v2ray-ports.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 16,
+        "name": "v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS",
+        "url": "https://v2raydown.com/blog-v2ray-terminal-proxy.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 17,
+        "name": "v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复",
+        "url": "https://v2raydown.com/blog-v2ray-git-proxy.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 18,
+        "name": "v2rayN 与 VS Code 代理：扩展、终端和远程环境怎么配",
+        "url": "https://v2raydown.com/blog-v2ray-vscode-proxy.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 19,
+        "name": "Linux 使用 v2rayN：安装包、桌面代理与 TUN 检查",
+        "url": "https://v2raydown.com/blog-v2ray-linux.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 20,
+        "name": "v2rayN 日志排查教程：从启动错误到可复现反馈",
+        "url": "https://v2raydown.com/blog-v2ray-logs.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 21,
+        "name": "v2rayN GeoIP / Geosite 更新与规则集错误排查",
+        "url": "https://v2raydown.com/blog-v2ray-geodata.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 22,
+        "name": "VLESS + REALITY 配置教程：导入节点、核对参数与连接验证",
+        "url": "https://v2raydown.com/blog-v2ray-vless-reality.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 23,
+        "name": "VMess 节点使用教程：分享链接、WebSocket、TLS 与时间校验",
+        "url": "https://v2raydown.com/blog-v2ray-vmess.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 24,
+        "name": "Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查",
+        "url": "https://v2raydown.com/blog-v2ray-trojan.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 25,
+        "name": "V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同",
+        "url": "https://v2raydown.com/blog-v2ray-ipv6-udp.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 26,
+        "name": "v2rayNG 分应用代理教程：常规、绕行与 VPN 名单怎么选",
+        "url": "https://v2raydown.com/blog-v2ray-android-app-routing.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 27,
+        "name": "v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换",
+        "url": "https://v2raydown.com/blog-v2ray-android-background.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 28,
+        "name": "V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性",
+        "url": "https://v2raydown.com/blog-v2ray-protocols.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 29,
+        "name": "V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比",
+        "url": "https://v2raydown.com/blog-v2ray-vs-clash.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 30,
+        "name": "V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN",
+        "url": "https://v2raydown.com/blog-v2ray-speed.html"
+      }
+    ]
   }
-  </script>
+}
+</script>
 </head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-blue-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<body class="site-page catalog-page">
 
-  <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#features" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">功能特性</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">客户端下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-        <a href="index.html#faq" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">常见问题</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-        <a href="index.html#download" class="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all">
-          <i data-lucide="download" class="w-3.5 h-3.5"></i> 下载
-        </a>
-        <button id="mobileMenuBtn" class="md:hidden" style="color: var(--text-muted);">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-      </div>
-    </div>
-    <div id="mobileMenu" class="hidden md:hidden backdrop-blur-xl border-t" style="background: var(--bg-primary); border-color: var(--border-primary);">
-      <div class="px-6 py-4 flex flex-col gap-3">
-        <a href="index.html#home" class="text-sm font-medium py-2" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#features" class="text-sm font-medium py-2" style="color: var(--text-muted);">功能特性</a>
-        <a href="index.html#download" class="text-sm font-medium py-2" style="color: var(--text-muted);">客户端下载</a>
-        <a href="blogs.html" class="text-sm font-medium py-2 text-blue-400">博客</a>
-        <a href="index.html#faq" class="text-sm font-medium py-2" style="color: var(--text-muted);">常见问题</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="pt-24 pb-20">
-    <div class="max-w-7xl mx-auto px-6">
-      <!-- Page header -->
-      <div class="mb-16">
-        <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">技术博客</p>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4" style="color: var(--text-primary);">V2Ray 使用教程与技术文章</h1>
-        <p class="max-w-2xl leading-relaxed" style="color: var(--text-muted);">涵盖 V2RayN、V2RayNG、V2RayU 的使用教程，代理协议解析，以及速度优化等实用技巧。</p>
-      </div>
-
-      <!-- Blog grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Blog 1 -->
-        <a href="blog-v2rayn-guide.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-blue-600/20 to-blue-400/5 flex items-center justify-center">
-            <i class="fa-brands fa-windows text-blue-400/40 text-7xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">V2RayN</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">Windows</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayN 完整使用教程：从下载到配置的详细指南</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">详细介绍 V2RayN 在 Windows 系统上的安装、订阅导入、节点选择和高级配置，适合新手入门。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-05-15
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Blog 2 -->
-        <a href="blog-v2rayng-android.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-emerald-600/20 to-emerald-400/5 flex items-center justify-center">
-            <i class="fa-brands fa-android text-emerald-400/40 text-7xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">V2RayNG</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Android</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayNG 安卓手机配置教程：扫码导入与 VPN 模式设置</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">手把手教你在 Android 手机上使用 V2RayNG，包含扫码导入订阅、分应用代理等实用技巧。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-05-10
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Blog 3 -->
-        <a href="blog-v2rayu-macos.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-cyan-600/20 to-cyan-400/5 flex items-center justify-center">
-            <i class="fa-brands fa-apple text-cyan-400/40 text-7xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">V2RayU</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20">macOS</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2RayU macOS 安装配置指南：菜单栏代理与 PAC 模式</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">macOS 用户必看的 V2RayU 使用教程，涵盖安装、订阅配置、PAC/全局模式切换及常见问题。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-05-05
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Blog 4 -->
-        <a href="blog-v2ray-vs-clash.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-purple-600/20 to-purple-400/5 flex items-center justify-center">
-            <i class="fa-solid fa-code-compare text-purple-400/40 text-6xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">对比评测</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray vs Clash 详细对比：哪个代理工具更适合你？</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">从协议支持、配置方式、性能表现、易用性等维度全面对比 V2Ray 和 Clash，帮你做出最佳选择。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-04-28
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Blog 5 -->
-        <a href="blog-v2ray-protocols.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-amber-600/20 to-amber-400/5 flex items-center justify-center">
-            <i class="fa-solid fa-shield-halved text-amber-400/40 text-6xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">协议解析</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">深入解析 V2Ray 支持的各种代理协议，包括 VMess、VLESS、Trojan、Shadowsocks 的特点和适用场景。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-04-20
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Blog 6 -->
-        <a href="blog-v2ray-speed.html" class="blog-card glass-card rounded-2xl overflow-hidden group">
-          <div class="h-44 bg-gradient-to-br from-rose-600/20 to-rose-400/5 flex items-center justify-center">
-            <i class="fa-solid fa-gauge-high text-rose-400/40 text-6xl group-hover:scale-110 transition-transform"></i>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">优化技巧</span>
-            </div>
-            <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 速度优化技巧：如何选择最快节点并提升连接速度</h2>
-            <p class="text-sm leading-relaxed line-clamp-3" style="color: var(--text-muted);">分享 V2Ray 节点测速、线路选择、协议优化等实用技巧，帮助你获得最佳的网络速度体验。</p>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-                <i data-lucide="calendar" class="w-3 h-3"></i> 2026-04-12
-              </div>
-              <span class="text-xs text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">阅读全文 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="md:col-span-2">
-          <div class="flex items-center gap-2.5 mb-4">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-            </div>
-            <span class="font-bold text-lg" style="color: var(--text-primary);">V2Ray</span>
-          </div>
-          <p class="text-sm leading-relaxed max-w-sm" style="color: var(--text-dim);">
-            V2Ray 是免费、开源的跨平台代理工具，支持多种协议和智能路由。为用户提供安全、高速的网络代理体验。
-          </p>
-        </div>
-        <div>
-          <h4 class="font-semibold text-sm mb-4" style="color: var(--text-primary);">客户端</h4>
-          <ul class="space-y-2.5">
-            <li><a href="https://github.com/2dust/v2rayN/releases" target="_blank" rel="noopener" class="text-sm transition-colors" style="color: var(--text-dim);">V2RayN (Windows)</a></li>
-            <li><a href="https://github.com/2dust/v2rayNG/releases" target="_blank" rel="noopener" class="text-sm transition-colors" style="color: var(--text-dim);">V2RayNG (Android)</a></li>
-            <li><a href="https://github.com/yanue/V2rayU/releases" target="_blank" rel="noopener" class="text-sm transition-colors" style="color: var(--text-dim);">V2RayU (macOS)</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold text-sm mb-4" style="color: var(--text-primary);">资源</h4>
-          <ul class="space-y-2.5">
-            <li><a href="https://www.v2fly.org/" target="_blank" rel="noopener" class="text-sm transition-colors" style="color: var(--text-dim);">V2Fly 官方文档</a></li>
-            <li><a href="https://github.com/v2fly/v2ray-core" target="_blank" rel="noopener" class="text-sm transition-colors" style="color: var(--text-dim);">GitHub 仓库</a></li>
-            <li><a href="blogs.html" class="text-sm transition-colors" style="color: var(--text-dim);">博客文章</a></li>
-            <li><a href="index.html#faq" class="text-sm transition-colors" style="color: var(--text-dim);">常见问题</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4" style="border-top: 1px solid var(--border-primary);">
-        <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-        <div class="flex items-center gap-4">
-          <a href="https://github.com/v2fly/v2ray-core" target="_blank" rel="noopener" class="transition-colors" style="color: var(--text-dim);"><i class="fa-brands fa-github"></i></a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
+<!-- Header -->
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="page-main" id="main-content"><div class="content-shell">
+<div class="content-hero page-heading"><p class="eyebrow">V2Ray / 教程文章</p><h1>V2Ray 教程与配置实践</h1><p class="article-lead">30 篇可按问题查阅的教程。先完成平台安装与订阅导入，再学习分流、开发工具和连接排查。</p><p class="article-meta">6 个分类 · 每篇附操作步骤、验证方法与项目资料 · 更新于 2026-11-24</p><div class="tutorial-entry-links"><a href="tutorials.html#quick-start">第一次使用？从连接步骤开始</a><a href="tutorials.html#topic-guides">按主题学习</a><a href="faq.html">按故障现象查找</a></div></div>
+<div class="tutorial-catalog" data-tutorial-catalog="">
+<div class="catalog-controls" data-catalog-controls="" hidden=""><label class="catalog-search-label" for="blog-search">搜索教程</label><div class="catalog-search-row"><input autocomplete="off" data-tutorial-search="" id="blog-search" placeholder="输入订阅、TUN、Git、REALITY 等关键词" type="search"/><button data-catalog-clear="" type="button">重置</button></div><div aria-label="按主题筛选" class="catalog-filters" role="group"><button aria-pressed="true" data-tutorial-filter="all" type="button">全部</button><button aria-pressed="false" data-tutorial-filter="platform-guides" type="button">平台入门</button><button aria-pressed="false" data-tutorial-filter="subscription" type="button">订阅与维护</button><button aria-pressed="false" data-tutorial-filter="network" type="button">代理与网络</button><button aria-pressed="false" data-tutorial-filter="developer" type="button">开发与排查</button><button aria-pressed="false" data-tutorial-filter="protocol-mobile" type="button">协议与移动端</button><button aria-pressed="false" data-tutorial-filter="advanced-guides" type="button">概念与诊断</button></div></div><p aria-live="polite" class="catalog-status" data-catalog-status="" role="status">共 30 篇教程</p>
+<section class="catalog-group" data-tutorial-group="" id="platform-guides"><div class="catalog-group-heading"><h2>平台入门</h2><span>3 篇 · 按设备完成第一次连接</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="platform-guides" data-search="v2rayN 使用教程：下载安装、订阅导入与系统代理 / TUN 按 Windows、macOS、Linux 选择 v2rayN 安装包，区分订阅与节点链接，完成活动节点、系统代理和 TUN 设置，并按日志排查连接问题。 平台入门 选择安装包与启动 导入订阅或单个节点 选择节点与代理模式 验证连接与正确退出 按现象排查 项目来源与适用范围" data-tutorial-card="" href="blog-v2rayn-guide.html"><h3>v2rayN 使用教程：下载安装、订阅导入与系统代理 / TUN</h3><p>按 Windows、macOS、Linux 选择 v2rayN 安装包，区分订阅与节点链接，完成活动节点、系统代理和 TUN 设置，并按日志排查连接问题。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="platform-guides" data-search="v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置 在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。 平台入门 选择并安装 APK 订阅 URL、分享链接与二维码如何导入 选择节点、允许 VPN 并验证连接 分应用代理与后台运行 按现象排查与恢复 项目来源与适用范围" data-tutorial-card="" href="blog-v2rayng-android.html"><h3>v2rayNG 安卓使用教程：订阅、扫码导入与 VPN 设置</h3><p>在 Android 上选择 v2rayNG APK、导入订阅或节点二维码、允许 VPN 连接并设置分应用代理，附订阅为空、后台断开和连接失败的排查表。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="platform-guides" data-search="V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置 为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。 平台入门 选择安装包并首次启动 导入订阅与单个节点 分清系统代理、路由与 TUN 验证浏览器、终端与退出后的网络 按现象排查 项目来源与适用范围" data-tutorial-card="" href="blog-v2rayu-macos.html"><h3>V2rayU macOS 使用教程：订阅导入、路由与 TUN 设置</h3><p>为 Intel 与 Apple Silicon Mac 选择 V2rayU，完成订阅和节点导入，区分系统代理、路由与 TUN，并排查终端不走代理、休眠后断网等问题。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<section class="catalog-group" data-tutorial-group="" id="blog-subscription"><div class="catalog-group-heading"><h2>订阅与维护</h2><span>6 篇 · 导入、格式、升级与换机</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点 V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。 添加订阅;导入节点;订阅分组 订阅与维护 V2Ray 订阅怎么导入？ V2Ray 订阅链接和节点链接怎么区分？ 在 v2rayN 添加订阅并更新 v2rayNG 与 V2rayU 的订阅导入步骤 订阅导入后，怎样确认节点和连接正常？ 日常更新时保留手动配置与旧连接 导入时最常见的四种现象 恢复与反馈：只保留必要的诊断信息 V2Ray 订阅导入常见问题 官方资料与适用边界 继续阅读" data-tutorial-card="" href="blog-v2ray-subscription.html"><h3>V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点</h3><p>V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查 V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。 订阅导入失败;订阅超时;节点为空 订阅与维护 V2Ray 订阅更新失败，先查哪一步？ 订阅更新失败后，先保留可用节点 V2Ray 订阅 401、403、429 分别怎么处理？ 没有 HTTP 状态码时，先查请求路径 HTTP 200 仍可能不是有效订阅 订阅更新成功但节点为空，怎么检查？ 什么情况需要配置提供方处理？ 结束测试与恢复原设置 V2Ray 订阅更新失败常见问题 官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-subscription-errors.html"><h3>V2Ray 订阅更新失败：401、403、超时与节点为空怎么排查</h3><p>V2Ray 订阅更新失败时，先区分 HTTP 401、403、429、连接超时和配置解析错误。对照返回状态、更新路径与节点列表检查，保留可用配置，判断何时需要联系订阅提供方。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。 Base64 订阅;核心 JSON;Clash YAML 订阅与维护 V2Ray 订阅、分享链接和 JSON 有什么区别？ V2Ray 配置格式对照：URL、URI、Base64 与完整配置 节点分享链接携带哪些参数？ Base64 是编码，不是加密或兼容性保证 Xray JSON、sing-box JSON 与客户端内部格式怎么区分？ 导入 Clash YAML 时，哪些内容需要重新验证？ V2Ray 配置无法导入时，按错误选择处理方式 转换、迁移与恢复的最小范围 V2Ray 配置格式常见问题 官方格式资料 继续阅读" data-tutorial-card="" href="blog-v2ray-config-formats.html"><h3>V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML</h3><p>V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做 V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。 换机迁移;恢复配置;升级回退 订阅与维护 V2Ray 配置怎么备份和迁移？ V2Ray 备份应保存哪些配置？ v2rayN、v2rayNG 与 V2rayU 如何生成备份？ 换电脑或手机后，怎样恢复 V2Ray 配置？ 更换客户端时，不直接覆盖数据目录 V2Ray 升级失败时，如何使用备份回退？ 恢复后异常，按现象检查缺少哪一层 验收备份与处理旧设备 V2Ray 备份与迁移常见问题 官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-backup-migrate.html"><h3>V2Ray 配置备份与迁移：换电脑、换手机和升级回退怎么做</h3><p>V2Ray 配置备份不仅是保存订阅，还要保留手动节点、路由、DNS 和客户端版本。按备份清单完成换机恢复，分别验证节点与分流，了解跨客户端迁移和升级回退的限制。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 客户端安装失败：架构、运行时、签名与 Mac 提示怎么查 V2Ray 客户端安装失败或无法打开时，先核对系统、CPU 架构、安装包来源和对应版本要求。分别检查 Windows 运行时、Mac 安装提示与 Android 签名冲突，避免误删已有配置。 无法打开;运行时缺失;签名冲突 订阅与维护 V2Ray 客户端安装失败，先检查什么？ V2Ray 安装失败：先区分下载、界面和核心错误 v2rayN 安装包的 x64、ARM64 与 desktop 怎么选？ 先校验文件，区分哈希与发布者身份 Windows 与 Linux：处理依赖和文件权限 Mac 提示开发者、损坏或无法检查时怎么办？ v2rayNG APK 安装冲突和签名不一致怎么处理？ 安装后的验收与恢复 V2Ray 客户端安装常见问题 官方安装与安全资料 继续阅读" data-tutorial-card="" href="blog-v2ray-install-errors.html"><h3>V2Ray 客户端安装失败：架构、运行时、签名与 Mac 提示怎么查</h3><p>V2Ray 客户端安装失败或无法打开时，先核对系统、CPU 架构、安装包来源和对应版本要求。分别检查 Windows 运行时、Mac 安装提示与 Android 签名冲突，避免误删已有配置。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="subscription" data-search="V2Ray 客户端与内核升级：Xray、sing-box 版本兼容和回退检查 V2Ray 客户端与内核升级需要分别确认 GUI、Xray 或 sing-box 的版本。按备份、核对发布说明、更新与请求验证的顺序操作，处理 unknown field、资源文件和升级后连接异常。 Xray 更新;sing-box 更新;unknown field 订阅与维护 v2rayN 内核怎么更新？ V2Ray 更新包含客户端、内核、规则与订阅哪些对象？ 客户端支持某内核，不代表任意版本都兼容 更新 Xray 或 sing-box 前，如何备份并记录版本？ v2rayN 内核更新：使用客户端支持的路径 从最小配置开始，分四次验收 Xray、sing-box 升级后报错怎么定位？ 回退时恢复对应配置，而不是只换旧文件 V2Ray 客户端与内核更新常见问题 官方版本与迁移资料 继续阅读" data-tutorial-card="" href="blog-v2ray-core-update.html"><h3>V2Ray 客户端与内核升级：Xray、sing-box 版本兼容和回退检查</h3><p>V2Ray 客户端与内核升级需要分别确认 GUI、Xray 或 sing-box 的版本。按备份、核对发布说明、更新与请求验证的顺序操作，处理 unknown field、资源文件和升级后连接异常。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<section class="catalog-group" data-tutorial-group="" id="blog-network"><div class="catalog-group-heading"><h2>代理与网络</h2><span>6 篇 · 先接入流量，再验证 DNS 与路由</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="network" data-search="v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复 v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。 PAC;系统代理不生效;退出后断网 代理与网络 v2rayN 系统代理怎么设置才会生效？ v2rayN 系统代理、PAC 和路由有什么区别？ Windows、macOS 如何启用并核对系统代理？ 用 curl 判断是系统代理还是本地入口的问题 v2rayN 系统代理不生效的排查表 v2rayN 退出后断网怎么恢复？ v2rayN 系统代理常见问题 系统代理设置的官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-system-proxy.html"><h3>v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复</h3><p>v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="network" data-search="v2rayN TUN 模式教程：启用条件、权限、DNS 与路由排查 v2rayN TUN 模式适合需要接管更多应用流量的场景。先验证节点，再按版本启用权限与虚拟接口，检查 DNS、路由和其他 VPN 冲突；开启后断网时按对照步骤恢复。 TUN 开启;虚拟网卡;TUN 断网 代理与网络 v2rayN TUN 模式应该怎样开启和排查？ v2rayN 开启 TUN 前需要满足什么条件？ v2rayN TUN 权限与启动步骤 TUN 路由回环与内网冲突怎么检查？ TUN 开启后怎样验证接管与内网？ v2rayN TUN 不能联网的排查表 关闭 TUN 并恢复可用连接 v2rayN TUN 模式常见问题 TUN 配置与迁移的官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-tun.html"><h3>v2rayN TUN 模式教程：启用条件、权限、DNS 与路由排查</h3><p>v2rayN TUN 模式适合需要接管更多应用流量的场景。先验证节点，再按版本启用权限与虚拟接口，检查 DNS、路由和其他 VPN 冲突；开启后断网时按对照步骤恢复。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="network" data-search="V2Ray DNS 设置与排查：节点解析、DoH、内网域名与 TUN V2Ray DNS 设置要区分节点域名、目标域名与应用自身解析。按 Xray 和 sing-box 的实际版本检查 DNS 出口、DoH、引导依赖和内网域名，用相同请求验证每次修改。 DNS 解析失败;DoH;内网域名 代理与网络 V2Ray DNS 解析失败，先检查什么？ V2Ray DNS 的系统、节点与目标解析路径 DNS 报错时需要记录哪些信息？ 节点域名和 DoH 上游解析回环怎么处理？ DoH、IPv4/IPv6 与 DNS 分流如何核对？ V2Ray DNS 解析失败的现象对照表 修改 DNS 后怎样验证和恢复？ V2Ray DNS 设置常见问题 V2Ray DNS 与核心迁移资料 继续阅读" data-tutorial-card="" href="blog-v2ray-dns.html"><h3>V2Ray DNS 设置与排查：节点解析、DoH、内网域名与 TUN</h3><p>V2Ray DNS 设置要区分节点域名、目标域名与应用自身解析。按 Xray 和 sing-box 的实际版本检查 DNS 出口、DoH、引导依赖和内网域名，用相同请求验证每次修改。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="network" data-search="V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序 V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。 路由规则;GeoData;出站顺序 代理与网络 V2Ray 规则分流不生效，怎样定位？ V2Ray 分流中的入站、规则和出站是什么？ 域名、IP、GeoIP 与 Geosite 规则怎么匹配？ Xray routing 规则结构示例 v2rayN 自定义路由的修改与验证步骤 V2Ray 分流规则不生效的排查表 路由修改失败后怎样恢复？ V2Ray 规则分流常见问题 Xray 与 sing-box 路由的官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-routing.html"><h3>V2Ray 规则分流教程：域名、IP、GeoData 与出站顺序</h3><p>V2Ray 规则分流通过域名、IP 和 GeoData 匹配出站。结合 v2rayN 设置与 Xray 路由片段理解规则顺序、出站标签和默认行为，并用新连接验证直连、代理与拒绝结果。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="network" data-search="v2rayN 局域网共享代理教程：监听地址、认证与设备验证 v2rayN 局域网共享代理需要匹配监听地址、端口、认证与防火墙范围。按同一可信网络中的电脑和手机逐项验证，区分 HTTP 与 SOCKS 入口，并在测试后恢复本机监听。 允许局域网;共享代理;手机代理 代理与网络 v2rayN 怎样向局域网设备共享代理？ v2rayN 局域网共享前需要准备什么？ 局域网代理应该填写哪个 IP 地址？ 配置 v2rayN LAN 监听、认证与防火墙 手机和其他电脑怎样填写 HTTP 或 SOCKS 代理？ 局域网共享怎样验证访问权限？ v2rayN 局域网共享连不上的排查表 关闭局域网共享并恢复回环监听 v2rayN 局域网共享常见问题 局域网代理监听与认证的官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-lan-sharing.html"><h3>v2rayN 局域网共享代理教程：监听地址、认证与设备验证</h3><p>v2rayN 局域网共享代理需要匹配监听地址、端口、认证与防火墙范围。按同一可信网络中的电脑和手机逐项验证，区分 HTTP 与 SOCKS 入口，并在测试后恢复本机监听。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="network" data-search="v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查 v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。 HTTP 端口;SOCKS 端口;端口占用 代理与网络 v2rayN 本地端口在哪里查，冲突时怎么办？ v2rayN 本地 HTTP、SOCKS 和混合端口在哪里看？ Windows、macOS、Linux 如何查询端口占用？ 端口未监听、代理协议错误和节点故障怎么区分？ 用 curl 验证 HTTP 与 SOCKS 本地端口 v2rayN 端口占用的处理步骤 本地代理端口故障对照表 端口修改后怎样恢复代理设置？ v2rayN 本地端口常见问题 端口查询命令与代理协议资料 继续阅读" data-tutorial-card="" href="blog-v2ray-ports.html"><h3>v2rayN 本地端口怎么查：HTTP、SOCKS 与端口占用排查</h3><p>v2rayN 本地端口应从当前配置查询，不能套用固定数字。按 HTTP、SOCKS 或混合入口核对应用设置，用 Windows、macOS、Linux 只读命令定位占用，再验证新端口。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<section class="catalog-group" data-tutorial-group="" id="blog-developer"><div class="catalog-group-heading"><h2>开发与排查</h2><span>6 篇 · 确认请求发生在哪台主机、哪个进程</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="developer" data-search="v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。 curl 代理;环境变量;socks5h 开发与排查 v2rayN 终端代理怎么设置？ 确认 v2rayN 的 HTTP / SOCKS 监听端口 用 curl 验证终端 HTTP 代理 socks5 与 socks5h 的 DNS 解析有何区别？ 在 Bash / Zsh 中临时设置代理环境变量 curl 连接失败：按错误定位 结束终端代理测试与恢复原配置 终端代理常见问题 curl 与 v2rayN 官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-terminal-proxy.html"><h3>v2rayN 终端代理教程：curl、环境变量与 SOCKS DNS</h3><p>v2rayN 终端代理可先用 curl 显式参数验证，再为指定进程设置临时环境变量。区分 HTTP、socks5 与 socks5h，排除 NO_PROXY 干扰，并核对 SSH、WSL 和容器中的请求位置。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="developer" data-search="v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复 v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。 Git HTTPS 代理;Git SSH;git config 开发与排查 Git 如何使用 v2rayN 的代理？ 确认 Git 远程地址使用 HTTPS 还是 SSH 用一次性 Git 代理参数测试 HTTPS 仓库 仅给当前 Git 仓库设置代理 SSH 仓库为什么不受 http.proxy 影响？ 错误提示对应的检查 清除新增代理或恢复仓库原设置 Git 代理常见问题 Git 与 curl 官方文档 继续阅读" data-tutorial-card="" href="blog-v2ray-git-proxy.html"><h3>v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复</h3><p>v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="developer" data-search="v2rayN 与 VS Code 代理：扩展、终端和远程环境怎么配 v2rayN 与 VS Code 代理需区分编辑器、扩展宿主、集成终端和远程环境。按请求所在机器检查系统代理、HTTP Proxy 与工具配置，用实际功能复测，避免把回环地址指向错误环境。 VS Code http.proxy;扩展代理;Remote SSH 开发与排查 VS Code 代理失效先查哪一项？ VS Code 哪个进程发起网络请求？ 验证 VS Code 本地编辑器的网络 配置 HTTP Proxy 与设置作用域 单独验证集成终端代理 Remote SSH、WSL 与容器代理的地址选择 验证原来失败的功能 VS Code 代理常见问题 VS Code 官方网络与设置文档 继续阅读" data-tutorial-card="" href="blog-v2ray-vscode-proxy.html"><h3>v2rayN 与 VS Code 代理：扩展、终端和远程环境怎么配</h3><p>v2rayN 与 VS Code 代理需区分编辑器、扩展宿主、集成终端和远程环境。按请求所在机器检查系统代理、HTTP Proxy 与工具配置，用实际功能复测，避免把回环地址指向错误环境。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="developer" data-search="Linux 使用 v2rayN：安装包、桌面代理与 TUN 检查 Linux 使用 v2rayN 时，先按发行版和架构选择 DEB、RPM 或 ZIP，再检查核心启动、订阅与实际端口。分别验证桌面系统代理和终端请求，区分 TUN、桌面自启动与独立核心服务。 v2rayN Linux 安装;DEB;Linux 系统代理 开发与排查 Linux 怎样安装并验证 v2rayN？ 核对 Linux 发行版与 CPU 架构 Linux 安装包如何选择：DEB、RPM 或 ZIP 启动核心后导入订阅与节点 分别验证 Linux 桌面系统代理与终端 需要更多应用接入时配置 TUN 区分桌面自启动与核心 systemd 服务 Linux v2rayN 启动与连接问题 Linux 使用常见问题 v2rayN Linux 官方资料 继续阅读" data-tutorial-card="" href="blog-v2ray-linux.html"><h3>Linux 使用 v2rayN：安装包、桌面代理与 TUN 检查</h3><p>Linux 使用 v2rayN 时，先按发行版和架构选择 DEB、RPM 或 ZIP，再检查核心启动、订阅与实际端口。分别验证桌面系统代理和终端请求，区分 TUN、桌面自启动与独立核心服务。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="developer" data-search="v2rayN 日志排查教程：从启动错误到可复现反馈 v2rayN 日志排查应分清客户端与核心记录。按启动、端口、DNS、握手和目标响应定位首个错误，保留必要上下文；参考脱敏清单和反馈模板，复现后恢复原日志级别。 guiLogs;核心日志;日志脱敏 开发与排查 v2rayN 运行 Core 失败怎么定位？ 找到 v2rayN 客户端与核心日志 按一次失败收集必要日志 按日志顺序找到第一处异常 用连接记录检查请求与出站 分享 v2rayN 日志前如何脱敏？ 问题反馈需要哪些信息？ 排查后恢复日志级别与原设置 日志排查常见问题 v2rayN 与核心官方日志文档 继续阅读" data-tutorial-card="" href="blog-v2ray-logs.html"><h3>v2rayN 日志排查教程：从启动错误到可复现反馈</h3><p>v2rayN 日志排查应分清客户端与核心记录。按启动、端口、DNS、握手和目标响应定位首个错误，保留必要上下文；参考脱敏清单和反馈模板，复现后恢复原日志级别。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="developer" data-search="v2rayN GeoIP / Geosite 更新与规则集错误排查 v2rayN GeoIP、Geosite 更新后报错时，先确认实际内核、资源路径和分类名称。对照 Xray DAT 与 sing-box rule-set 的区别，检查格式、标签和下载依赖，验证失败时恢复配套文件。 Geosite 更新;规则集报错;sing-box rule-set 开发与排查 GeoIP、Geosite 更新失败先检查什么？ Xray DAT 与 sing-box SRS 有什么区别？ 更新 GeoIP / Geosite 前记录什么？ Geosite 文件存在，为何分类仍不存在？ 检查 sing-box 规则集标签与引用 区分 Geo 数据路径、格式与内容错误 验证新规则命中，并准备恢复 GeoIP、Geosite 与规则集常见问题 Geo 数据与规则集官方文档 继续阅读" data-tutorial-card="" href="blog-v2ray-geodata.html"><h3>v2rayN GeoIP / Geosite 更新与规则集错误排查</h3><p>v2rayN GeoIP、Geosite 更新后报错时，先确认实际内核、资源路径和分类名称。对照 Xray DAT 与 sing-box rule-set 的区别，检查格式、标签和下载依赖，验证失败时恢复配套文件。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<section class="catalog-group" data-tutorial-group="" id="blog-protocol-mobile"><div class="catalog-group-heading"><h2>协议与移动端</h2><span>6 篇 · 按参数、应用和网络类型核对连接</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="protocol-mobile" data-search="VLESS + REALITY 配置教程：导入节点、核对参数与连接验证 VLESS + REALITY 配置需匹配 UUID、flow、SNI、客户端凭据与 short ID。导入后按客户端和实际内核逐项核对，区分字段名版本差异，用真实请求定位握手失败。 REALITY 公钥;short ID;VLESS flow 协议与移动端 VLESS + REALITY 怎么配置？ VLESS + REALITY 需要什么内核与传输？ VLESS + REALITY 节点参数：四组信息怎么核对 在 v2rayN / v2rayNG 导入并核对 VLESS 节点 如何确认 REALITY 节点已经实际连接 REALITY 握手失败与未知字段怎样排查 修正 VLESS 参数后如何恢复与反馈 VLESS + REALITY常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-vless-reality.html"><h3>VLESS + REALITY 配置教程：导入节点、核对参数与连接验证</h3><p>VLESS + REALITY 配置需匹配 UUID、flow、SNI、客户端凭据与 short ID。导入后按客户端和实际内核逐项核对，区分字段名版本差异，用真实请求定位握手失败。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="protocol-mobile" data-search="VMess 节点使用教程：分享链接、WebSocket、TLS 与时间校验 VMess 节点导入后，需要核对 UUID、加密设置、WebSocket 路径、Host 和 TLS 参数。按配置来源与核心版本保留 AEAD 要求，检查系统时间，并用日志区分认证、传输和目标服务错误。 VMess 导入;WebSocket TLS;VMess AEAD 协议与移动端 VMess 节点怎么导入并连接？ VMess 导入前需要哪些配置与版本信息？ VMess、WebSocket 与 TLS 参数怎么区分 在 v2rayN / v2rayNG 导入 VMess 并选择节点 VMess 认证失败：检查系统时间与 AEAD 如何验证 VMess 节点和实际应用都已连接 VMess 参数修改后如何回退与保留记录 VMess 节点常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-vmess.html"><h3>VMess 节点使用教程：分享链接、WebSocket、TLS 与时间校验</h3><p>VMess 节点导入后，需要核对 UUID、加密设置、WebSocket 路径、Host 和 TLS 参数。按配置来源与核心版本保留 AEAD 要求，检查系统时间，并用日志区分认证、传输和目标服务错误。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="protocol-mobile" data-search="Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查 Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。 Trojan TLS;Trojan SNI;Trojan 连接失败 协议与移动端 Trojan 节点怎么配置并验证？ Trojan 节点需要核对哪个客户端与内核？ Trojan 密码、TLS 与 SNI 怎么填写 Trojan 订阅导入与第一次连接步骤 Trojan 证书验证失败时先修正什么 Trojan 连不上：按错误阶段检查 Trojan 配置修改后的对照与恢复 Trojan 节点常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-trojan.html"><h3>Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查</h3><p>Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="protocol-mobile" data-search="V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同 V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。 IPv6 连接;UDP 游戏;QUIC 协议与移动端 V2Ray IPv6 与 UDP 异常，先检查什么？ IPv6 或 UDP 排查前要记录什么？ IPv6 连接检查：本机、代理与远端分别验证 V2Ray UDP 不通：沿入口到目标检查 IPv6 与 UDP 常见症状对照表 IPv6 与 UDP 设置修改后怎样验证与回退 IPv6 与 UDP常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-ipv6-udp.html"><h3>V2Ray IPv6 与 UDP 排查：网页、语音和游戏为何表现不同</h3><p>V2Ray IPv6 与 UDP 问题应分别验证地址族、流量入口和服务端支持。用明确的 IPv4、IPv6 对照定位网络差异，再检查 UDP 应用、路由与节点能力，避免用 TCP 测试替代 UDP 验证。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="protocol-mobile" data-search="v2rayNG 分应用代理教程：常规、绕行与 VPN 名单怎么选 v2rayNG 分应用代理需要看清常规与绕行模式。按两款测试应用设置名单，重建 VPN 后分别验证接管与出站，检查系统阻止非 VPN 连接、工作资料和应用分身带来的差异。 仅代理指定 App;绕行模式;VPN 名单 协议与移动端 v2rayNG 分应用代理：常规还是绕行？ v2rayNG 分应用名单与核心路由有何区别？ 常规与绕行模式：勾选应用后分别怎么走 v2rayNG 分应用代理的设置与重连步骤 怎样验证应用进入 VPN 及最终出站 分应用代理未生效与应用断网怎样检查 如何恢复 v2rayNG 应用名单 v2rayNG 分应用代理常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-android-app-routing.html"><h3>v2rayNG 分应用代理教程：常规、绕行与 VPN 名单怎么选</h3><p>v2rayNG 分应用代理需要看清常规与绕行模式。按两款测试应用设置名单，重建 VPN 后分别验证接管与出站，检查系统阻止非 VPN 连接、工作资料和应用分身带来的差异。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="protocol-mobile" data-search="v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换 v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。 后台掉线;电池优化;Android VPN 协议与移动端 v2rayNG 锁屏断线，先检查哪一层？ v2rayNG 锁屏断线：怎样建立对照记录 锁屏后先检查 VPN、节点与目标应用 后台运行与电池优化应该怎样调整 Wi-Fi 切换移动网络后断线怎么区分 始终开启 VPN 为什么不等于远端一直可用 v2rayNG 后台断线后的恢复与反馈 v2rayNG 后台与锁屏常见问题 官方依据 继续阅读" data-tutorial-card="" href="blog-v2ray-android-background.html"><h3>v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换</h3><p>v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<section class="catalog-group" data-tutorial-group="" id="advanced-guides"><div class="catalog-group-heading"><h2>概念与诊断</h2><span>3 篇 · 理解内核差异与完整排查顺序</span></div><div class="catalog-card-grid">
+<a class="catalog-card" data-category="advanced-guides" data-search="V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性 区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。 概念与诊断 先区分协议、传输与安全层 六类常见代理协议怎样识别 按内核检查兼容性 导入后核对哪些参数 按报错定位配置问题 资料来源与继续阅读" data-tutorial-card="" href="blog-v2ray-protocols.html"><h3>V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性</h3><p>区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="advanced-guides" data-search="V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比 对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。 概念与诊断 厘清内核与客户端 两种常见使用方式 订阅、分流与接管方式对比 按现有条件选择 更换客户端前检查 资料来源与继续阅读" data-tutorial-card="" href="blog-v2ray-vs-clash.html"><h3>V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比</h3><p>对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。</p><small>更新于 2026-11-24</small></a>
+<a class="catalog-card" data-category="advanced-guides" data-search="V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN 按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。 概念与诊断 记录一组可复现的对照 按症状定位问题层次 延迟、带宽与线路选择 DNS 与路由核对 系统代理、TUN 与 VPN 修改与恢复 资料来源与继续阅读" data-tutorial-card="" href="blog-v2ray-speed.html"><h3>V2Ray 连接与速度排查：节点、DNS、系统代理和 TUN</h3><p>按节点、认证、DNS、路由和流量接管逐层排查 v2rayN、v2rayNG 的连接与速度问题，区分延迟与带宽，并用可复现检查验证每次设置修改。</p><small>更新于 2026-11-24</small></a>
+</div></section>
+<p class="catalog-empty" data-catalog-empty="" hidden="">没有找到匹配的教程。可缩短关键词，或点击“重置”查看全部文章。</p></div>
+</div></main>
+<!-- Footer -->
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

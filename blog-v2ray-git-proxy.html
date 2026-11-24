@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayN 配置 Git 代理：HTTPS、SSH 与恢复 | V2Ray 下载站</title>
+<meta content="v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-git-proxy.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-git-proxy.html" property="og:url"/>
+<meta content="v2rayN 配置 Git 代理：HTTPS、SSH 与恢复" property="og:title"/>
+<meta content="v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayN 配置 Git 代理：HTTPS、SSH 与恢复" name="twitter:title"/>
+<meta content="v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复",
+  "description": "v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。",
+  "url": "https://v2raydown.com/blog-v2ray-git-proxy.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-git-proxy.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "开发与排查",
+  "@id": "https://v2raydown.com/blog-v2ray-git-proxy.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "v2rayN 配置 Git 代理",
+    "Git HTTPS 代理",
+    "Git SSH",
+    "git config"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "开发与排查",
+      "item": "https://v2raydown.com/tutorials.html#learn-developer"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复",
+      "item": "https://v2raydown.com/blog-v2ray-git-proxy.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-developer">开发与排查</a><span aria-hidden="true">/</span><span aria-current="page">v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">开发与排查</p>
+<h1>v2rayN 配置 Git 代理：HTTPS、SSH 与安全恢复</h1>
+<p class="article-lead">v2rayN 配置 Git 代理应先确认 HTTPS 或 SSH 远程地址。用单次命令测试 HTTP 代理，再按仓库范围保存设置；核对 URL 匹配、认证和绕过变量，并保留可恢复的原配置。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">Git 如何使用 v2rayN 的代理？</h2><p>HTTPS 仓库先用一次性 <code>git -c</code> 指定 v2rayN 的实际 HTTP 端口，验证能读取远程引用，再决定是否写入仓库配置。SSH 地址不读取 Git 的 <code>http.proxy</code>，需要另查 SSH 连接路径。</p><ol><li>确认远程地址是 HTTPS 还是 SSH。</li><li>对 HTTPS 做一次读取测试，并在客户端日志确认请求确实进入代理。</li><li>需要持久配置时先记录原值，再使用 <code>--local</code> 限定到当前仓库；退出客户端后按记录恢复。</li></ol><p>继承的 <code>no_proxy</code> / <code>NO_PROXY</code> 可能绕过代理，不能仅凭命令有输出就断定经过了 v2rayN。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#scope">确认 Git 远程地址使用 HTTPS 还是 SSH</a></li><li><a href="#temporary">用一次性 Git 代理参数测试 HTTPS 仓库</a></li><li><a href="#repository">仅给当前 Git 仓库设置代理</a></li><li><a href="#ssh">SSH 仓库为什么不受 http.proxy 影响？</a></li><li><a href="#errors">错误提示对应的检查</a></li><li><a href="#undo">清除新增代理或恢复仓库原设置</a></li><li><a href="#article-faq-heading">Git 代理常见问题</a></li><li><a href="#sources">Git 与 curl 官方文档</a></li></ul></nav>
+<p>网页能打开代码仓库而 <code>git fetch</code> 失败，常见原因是浏览器和 Git 使用了不同网络入口。Git 的 HTTP(S) 传输可以使用代理；SSH 传输由另一套程序处理。配置适用范围见 <a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpproxy" rel="noopener noreferrer" target="_blank">Git 的 http.proxy 说明</a>。开始前先确认远程地址协议，再调整代理，避免用 HTTP 设置反复修理 SSH 连接。</p>
+<h2 id="scope">确认 Git 远程地址使用 HTTPS 还是 SSH</h2>
+<p>在本地仓库的远程设置中查看地址：<code>https://…</code> 属于 HTTP(S)，<code>git@host:owner/repo.git</code> 或 <code>ssh://…</code> 属于 SSH。查看时注意地址可能含用户名或令牌，不要原样公开。以下示例使用 Git 项目的公开 HTTPS 仓库，仅用于验证读取连接，不会推送代码。</p>
+<p>确保 v2rayN 活动节点可用，并记录真实 HTTP 监听端口。本文用 <code>10809</code> 作示例，改为实际端口；代理入口属于运行 Git 的环境。Remote SSH、WSL 或容器中的 Git 不能直接假定能连接宿主机的回环端口。</p>
+<h2 id="temporary">用一次性 Git 代理参数测试 HTTPS 仓库</h2>
+<p>对明确的目标主机，使用 <code>-c</code> 给这次 Git 调用传入代理。下例把代理限制到 GitHub 的 HTTP 配置匹配范围：</p>
+<pre tabindex="0"><code>git -c http.https://github.com.proxy=http://127.0.0.1:10809 ls-remote https://github.com/git/git.git HEAD</code></pre>
+<p>如果命令有输出但客户端没有对应请求，先检查 Git 进程继承的 <code>no_proxy</code> / <code>NO_PROXY</code>。<a href="https://curl.se/libcurl/c/CURLOPT_NOPROXY.html" rel="noopener noreferrer" target="_blank">libcurl 的绕过名单说明</a>指出，匹配目标的名单即使在指定代理时也可能绕过它。在 Bash 或 Zsh 中，可只为这次诊断清空绕过名单，测试结束后父 shell 的原值不变：</p><pre tabindex="0"><code>no_proxy= NO_PROXY= git -c http.https://github.com.proxy=http://127.0.0.1:10809 ls-remote https://github.com/git/git.git HEAD</code></pre><p>这是 Bash / Zsh 写法，不能原样粘贴到 PowerShell；在其他 shell 中应采用其单进程环境设置方式。确认日志后再判断代理路径，不要为了测试长期删除组织内网需要的绕过规则。</p>
+<p>命令正常时应输出 HEAD 对应的对象 ID 和引用名称，同时客户端出现该连接。它只读取远程引用，不证明大文件传输、私人仓库权限或后续推送一定正常。公共仓库能读而私人仓库返回认证错误时，应转查账号权限与凭据，而不是继续换代理。</p>
+<p>如果显式配置仍表现异常，需要在自己的设备上检查目标匹配到哪项代理。不要打印整份 Git 配置，因为其中可能包含额外认证头、令牌或内部仓库地址。以下先查询目标匹配到的代理，再单独检查当前仓库通用代理键的来源。结果若含凭据仍须隐藏；没有匹配项时，查询可能以非零状态结束，并不代表仓库损坏：</p>
+<pre tabindex="0"><code>git config --get-urlmatch http.proxy https://github.com/git/git.git
+git config --local --show-origin --get-all http.proxy</code></pre>
+<h2 id="repository">仅给当前 Git 仓库设置代理</h2>
+<p>先在当前仓库记录原有 <code>http.proxy</code> 的值与是否存在，再写入本地作用域。下面设置影响此仓库的 HTTP(S) 操作，不会自动修改其他仓库，也不会为 SSH 增加代理：</p>
+<pre tabindex="0"><code>git config --local --get-all http.proxy
+git config --local http.proxy http://127.0.0.1:10809</code></pre>
+<p>执行前确认没有需要保留的多值配置；若已有复杂规则，应通过配置编辑器保存原段落再调整。全局、系统、仓库、URL 匹配项以及远程专用代理可能同时存在，简单设置一个通用键未必覆盖所有更具体的规则。Git 配置文档列出了这些作用域与匹配方式。出现不符预期的行为时，按目标查询结果判断，不要只重复写 <code>--global</code>。</p>
+<p>完成后对原来失败的操作复测：先读引用，再按实际需要 fetch，最后才处理需要身份认证的推送。每次只调整一种配置来源，有助于确认是哪项产生效果。</p>
+<h2 id="ssh">SSH 仓库为什么不受 http.proxy 影响？</h2>
+<p>SSH 通常由 OpenSSH 或 Git 配置的其他 SSH 程序发起连接，它不通过 Git 的 HTTP 传输。因此 HTTP 代理测试成功，不能证明 <code>git@…</code> 已经配置代理。SSH 需要核对主机、端口、密钥、SSH 配置以及所用转发工具的能力。</p>
+<p>如果服务支持 HTTPS，可以在明确了解认证差异后自行选择 HTTPS 工作流；不要为了代理问题盲目重写所有远程地址。若继续用 SSH，应依照 SSH 与托管平台的官方文档配置，不能把某个系统专用的 netcat 命令原样复制到其他系统。TUN 也只能解决流量入口的一部分问题，不能修复错误密钥或仓库权限。</p>
+<h2 id="errors">错误提示对应的检查</h2>
+<div aria-label="错误提示对应的检查，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">表现</th><th scope="col">检查顺序</th><th scope="col">验证结果</th></tr></thead><tbody>
+<tr><td>无法连接 127.0.0.1</td><td>客户端、监听端口、Git 所在机器</td><td>请求进入本机代理</td></tr>
+<tr><td>证书校验失败</td><td>系统时间、目标证书、受管理网络的可信证书要求</td><td>保留验证并完成 TLS 握手</td></tr>
+<tr><td>HTTP 401 / 403</td><td>区分代理认证与仓库服务权限，检查脱敏错误上下文</td><td>可访问拥有权限的目标仓库</td></tr>
+<tr><td>SSH Permission denied</td><td>SSH 用户、密钥、主机及仓库授权</td><td>SSH 身份验证通过</td></tr>
+<tr><td>读引用正常，大量传输失败</td><td>具体失败时间、节点、连接中断与服务限流</td><td>同一操作可重复完成</td></tr>
+</tbody></table></div>
+<h2 id="undo">清除新增代理或恢复仓库原设置</h2>
+<p>使用一次性 <code>-c</code> 无需清理持久配置。若本地代理键原先不存在且只有本教程新增的一条值，可在同一仓库执行：</p>
+<pre tabindex="0"><code>git config --local --unset http.proxy</code></pre>
+<p>若原来已有代理，应恢复事先记录的值，而不是直接删除；URL 专用键也要在原作用域分别恢复。恢复后重新查询目标匹配项并测试。不再监听的本机端口会让后续 Git 操作失败，这通常是残留配置，而非仓库损坏。无需重建仓库、删凭据或重装 Git。</p>
+<section class="article-faq"><section class="article-faq" id="article-faq"><h2 id="article-faq-heading">Git 代理常见问题</h2><details class="faq-entry"><summary><h3>HTTPS 仓库需要另外配置 https.proxy 吗？</h3></summary><div><p>Git 文档中的 <code>http.proxy</code> 用于 HTTP(S) 传输，不能因为远程地址是 HTTPS 就臆造另一个配置键。先查询目标实际匹配的代理，再检查 URL 专用项、远程配置和环境变量。</p></div></details><details class="faq-entry"><summary><h3>curl 能通过代理，Git 的 SSH 地址为什么仍失败？</h3></summary><div><p>curl 的 HTTP 测试只验证了那条请求。<code>git@…</code> 由 SSH 发起连接，不会自动读取 Git 的 HTTP 代理设置；需要分别核对 SSH 主机、端口、密钥、授权和可达路径。</p></div></details><details class="faq-entry"><summary><h3>关闭客户端后 Git 一直连接 127.0.0.1，怎么恢复？</h3></summary><div><p>检查原来在哪个作用域添加了代理。若本教程新增的仓库代理原先不存在，只移除这条本地键；若原先已有值，恢复记录的原值。不要为此删除仓库或清空所有 Git 配置。</p></div></details></section></section>
+<h2 id="sources">Git 与 curl 官方文档</h2>
+<ul class="source-list"><li><a href="https://git-scm.com/docs/git-config" rel="noopener noreferrer" target="_blank">Git 配置手册：http.proxy、作用域与 URL 匹配</a></li><li><a href="https://git-scm.com/docs/git" rel="noopener noreferrer" target="_blank">Git 命令手册：一次性 -c 参数与 SSH 环境</a></li><li><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl 手册：HTTP 代理传输依据</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-terminal-proxy.html">终端显式代理验证</a></li><li><a href="blog-v2ray-vscode-proxy.html">VS Code 与扩展网络路径</a></li><li><a href="blog-v2ray-logs.html">提取可用于反馈的日志</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

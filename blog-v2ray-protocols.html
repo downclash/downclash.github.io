@@ -1,245 +1,163 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析 | V2Ray 下载站</title>
-  <meta name="description" content="深入解析 V2Ray 支持的各种代理协议，包括 VMess、VLESS、Trojan、Shadowsocks、WireGuard 的特点、区别和适用场景，帮助你选择最佳协议。">
-  <meta name="keywords" content="V2Ray协议, VMess, VLESS, Trojan, Shadowsocks, WireGuard, 代理协议对比, V2Ray协议选择, 代理协议哪个好">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blog-v2ray-protocols.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://v2raydown.com/blog-v2ray-protocols.html">
-  <meta property="og:title" content="V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析">
-  <meta property="og:description" content="深入解析 V2Ray 支持的各种代理协议，帮助你选择最佳协议。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-04-20">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析">
-  <meta name="twitter:description" content="深入解析 V2Ray 支持的各种代理协议，帮助你选择最佳协议。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析",
-    "description": "深入解析 V2Ray 支持的各种代理协议，帮助你选择最佳协议。",
-    "author": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "publisher": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "datePublished": "2026-04-20",
-    "dateModified": "2026-04-20",
-    "mainEntityOfPage": "https://v2raydown.com/blog-v2ray-protocols.html"
-  }
-  </script>
-</head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-amber-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性 | V2Ray 下载站</title>
+<meta content="区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。" name="description"/>
+<meta content="V2Ray协议, VMess, VLESS, Trojan, Shadowsocks, WireGuard, 代理协议对比, V2Ray协议选择, 代理协议哪个好" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-protocols.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
 
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <main class="pt-24 pb-20">
-    <article class="max-w-3xl mx-auto px-6">
-      <nav class="mb-8 flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">首页</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <a href="blogs.html" class="hover:text-blue-400 transition-colors">博客</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <span style="color: var(--text-muted);">协议解析</span>
-      </nav>
-
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">协议解析</span>
-      </div>
-
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6" style="color: var(--text-primary);">V2Ray 支持的协议详解：VMess、VLESS、Trojan 全面解析</h1>
-
-      <div class="flex items-center gap-4 mb-12 text-sm" style="color: var(--text-dim);">
-        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> 2026-04-20</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 阅读约 9 分钟</span>
-      </div>
-
-      <div class="article-content">
-        <p>V2Ray 支持多种代理协议，每种协议都有其独特的设计理念和适用场景。了解这些协议的特点，可以帮助你更好地选择和配置代理。本文将详细解析 V2Ray 支持的主流协议。</p>
-
-        <h2>一、VMess 协议</h2>
-
-        <p>VMess 是 V2Ray 自研的核心协议，也是 V2Ray 最具代表性的协议。</p>
-
-        <h3>特点</h3>
-        <ul>
-          <li><strong>加密传输：</strong>内置 AES-128-GCM 加密，无需额外 TLS 也能保证安全性</li>
-          <li><strong>动态端口：</strong>支持动态更换端口，增加隐蔽性</li>
-          <li><strong>时间戳验证：</strong>使用时间戳防止重放攻击</li>
-          <li><strong>用户认证：</strong>基于 UUID 进行用户身份验证</li>
-        </ul>
-
-        <h3>适用场景</h3>
-        <p>VMess 适合对安全性要求较高的场景。配合 WebSocket + TLS 使用时，流量可以伪装成正常的 HTTPS 流量，隐蔽性极强。</p>
-
-        <h2>二、VLESS 协议</h2>
-
-        <p>VLESS 是 VMess 的轻量级版本，去除了内置加密层，转而依赖外层 TLS 加密。</p>
-
-        <h3>特点</h3>
-        <ul>
-          <li><strong>零加密开销：</strong>不再自行加密数据，由 TLS 层负责，性能更好</li>
-          <li><strong>更轻量：</strong>协议头部更小，传输效率更高</li>
-          <li><strong>配合 Reality：</strong>VLESS + Reality 是目前最先进的组合，无需域名即可实现 TLS</li>
-        </ul>
-
-        <h3>VLESS + Reality</h3>
-        <p>Reality 是 Xray 项目引入的革命性技术。它不需要域名和证书，通过握手阶段伪装成访问正常网站（如 yahoo.com），实现了极高的隐蔽性。这是目前最推荐的协议组合。</p>
-
-        <h2>三、Trojan 协议</h2>
-
-        <p>Trojan 的设计理念是"将代理流量伪装成正常的 HTTPS 流量"。</p>
-
-        <h3>特点</h3>
-        <ul>
-          <li><strong>HTTPS 伪装：</strong>流量看起来就像正常的 HTTPS 网站访问</li>
-          <li><strong>简单高效：</strong>协议设计简单，性能开销小</li>
-          <li><strong>需要域名：</strong>必须配合域名和 TLS 证书使用</li>
-        </ul>
-
-        <h3>适用场景</h3>
-        <p>Trojan 适合已有域名和证书的用户。它的流量特征与正常 HTTPS 完全一致，很难被识别和阻断。</p>
-
-        <h2>四、Shadowsocks 协议</h2>
-
-        <p>Shadowsocks（SS）是最经典的代理协议之一，诞生于 2012 年。</p>
-
-        <h3>特点</h3>
-        <ul>
-          <li><strong>轻量快速：</strong>协议设计简洁，性能优秀</li>
-          <li><strong>广泛兼容：</strong>几乎所有代理工具都支持</li>
-          <li><strong>多种加密：</strong>支持 AES-256-GCM、ChaCha20-Poly1305 等加密方式</li>
-        </ul>
-
-        <h3>局限性</h3>
-        <p>由于 Shadowsocks 的流量特征已经被广泛研究，在某些严格的网络环境下可能被识别。建议使用 AEAD 加密方式（如 AES-256-GCM）以提高安全性。</p>
-
-        <h2>五、WireGuard 协议</h2>
-
-        <p>WireGuard 是新一代 VPN 协议，以简洁高效著称。</p>
-
-        <h3>特点</h3>
-        <ul>
-          <li><strong>极简设计：</strong>代码量仅约 4000 行，远少于 OpenVPN 等传统 VPN</li>
-          <li><strong>高性能：</strong>使用 ChaCha20 加密，速度极快</li>
-          <li><strong>低延迟：</strong>适合对延迟敏感的应用（如游戏、视频通话）</li>
-        </ul>
-
-        <h2>六、协议选择建议</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>协议</th>
-              <th>安全性</th>
-              <th>速度</th>
-              <th>隐蔽性</th>
-              <th>推荐场景</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>VLESS + Reality</td>
-              <td>★★★★★</td>
-              <td>★★★★★</td>
-              <td>★★★★★</td>
-              <td>首选推荐</td>
-            </tr>
-            <tr>
-              <td>Trojan + TLS</td>
-              <td>★★★★★</td>
-              <td>★★★★☆</td>
-              <td>★★★★★</td>
-              <td>有域名的用户</td>
-            </tr>
-            <tr>
-              <td>VMess + WS + TLS</td>
-              <td>★★★★☆</td>
-              <td>★★★★☆</td>
-              <td>★★★★☆</td>
-              <td>经典方案</td>
-            </tr>
-            <tr>
-              <td>Shadowsocks</td>
-              <td>★★★★☆</td>
-              <td>★★★★★</td>
-              <td>★★★☆☆</td>
-              <td>追求速度</td>
-            </tr>
-            <tr>
-              <td>WireGuard</td>
-              <td>★★★★★</td>
-              <td>★★★★★</td>
-              <td>★★★☆☆</td>
-              <td>低延迟需求</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>总结</h2>
-
-        <p>如果你是新用户，建议优先选择 <strong>VLESS + Reality</strong> 或 <strong>Trojan + TLS</strong>，它们在安全性、速度和隐蔽性方面都有出色表现。如果你的机场不支持这些协议，VMess + WS + TLS 也是可靠的经典方案。Shadowsocks 适合追求极致速度的用户，但要注意其隐蔽性相对较弱。</p>
-      </div>
-
-      <div class="mt-16 pt-8" style="border-top: 1px solid var(--border-primary);">
-        <h3 class="text-xl font-bold mb-6" style="color: var(--text-primary);">相关文章</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="blog-v2ray-vs-clash.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">对比评测</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray vs Clash 详细对比</h4>
-          </a>
-          <a href="blog-v2ray-speed.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">优化技巧</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 速度优化技巧</h4>
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-      <a href="index.html" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">返回首页</a>
-    </div>
-  </footer>
-  <script src="assets/js/main.js"></script>
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-protocols.html" property="og:url"/>
+<meta content="V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性 | V2Ray 下载站" property="og:title"/>
+<meta content="区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-04-20" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性 | V2Ray 下载站" name="twitter:title"/>
+<meta content="区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性",
+  "description": "区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "datePublished": "2026-04-20",
+  "dateModified": "2026-11-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-protocols.html"
+  },
+  "inLanguage": "zh-CN",
+  "@id": "https://v2raydown.com/blog-v2ray-protocols.html#article",
+  "url": "https://v2raydown.com/blog-v2ray-protocols.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "articleSection": "概念与诊断"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "概念与诊断",
+      "item": "https://v2raydown.com/tutorials.html#learn-advanced-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性",
+      "item": "https://v2raydown.com/blog-v2ray-protocols.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-advanced-guides">概念与诊断</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性</span></nav>
+<div class="content-hero page-heading"><p class="eyebrow">协议解析</p><h1>V2Ray 协议详解：VMess、VLESS、Trojan 与内核兼容性</h1><p class="article-lead">区分 V2Ray、Xray 与 sing-box，说明 VMess、VLESS、Trojan、Shadowsocks 的配置要点，以及 TLS、REALITY、WebSocket、gRPC 的关系与兼容性检查方法。</p><p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 8 分钟</p><p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div><div class="article-content">
+<p>拿到一个节点时，应先核对它使用的协议、传输、安全参数，以及客户端实际调用的内核。名称中带有 V2Ray，并不代表所有客户端支持相同功能。本文按这些层次解释常见字段，帮助你判断“能否导入”和“能否连接”。</p>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#layers">先区分协议、传输与安全层</a></li><li><a href="#protocols">六类常见代理协议怎样识别</a></li><li><a href="#compatibility">按内核检查兼容性</a></li><li><a href="#fields">导入后核对哪些参数</a></li><li><a href="#errors">按报错定位配置问题</a></li><li><a href="#sources">资料来源与继续阅读</a></li></ul></nav>
+<h2 id="layers">先区分协议、传输与安全层</h2>
+<p>例如“VLESS + WebSocket + TLS”描述的是一组配套设置。VLESS 负责代理协议与用户认证，WebSocket 是承载方式，TLS 处理传输安全。REALITY 属于传输安全配置；gRPC 与 WebSocket 属于传输方式，它们都不是可直接替换 VMess、VLESS 的节点类型。</p>
+<div aria-label="先区分协议、传输与安全层，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>层次</th><th>常见名称</th><th>需要匹配的内容</th></tr></thead><tbody><tr><td>代理协议</td><td>VMess、VLESS、Trojan、Shadowsocks</td><td>协议类型、UUID 或密码、加密方式</td></tr><tr><td>传输方式</td><td>RAW / TCP、WebSocket、gRPC</td><td>服务端支持的传输、路径或 serviceName</td></tr><tr><td>传输安全</td><td>TLS、REALITY</td><td>服务器名称、证书校验，或公钥与 short ID 等</td></tr><tr><td>本机接入</td><td>HTTP / SOCKS 监听、系统代理、TUN / VPN</td><td>应用如何把流量送入客户端</td></tr></tbody></table></div>
+<p>组合必须由服务端实际配置决定。只把客户端的传输改成 gRPC，或只勾选 REALITY，不会让原节点自动升级。</p>
+<h2 id="protocols">六类常见代理协议怎样识别</h2>
+<h3>VMess：核对 UUID 与系统时间</h3>
+<p>VMess 是 V2Ray 生态的代理协议，节点通常以 <code>vmess://</code> 分享。除服务器地址、端口与 UUID 外，还要核对传输与 TLS 设置。它的认证依赖系统时间；遇到认证失败时先启用设备的自动日期与时间，再检查节点参数。旧配置中的额外认证字段应以当前服务端说明为准。</p>
+<h3>VLESS：基础协议相同不等于扩展相同</h3>
+<p><code>vless://</code> 节点常包含 UUID、传输、安全层和 flow。常见 <code>encryption=none</code> 配置需要匹配服务端的 TLS 或 REALITY；不能将其理解成数据无需保护。Xray 新版本还包含独立的 VLESS Encryption 配置，不能把这些扩展直接套用到其他内核。Vision、REALITY 与新加密字段都要逐项核对支持情况。</p>
+<h3>Trojan：密码与 TLS 配置一起核对</h3>
+<p>Trojan 节点通常通过密码认证，并配合 TLS 使用。服务器地址可以与用于证书校验的服务器名称不同，因此应保留提供者给出的 SNI / serverName。握手失败时检查系统时间、服务器名称和证书链，继续保留证书验证。</p>
+<h3>Shadowsocks：加密方法也是协议参数</h3>
+<p><code>ss://</code> 节点需要服务器、端口、密码与加密方法。不同代际的方法及插件要求可能不同；支持 Shadowsocks 不代表支持所有加密方法与插件。导入失败时先检查当前客户端和内核支持的具体 method，而不是任意更换加密算法。</p>
+<h3>SOCKS 与 HTTP：分清本机端口和远程节点</h3>
+<p>它们既能作为本机接收应用流量的入口，也能作为远程代理出站。例如浏览器连接 <code>127.0.0.1</code> 的 SOCKS 端口，是把流量交给本机客户端；真正访问远端时仍由所选出站节点处理。SOCKS5 本身不提供链路加密，HTTP 代理也不能因为目标站使用 HTTPS 就被视为所有代理通信都已加密。</p>
+<h2 id="compatibility">按内核检查兼容性</h2>
+<p>下表列的是核对入口。具体功能还受内核版本、构建选项和图形客户端是否提供对应字段影响；“文档列出”不表示不同内核的 JSON 字段可以互换。</p>
+<div aria-label="按内核检查兼容性，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>能力</th><th>V2Fly / V2Ray</th><th>Xray</th><th>sing-box</th></tr></thead><tbody><tr><td>VMess、VLESS、Trojan、SS</td><td>官方协议文档列出</td><td>官方出站文档列出</td><td>官方出站文档列出</td></tr><tr><td>HTTP / SOCKS</td><td>分别配置入站 / 出站</td><td>分别配置入站 / 出站</td><td>分别配置入站 / 出站</td></tr><tr><td>REALITY</td><td>不能因支持 VLESS 就推定兼容</td><td>按 streamSettings.security 与对应字段配置</td><td>按 TLS 中的 reality 字段配置</td></tr><tr><td>VLESS flow 与扩展加密</td><td>核对 V2Fly 自身规范</td><td>核对 Xray 版本与 VLESS 文档</td><td>核对 sing-box VLESS 字段，不能直接照搬 Xray 配置</td></tr><tr><td>其他协议或隧道类型</td><td>查所用版本的协议列表</td><td>查所用版本的出站列表</td><td>查出站及 endpoint 文档</td></tr></tbody></table></div>
+<p>v2rayN 的项目说明列出 Xray、sing-box 等内核；因此排查时应记录“v2rayN 版本 + 当前核心及版本”，而不只记录软件名称。客户端入口见<a href="clients.html">客户端选择指南</a>。</p>
+<h2 id="fields">导入后核对哪些参数</h2>
+<ol><li>检查服务器地址与端口，区分连接地址和 TLS 服务器名称。</li><li>保留完整的认证信息：UUID、密码、加密方法，以及节点要求的 flow。</li><li>核对传输类型；WebSocket 的 path / Host、gRPC 的 serviceName 不能互相替代。</li><li>TLS 节点核对 SNI 与证书；REALITY 节点核对公钥、short ID、指纹和服务端要求的其他字段。</li><li>选择支持该组合的内核，再测试实际目标站点。单次 TCP 延迟只说明服务器端口可能可达。</li></ol>
+<p class="notice">分享链接、二维码和订阅 URL 可能含密码、UUID 或 token。向他人求助时隐藏这些字段，并保留报错类型、协议、传输与内核版本。</p>
+<h2 id="errors">按报错定位配置问题</h2>
+<div aria-label="按报错定位配置问题，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>现象</th><th>先核对</th><th>验证结果</th></tr></thead><tbody><tr><td>导入后没有节点</td><td>订阅返回格式、是否把网页地址当作订阅</td><td>客户端显示可编辑的节点条目</td></tr><tr><td>unknown / unsupported 字段</td><td>内核类型与版本，分享格式的解析支持</td><td>核心能加载配置，不再报字段错误</td></tr><tr><td>认证失败</td><td>UUID / 密码、VMess 时间同步</td><td>日志越过认证阶段</td></tr><tr><td>TLS / REALITY 握手失败</td><td>服务器名称、证书或公钥 / short ID、完整组合</td><td>保持校验开启时能完成握手</td></tr><tr><td>节点测试成功但应用不通</td><td>系统代理、TUN / VPN、分流路径</td><td>目标应用连接出现在日志中并走预期出站</td></tr></tbody></table></div>
+<h2 id="sources">资料来源与继续阅读</h2>
+<p>内容核对：2026-11-24。字段以所用内核版本的官方文档为准。</p>
+<ul class="source-list"><li><a href="https://www.v2fly.org/config/protocols/vmess.html" rel="noopener noreferrer" target="_blank">V2Fly：VMess 与系统时间</a></li><li><a href="https://www.v2fly.org/config/protocols/vless.html" rel="noopener noreferrer" target="_blank">V2Fly：VLESS</a>、<a href="https://www.v2fly.org/config/protocols/trojan.html" rel="noopener noreferrer" target="_blank">Trojan</a>、<a href="https://www.v2fly.org/config/protocols/shadowsocks.html" rel="noopener noreferrer" target="_blank">Shadowsocks</a></li><li><a href="https://xtls.github.io/config/outbounds/vless.html" rel="noopener noreferrer" target="_blank">Xray：VLESS 出站与扩展字段</a></li><li><a href="https://xtls.github.io/config/transport.html" rel="noopener noreferrer" target="_blank">Xray：传输方式与传输安全</a></li><li><a href="https://sing-box.sagernet.org/configuration/outbound/" rel="noopener noreferrer" target="_blank">sing-box：出站类型</a>、<a href="https://sing-box.sagernet.org/configuration/shared/tls/" rel="noopener noreferrer" target="_blank">TLS / REALITY</a></li></ul>
+<p>下一步：<a href="tutorials.html">按设备完成首次连接</a>，或在<a href="docs.html">配置文档</a>中查找对应设置；遇到错误可查看<a href="faq.html">常见问题</a>。</p>
+</div>
+<section class="related-guides article-content"><h2>相关文章</h2><ul><li><a href="blog-v2ray-vs-clash.html">对比评测 · V2Ray vs Clash 详细对比</a></li><li><a href="blog-v2ray-speed.html">优化技巧 · V2Ray 速度优化技巧</a></li></ul></section>
+<section class="related-guides article-content"><h2>按操作继续学习</h2><ul><li><a href="blog-v2ray-vless-reality.html">VLESS + REALITY 实操</a></li><li><a href="blog-v2ray-vmess.html">VMess 实操</a></li><li><a href="blog-v2ray-trojan.html">Trojan 实操</a></li></ul></section>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

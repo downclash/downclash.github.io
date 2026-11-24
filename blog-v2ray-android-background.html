@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayNG 锁屏断线：后台、VPN 与网络切换排查 | V2Ray 下载站</title>
+<meta content="v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-android-background.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-android-background.html" property="og:url"/>
+<meta content="v2rayNG 锁屏断线：后台、VPN 与网络切换排查" property="og:title"/>
+<meta content="v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayNG 锁屏断线：后台、VPN 与网络切换排查" name="twitter:title"/>
+<meta content="v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换",
+  "description": "v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。",
+  "url": "https://v2raydown.com/blog-v2ray-android-background.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-android-background.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "协议与移动端",
+  "@id": "https://v2raydown.com/blog-v2ray-android-background.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "v2rayNG 锁屏断线",
+    "后台掉线",
+    "电池优化",
+    "Android VPN"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "协议与移动端",
+      "item": "https://v2raydown.com/tutorials.html#learn-protocol-mobile"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换",
+      "item": "https://v2raydown.com/blog-v2ray-android-background.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-protocol-mobile">协议与移动端</a><span aria-hidden="true">/</span><span aria-current="page">v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">协议与移动端</p>
+<h1>v2rayNG 锁屏断线排查：后台运行、VPN 状态与网络切换</h1>
+<p class="article-lead">v2rayNG 锁屏断线时，先记录 VPN 与进程状态，再区分电池限制、后台运行、节点断开及 Wi-Fi 与移动网络切换。按最小修改步骤复测，保留设备原有设置与恢复路径。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">v2rayNG 锁屏断线，先检查哪一层？</h2><p>先判断 VPN 服务是否停止、服务仍在但节点是否超时，或只有某款应用失去连接。保持同一节点和目标，比较亮屏、后台、锁屏及网络切换结果；只有证据指向后台限制时，才为受影响应用单独调整一项设置并复测。</p><ol><li>记录失败时间、系统 VPN 状态和首条核心错误。</li><li>亮屏时单独测试 Wi-Fi 与移动网络切换，排除网络因素。</li><li>保留确实改善的设置，其余恢复，观察连接与耗电。</li></ol></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#baseline">v2rayNG 锁屏断线：怎样建立对照记录</a></li><li><a href="#state">锁屏后先检查 VPN、节点与目标应用</a></li><li><a href="#battery">后台运行与电池优化应该怎样调整</a></li><li><a href="#handoff">Wi-Fi 切换移动网络后断线怎么区分</a></li><li><a href="#always-on">始终开启 VPN 为什么不等于远端一直可用</a></li><li><a href="#recover">v2rayNG 后台断线后的恢复与反馈</a></li><li><a href="#article-faq-heading">v2rayNG 后台与锁屏常见问题</a></li><li><a href="#sources">官方依据</a></li></ul></nav>
+<p>锁屏几分钟后连接失效、重新打开 v2rayNG 又恢复，可能与后台限制有关，也可能是节点超时、网络切换或应用自身的连接策略。先确认哪一层停止工作，再调整对应设置，比一次放开所有后台限制更容易得到明确结果。</p>
+<h2 id="baseline">v2rayNG 锁屏断线：怎样建立对照记录</h2>
+<p>记录设备型号、Android 与厂商系统版本、客户端与核心版本、节点、Wi-Fi / 移动数据，以及锁屏前的代理模式。选择一个能重复测试的目标：例如同一页面、同一次文件请求或受影响应用的操作。先在亮屏状态确认它确实通过当前配置工作。</p>
+<p>保持节点、网络与测试目标不变，依次比较切到后台、短时间锁屏、较长时间待机后的结果。每轮记下失败时间和解锁后是否自动恢复。没有必要为获取结果不停对全部节点测速，这会混入额外网络活动和流量消耗。</p>
+<h2 id="state">锁屏后先检查 VPN、节点与目标应用</h2>
+<div aria-label="锁屏后先检查 VPN、节点与目标应用，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">检查点</th><th scope="col">看到的现象</th><th scope="col">下一步</th></tr></thead><tbody>
+<tr><th scope="row">服务与 VPN</th><td>系统 VPN 状态消失，客户端服务停止</td><td>查服务被停止、授权变化、其他 VPN 或后台限制</td></tr>
+<tr><th scope="row">节点与内核</th><td>VPN 仍显示连接，但核心日志出现超时或解析错误</td><td>查节点、底层网络、DNS 与重连行为</td></tr>
+<tr><th scope="row">目标应用</th><td>其他应用正常，只有某款应用无法恢复</td><td>查分应用名单、该应用后台网络与原有长连接</td></tr>
+</tbody></table></div>
+<p>通知是否显示只是一个线索。通知权限和展示设置可能影响可见性；VPN 图标存在也不保证到节点的远端连接成功。尽量把系统状态、客户端日志和实际请求放在同一时间线上，不把任何单一图标当作全部证明。</p>
+<h2 id="battery">后台运行与电池优化应该怎样调整</h2>
+<p><a href="https://developer.android.com/training/monitoring-device-state/doze-standby" rel="noopener noreferrer" target="_blank">Android Doze 与 App Standby 官方说明</a>介绍了后台 CPU、网络限制及豁免范围。厂商系统还可能增加自己的后台管理。若测试显示服务在待机时被停止，打开系统中该应用的电池或后台管理页面，阅读当前选项含义，再为 v2rayNG 单独做一次必要的运行权限对照。</p>
+<ol><li>记录原先的电池管理模式和后台网络设置，便于恢复。</li><li>只调整受影响应用的一项设置；不同厂商可能称为允许后台运行、无额外限制等，不能照搬其他品牌菜单。</li><li>重新启动 VPN，复现相同待机过程，比较服务是否仍在、请求是否恢复以及耗电变化。</li><li>没有改善就还原，继续检查网络或节点，不把所有应用都加入电池豁免。</li></ol>
+<p>电池优化豁免并非解除所有系统限制，不能保证所有通知、长连接和应用业务永远在线。也不要为了“保活”安装来源不明的插件、授予无关系统权限，或让设备持续高频发送请求。</p>
+<h2 id="handoff">Wi-Fi 切换移动网络后断线怎么区分</h2>
+<p>先在亮屏状态下，仅切换底层网络而不锁屏。如果此时也失败，优先查网络切换后的 DNS、地址可达性、IPv6、UDP 或节点握手；这不能仅靠后台权限解决。保持同一节点与目标，用两种网络各做一次独立连接测试。</p>
+<p>网络切换会改变底层连接条件，原来的长连接可能需要应用重新建立。记录客户端是否报错、是否发起重连，并用新请求验证。不要因为旧视频页面卡住就断言整个 VPN 已停止；也不要把移动网络上的节点超时直接归因 Android 杀进程。</p>
+<h2 id="always-on">始终开启 VPN 为什么不等于远端一直可用</h2>
+<p><a href="https://developer.android.com/develop/connectivity/vpn#always-on" rel="noopener noreferrer" target="_blank">Android 的始终开启 VPN 说明</a>区分系统维护服务与客户端管理远端连接：系统提供的“始终开启 VPN”用于维护 VPN 服务生命周期，但服务到远端的连接仍依赖客户端和网络。它不是一个修复错误节点参数的开关，是否可用还取决于应用支持。设置前先确保普通手动连接可靠。</p>
+<p>“阻止未使用 VPN 的连接”会在 VPN 不可用时阻止相应网络流量，也可能影响分应用排除后的程序。若设备受公司或学校管理，按组织要求保留策略。排查时需知道是远端连接失败还是系统按策略阻断，不能因“全部断网”就清空所有 VPN 配置。</p>
+<h2 id="recover">v2rayNG 后台断线后的恢复与反馈</h2>
+<ol><li>解锁后先记录状态与首条错误，再停止并重新启动当前 VPN，测试新的请求。</li><li>若只有单个节点失败，使用一个已知可用节点对照；若只有某款应用失败，重新发起该应用连接并检查名单。</li><li>每次只保留确实改善结果的设置，其余恢复原值；同时观察耗电和内网功能。</li><li>持续复现时向对应项目反馈设备、版本、失败时间、网络与重现步骤，附脱敏后的短日志。</li></ol>
+<p>报告应写明“服务停止”还是“服务在但节点超时”，并说明亮屏网络切换是否也会复现。不要公开完整订阅、节点身份或个人访问记录。若退出后普通网络仍异常，先检查系统的 VPN 阻断策略，再按自己的原配置恢复。</p>
+<section aria-labelledby="article-faq"><section class="article-faq" id="article-faq"><h2 id="article-faq-heading">v2rayNG 后台与锁屏常见问题</h2><details class="faq-entry"><summary><h3>给 v2rayNG 电池豁免就能保证不断线吗？</h3></summary><div><p>不能保证。豁免只改变部分后台限制，节点故障、网络切换和应用业务本身仍可能断开。应在相同待机条件下复测服务状态和真实请求，并观察是否增加耗电；没有改善就恢复原设置。</p></div></details><details class="faq-entry"><summary><h3>已经开启始终开启 VPN，为什么仍无法联网？</h3></summary><div><p>系统维护 VPN 服务，不代表客户端到远端节点的连接已经成功。先核对节点、DNS、认证与核心错误，再确认是否因阻止非 VPN 连接而在隧道不可用时出现整体断网。</p></div></details><details class="faq-entry"><summary><h3>Wi-Fi 切到移动数据就失败，一定是后台被清理吗？</h3></summary><div><p>不是。亮屏时也能复现的网络切换故障，应先比较两种网络的解析、地址可达性、握手和 UDP 路径。把服务停止与服务仍在但远端连接失败分开记录，再决定是否调整后台设置。</p></div></details></section></section>
+<h2 id="sources">官方依据</h2>
+<ul class="source-list"><li><a href="https://developer.android.com/training/monitoring-device-state/doze-standby" rel="noopener noreferrer" target="_blank">Android：Doze、App Standby 与豁免范围</a></li><li><a href="https://developer.android.com/develop/connectivity/vpn" rel="noopener noreferrer" target="_blank">Android：VPN 生命周期与始终开启</a></li><li><a href="https://github.com/2dust/v2rayNG/wiki" rel="noopener noreferrer" target="_blank">v2rayNG 官方使用资料</a></li><li><a href="https://github.com/2dust/v2rayNG/releases" rel="noopener noreferrer" target="_blank">v2rayNG 发布说明与兼容性变更</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-android-app-routing.html">分应用名单与 VPN 阻断区别</a></li><li><a href="blog-v2ray-ipv6-udp.html">网络切换后的 IPv6 与 UDP 检查</a></li><li><a href="blog-v2ray-logs.html">记录并脱敏故障日志</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

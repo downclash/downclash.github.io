@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 订阅导入教程：添加订阅与单节点 | V2Ray 下载站</title>
+<meta content="V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-subscription.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-subscription.html" property="og:url"/>
+<meta content="V2Ray 订阅导入教程：添加订阅与单节点" property="og:title"/>
+<meta content="V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 订阅导入教程：添加订阅与单节点" name="twitter:title"/>
+<meta content="V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点",
+  "description": "V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。",
+  "url": "https://v2raydown.com/blog-v2ray-subscription.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-subscription.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "订阅与维护",
+  "@id": "https://v2raydown.com/blog-v2ray-subscription.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "V2Ray 订阅导入",
+    "添加订阅",
+    "导入节点",
+    "订阅分组"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "订阅与维护",
+      "item": "https://v2raydown.com/tutorials.html#learn-subscription"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点",
+      "item": "https://v2raydown.com/blog-v2ray-subscription.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-subscription">订阅与维护</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">订阅与维护</p>
+<h1>V2Ray 订阅导入教程：v2rayN、v2rayNG 与 V2rayU 怎么添加节点</h1>
+<p class="article-lead">V2Ray 订阅导入应区分订阅 URL 与单节点链接。按 v2rayN、v2rayNG 和 V2rayU 的对应入口添加、更新并选择活动节点，再用网页和日志验证连接，遇到空列表时按现象排查。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-label="快速解答" class="quick-answer"><h2 id="quick-answer">V2Ray 订阅怎么导入？</h2><p>V2Ray 订阅 URL 应在客户端的订阅管理中添加、保存并执行更新；<code>vmess://</code>、<code>vless://</code> 等单节点链接使用剪贴板或扫码导入。节点出现后，再设为活动节点并开启系统代理或 VPN，用目标网页和日志验证连接。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#identify">V2Ray 订阅链接和节点链接怎么区分？</a></li><li><a href="#desktop">在 v2rayN 添加订阅并更新</a></li><li><a href="#mobile-mac">v2rayNG 与 V2rayU 的订阅导入步骤</a></li><li><a href="#verify">订阅导入后，怎样确认节点和连接正常？</a></li><li><a href="#maintain">日常更新时保留手动配置与旧连接</a></li><li><a href="#errors">导入时最常见的四种现象</a></li><li><a href="#recover">恢复与反馈：只保留必要的诊断信息</a></li><li><a href="#article-faq-heading">V2Ray 订阅导入常见问题</a></li><li><a href="#sources">官方资料与适用边界</a></li></ul></nav>
+<p>拿到一个链接后，先判断它用于更新一组节点，还是只描述一个节点。把链接粘贴进错误入口，可能出现无法识别、列表为空，或者只导入一次而无法后续更新。本教程适用于 v2rayN、v2rayNG 与 V2rayU；不同版本的菜单名称可能变化，下面以功能而非固定按钮位置说明操作。</p>
+<h2 id="identify">V2Ray 订阅链接和节点链接怎么区分？</h2>
+<p><code>https://…</code> 可能是订阅地址，也可能只是服务商网站；<code>vmess://</code>、<code>vless://</code>、<code>trojan://</code> 等通常携带单节点参数。网址能在浏览器打开不等于它是兼容订阅，二维码也只是数据载体，里面既可能放网址也可能放分享链接。</p>
+<ol><li>在配置提供方后台选择当前客户端适用的订阅格式，复制完整 URL，避免漏掉查询参数。</li><li>记下当前客户端版本、可用节点与更新前节点数量；已有配置时先完成导出或备份。</li><li>给订阅使用容易区分的本地备注，例如“个人订阅”；不要在备注里写 token、密码或完整 URL。</li></ol>
+<p>订阅 URL 本身可能就是访问凭据。首次测试时只添加一个来源，便于区分导入、更新和联网问题。</p>
+<h2 id="desktop">在 v2rayN 添加订阅并更新</h2>
+<ol><li>打开订阅分组或订阅管理功能，新建一个分组，将订阅 URL 填入地址字段并保存。</li><li>返回列表并选中这个分组，执行更新当前订阅。客户端提供直连与通过代理两种更新方式时，根据订阅服务器可达性选择。</li><li>没有可用代理时，先尝试不通过代理更新。若订阅服务器只能通过已有连接访问，改用一个已验证的活动节点更新。</li><li>更新结束后核对结果提示、节点数量和协议类型。随后将一个节点设为活动服务器，不能只停留在选中一行的状态。</li></ol>
+<p>单节点分享链接应使用剪贴板导入等节点入口；导入后检查地址、端口、传输和 TLS 字段。v2rayN 的<a href="https://github.com/2dust/v2rayN/wiki/Description-of-subscription" rel="noopener noreferrer" target="_blank">官方订阅说明</a>还列出内部 <code>v2rayn://</code> 格式，它可以携带额外配置，但不应推定所有其他软件都支持。</p>
+<h2 id="mobile-mac">v2rayNG 与 V2rayU 的订阅导入步骤</h2>
+<p><strong>v2rayNG：</strong>在订阅分组功能中新建来源并保存，再执行更新订阅。单个节点可使用客户端支持的分享链接或二维码导入；二维码权限只在需要拍摄扫描时使用。更新完成后选中活动配置，再启动连接并允许 Android VPN 请求。导入操作本身不会让 VPN 自动完成连接。</p>
+<p><strong>V2rayU：</strong>在当前版本的订阅管理入口添加 URL，更新后从服务器列表选择节点，再开启所需的系统代理或 TUN。V2rayU 的<a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">v5 系列发布说明</a>记录了订阅导入和更新相关变更，应按所装版本操作。本文不把某个版本的界面布局作为所有版本的统一入口。</p>
+<h2 id="verify">订阅导入后，怎样确认节点和连接正常？</h2>
+<div aria-label="订阅导入后，怎样确认节点和连接正常？，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">检查项</th><th scope="col">成功迹象</th><th scope="col">不能据此推定</th></tr></thead><tbody>
+<tr><td>订阅获取</td><td>更新没有网络或认证错误</td><td>响应内容一定是所需格式</td></tr><tr><td>配置解析</td><td>列表出现预期节点，字段非空</td><td>节点仍在有效期且可以连接</td></tr><tr><td>活动节点</td><td>状态显示正在使用目标节点</td><td>目标应用已接入代理</td></tr><tr><td>实际请求</td><td>目标网页成功，日志显示预期路由</td><td>所有其他程序也使用相同出口</td></tr>
+</tbody></table></div>
+<p>桌面端可先验证系统代理；Android 需确认 VPN 处于运行状态。测试一个预期代理的目标，再测试一个预期直连的目标；根据日志核对流量进入方式与最终出站。延迟测试成功只证明其对应测试过程成功。</p>
+<h2 id="maintain">日常更新时保留手动配置与旧连接</h2>
+<p>订阅中的节点通常由提供方管理，重新更新可能替换、删除或重命名记录。需要长期保留的手工节点和自定义设置，应按客户端支持的方式独立保存，避免把订阅管理的节点当成永久副本。更新后当前活动节点失效时，重新选择有效项再测试。</p>
+<p>不必反复更新全部订阅来解决单个网站故障。先区分订阅下载失败、节点连接失败和流量未进入代理；三种现象的处理入口不同。更改更新路径、节点和 DNS 时一次只改一项，并记录结果。</p>
+<h2 id="errors">导入时最常见的四种现象</h2>
+<div aria-label="导入时最常见的四种现象，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">优先检查</th><th scope="col">下一步</th></tr></thead><tbody>
+<tr><td>保存后没有节点</td><td>是否尚未执行更新，当前是否有分组筛选</td><td>更新对应来源，再查看全部或正确分组</td></tr><tr><td>更新成功但只出现部分节点</td><td>格式、节点字段与当前内核支持范围</td><td>与提供方列表对比并查看解析提示</td></tr><tr><td>提示无法识别内容</td><td>拿到的是分享链接、网页还是完整配置</td><td>使用正确入口或获取匹配格式</td></tr><tr><td>节点存在但无法连接</td><td>活动节点、有效期、核心和代理入口</td><td>进入连接排查，而非重复导入</td></tr>
+</tbody></table></div>
+<h2 id="recover">恢复与反馈：只保留必要的诊断信息</h2>
+<p>导入错误来源时，先确认该分组是否还包含手动添加的节点，再按客户端操作移除错误分组或恢复备份。不要为了清空一条错误订阅而直接删除整个数据目录。关闭连接后，清除本客户端设置的系统代理或停止 VPN / TUN，确认直连恢复。</p>
+<p>求助时提供客户端、核心版本、更新方式、时间、错误码及脱敏后的结果摘要即可。若完整订阅链接已公开，应在提供方支持的情况下重新生成令牌；只删除公开帖子并不等于旧链接失去访问能力。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">V2Ray 订阅导入常见问题</h2>
+<details class="faq-entry"><summary><h3>订阅地址和 vless:// 节点链接能填在同一入口吗？</h3></summary><div><p>应按当前客户端提供的入口区分。订阅管理需要能够获取配置的地址；单节点分享链接描述一条连接。把分享链接当成下载地址，可能在请求或解析阶段失败。先核对链接类型，再按上文步骤导入。</p>
+</div></details><details class="faq-entry"><summary><h3>订阅更新成功后，还要手动选择节点吗？</h3></summary><div><p>要确认当前活动节点。更新成功表示配置已被下载和解析，不能证明新节点已经启用。选择有效节点后，开启目标应用所需的系统代理、VPN 或 TUN，再检查实际请求；列表有节点与应用联网是两项检查。</p>
+</div></details><details class="faq-entry"><summary><h3>同一订阅能在电脑和 Android 上使用吗？</h3></summary><div><p>取决于订阅返回格式、节点参数及两端客户端版本是否兼容。优先获取配置提供方为各客户端生成的入口。即使两端成功导入相同节点，路由、DNS、分应用设置和系统权限也要分别验证。</p>
+<p><strong>下一步：</strong>先完成一个订阅、一个活动节点和一次实际网页请求；节点为空或更新报错时，转到订阅失败排查，连接失败则检查流量入口和核心日志。</p></div></details></section>
+<h2 id="sources">官方资料与适用边界</h2>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-subscription" rel="noopener noreferrer" target="_blank">v2rayN：订阅格式与内部分享链接</a></li><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-some-ui" rel="noopener noreferrer" target="_blank">v2rayN：界面功能说明</a></li><li><a href="https://github.com/2dust/v2rayNG/wiki" rel="noopener noreferrer" target="_blank">v2rayNG 项目 Wiki</a></li><li><a href="https://github.com/yanue/V2rayU/releases" rel="noopener noreferrer" target="_blank">V2rayU：订阅更新与配置变更记录</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-subscription-errors.html">订阅更新失败排查</a></li><li><a href="blog-v2ray-config-formats.html">订阅与配置格式对照</a></li><li><a href="blog-v2ray-system-proxy.html">系统代理如何生效</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

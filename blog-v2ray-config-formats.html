@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 配置格式：分享链接、订阅、JSON 与 YAML | V2Ray 下载站</title>
+<meta content="V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-config-formats.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-config-formats.html" property="og:url"/>
+<meta content="V2Ray 配置格式：分享链接、订阅、JSON 与 YAML" property="og:title"/>
+<meta content="V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 配置格式：分享链接、订阅、JSON 与 YAML" name="twitter:title"/>
+<meta content="V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML",
+  "description": "V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。",
+  "url": "https://v2raydown.com/blog-v2ray-config-formats.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-config-formats.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "订阅与维护",
+  "@id": "https://v2raydown.com/blog-v2ray-config-formats.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "V2Ray 配置格式",
+    "Base64 订阅",
+    "核心 JSON",
+    "Clash YAML"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "订阅与维护",
+      "item": "https://v2raydown.com/tutorials.html#learn-subscription"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML",
+      "item": "https://v2raydown.com/blog-v2ray-config-formats.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-subscription">订阅与维护</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">订阅与维护</p>
+<h1>V2Ray 配置格式详解：分享链接、Base64 订阅、JSON 与 Clash YAML</h1>
+<p class="article-lead">V2Ray 配置格式包括单节点分享链接、Base64 订阅及核心 JSON，Clash YAML 还可能带规则与策略组。对照用途和接收端选择导入入口，了解哪些内容可迁移、哪些字段需要重新配置。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-label="快速解答" class="quick-answer"><h2 id="quick-answer">V2Ray 订阅、分享链接和 JSON 有什么区别？</h2><p>V2Ray 订阅地址负责获取和更新配置，<code>vless://</code> 等分享链接通常描述单个节点；Base64 可能只是节点列表的编码。Xray、V2Fly、sing-box 的 JSON 与 Clash / Mihomo YAML 各有字段规范。导入前先确认接收端支持什么，修改后缀不会完成格式转换。</p></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#layers">V2Ray 配置格式对照：URL、URI、Base64 与完整配置</a></li><li><a href="#uri">节点分享链接携带哪些参数？</a></li><li><a href="#base64">Base64 是编码，不是加密或兼容性保证</a></li><li><a href="#json">Xray JSON、sing-box JSON 与客户端内部格式怎么区分？</a></li><li><a href="#yaml">导入 Clash YAML 时，哪些内容需要重新验证？</a></li><li><a href="#diagnose">V2Ray 配置无法导入时，按错误选择处理方式</a></li><li><a href="#rollback">转换、迁移与恢复的最小范围</a></li><li><a href="#article-faq-heading">V2Ray 配置格式常见问题</a></li><li><a href="#sources">官方格式资料</a></li></ul></nav>
+<p>配置能否导入，取决于数据表达的对象和接收端的解析能力。一个节点支持 VLESS，不等于所有 VLESS 配置都能互相读取；两份文件都是 JSON，也不代表字段含义相同。本教程帮助判断手里的内容应交给哪个入口，不提供在线转换服务。</p>
+<h2 id="layers">V2Ray 配置格式对照：URL、URI、Base64 与完整配置</h2>
+<div aria-label="V2Ray 配置格式对照：URL、URI、Base64 与完整配置，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">形式</th><th scope="col">通常表达什么</th><th scope="col">常见接收入口</th></tr></thead><tbody>
+<tr><td>HTTP(S) URL</td><td>远端资源地址，可能用于订阅更新</td><td>订阅管理；必须确认响应格式</td></tr><tr><td>vmess://、vless://、trojan:// 等</td><td>节点连接参数</td><td>分享链接、剪贴板或二维码导入</td></tr><tr><td>多行 URI / Base64 内容</td><td>一组节点，具体封装由实现决定</td><td>兼容的节点列表或订阅解析器</td></tr><tr><td>Xray / V2Fly / sing-box JSON</td><td>对应核心的入站、出站、路由等结构</td><td>该核心或客户端支持的自定义配置入口</td></tr><tr><td>Clash / Mihomo YAML</td><td>节点、策略组、规则与其他配置</td><td>兼容的完整配置或节点提取入口</td></tr></tbody></table></div>
+<p>URL 是获取数据的方式，不是配置格式名称；同一个订阅 URL 也可能根据服务端设置返回不同内容。识别时应同时看来源说明、响应内容和接收端文档。</p>
+<h2 id="uri">节点分享链接携带哪些参数？</h2>
+<p>VLESS 和 Trojan 等分享链接通常把认证、地址和端口放在 URI 中，将传输、安全参数等放在查询部分，备注放在片段中。VMess 的常见分享形式则把一份节点 JSON 编码在 <code>vmess://</code> 后面。不同提案与版本支持的字段仍需逐项核对。</p>
+<p>下面只是用于识别结构的示意，包含占位值，不能建立连接。导入真实节点时应使用提供方给出的完整内容，而不是根据这段示例猜参数。</p>
+<pre tabindex="0"><code>vless://UUID占位@server.example.com:443?type=tcp&amp;security=tls&amp;sni=server.example.com#节点备注</code></pre>
+<p>复制时不要截掉 <code>?</code> 后的参数，也不要用聊天软件自动换行后的残缺片段。分享链接能够恢复节点，并不必然包含你在客户端另设的分流、DNS、分应用名单或系统代理配置。</p>
+<h2 id="base64">Base64 是编码，不是加密或兼容性保证</h2>
+<p>有些订阅把多行节点 URI 包装为 Base64；VMess 分享链接内部也常使用这种编码。二者发生在不同层次，不能看到一段字母数字就判断它一定是某种节点。v2rayN 的<a href="https://github.com/2dust/v2rayN/blob/master/v2rayN/ServiceLib/Handler/SubscriptionHandler.cs" rel="noopener noreferrer" target="_blank">订阅处理源码</a>包含 Base64 处理逻辑，但这不代表任意编码内容都会变成可识别配置。</p>
+<p>Base64 可以在本地还原，不能用来隐藏密码、UUID 或账户标识。把编码结果发给在线解析器，仍相当于交出了里面的数据。学习识别格式时使用虚构示例；真实订阅应直接交给可信客户端处理。</p>
+<h2 id="json">Xray JSON、sing-box JSON 与客户端内部格式怎么区分？</h2>
+<p>Xray、V2Fly 和 sing-box 有各自的配置规范。比如<a href="https://xtls.github.io/config/" rel="noopener noreferrer" target="_blank">Xray 配置规范</a>使用 <code>routing</code> 描述路由，<a href="https://sing-box.sagernet.org/configuration/" rel="noopener noreferrer" target="_blank">sing-box 配置规范</a>则有自己的 <code>route</code> 结构；出站类型和字段的位置也存在差异。把 Xray JSON 交给 sing-box，不能仅靠改后缀完成迁移。</p>
+<p>客户端的节点记录还可能是另一种模型。v2rayN 官方说明中的 <code>v2rayn://</code> 内部分享格式，用于承载客户端记录和部分标准分享链接之外的信息。它与核心直接运行的 JSON 不同，内部结构变化还可能受客户端版本影响。完整备份应使用该软件支持的方式，不能把内部格式视为所有代理工具通用标准。</p>
+<h2 id="yaml">导入 Clash YAML 时，哪些内容需要重新验证？</h2>
+<p>Clash / Mihomo 配置可能包含 <code>proxies</code>、策略组、规则、Providers、DNS 与 TUN 设置。某个客户端支持从 YAML 导入节点，并不意味着它会同步实现所有策略组、规则集或脚本。要判断“导入成功”，应说明成功的是节点提取还是整份配置运行。</p>
+<ol><li>先阅读当前客户端对该格式的支持说明，确认它将数据交给哪个内核。</li><li>导入后比较节点数量及关键连接字段，尤其是传输路径、TLS 服务器名称和 REALITY 参数。</li><li>分别核对当前活动节点、默认出站、直连域名与 DNS；不要以节点同名推断规则完全相同。</li><li>原配置包含不支持的策略或资源时，重新在接收端建立对应规则，或继续使用原本兼容的客户端。</li></ol>
+<h2 id="diagnose">V2Ray 配置无法导入时，按错误选择处理方式</h2>
+<div aria-label="V2Ray 配置无法导入时，按错误选择处理方式，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">错误表现</th><th scope="col">可能原因</th><th scope="col">可验证的处理</th></tr></thead><tbody><tr><td>把 URL 导入后无节点</td><td>响应是网页或不匹配格式</td><td>获取当前客户端专用订阅</td></tr><tr><td>JSON 能解析但核心不启动</td><td>语法正确，字段属于另一核心或版本</td><td>查实际核心规范与首个报错字段</td></tr><tr><td>节点能连，分流行为不同</td><td>只导入了节点，没有迁移规则</td><td>对照日志分别验证代理与直连目标</td></tr><tr><td>节点备注相同，参数却缺失</td><td>格式转换或旧解析器丢字段</td><td>逐项核对原数据并查看版本修复记录</td></tr></tbody></table></div>
+<h2 id="rollback">转换、迁移与恢复的最小范围</h2>
+<p>需要转换时，优先向配置提供方索取匹配格式；自行处理则保留原始数据，在本地生成独立副本，只迁移已理解的字段。先验证一个节点，再扩展规则和 DNS，避免把整份旧配置直接覆盖客户端生成文件。停止测试后恢复原活动配置和代理设置。</p>
+<p>第三方转换服务会接触订阅内容，不能因为网址使用 HTTPS 就推定它不会记录数据。若链接已经泄露，应处理提供方的令牌更新或权限撤销，而不是再套一层 Base64。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">V2Ray 配置格式常见问题</h2>
+<details class="faq-entry"><summary><h3>把 Clash 的 YAML 改名为 JSON，就能导入 v2rayN 吗？</h3></summary><div><p>不能。后缀不会改变数据语法、字段和规则含义。即使客户端能从 YAML 提取节点，也要单独确认策略组、路由和 DNS 是否被支持。优先使用提供方为目标客户端生成的格式。</p>
+</div></details><details class="faq-entry"><summary><h3>Base64 订阅可以安全地公开分享吗？</h3></summary><div><p>不能把编码当成保密措施。Base64 内容可以还原，其中可能包含 UUID、密码、地址等连接信息。真实订阅及编码响应都应按敏感配置处理；公开泄露后，应按提供方支持的方式更换相关凭据。</p>
+</div></details><details class="faq-entry"><summary><h3>两份配置都是 JSON，为什么还会提示 unknown field？</h3></summary><div><p>JSON 只规定一种数据表示方式，各核心的字段模型及版本要求不同。先从启动日志确认实际核心，再对照相应规范与迁移说明；语法能解析不等于核心能识别每个字段。</p>
+<p><strong>下一步：</strong>先识别数据属于订阅、节点还是完整配置，再确认目标软件与核心版本；只迁移能够核对的字段，保留原文件并逐项验证连接和分流。</p></div></details></section>
+<h2 id="sources">官方格式资料</h2>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-subscription" rel="noopener noreferrer" target="_blank">v2rayN：标准与内部订阅格式</a>、<a href="https://github.com/2dust/v2rayN/blob/master/v2rayN/ServiceLib/Handler/SubscriptionHandler.cs" rel="noopener noreferrer" target="_blank">订阅处理源码</a></li><li><a href="https://xtls.github.io/config/" rel="noopener noreferrer" target="_blank">Xray 配置结构</a></li><li><a href="https://sing-box.sagernet.org/configuration/" rel="noopener noreferrer" target="_blank">sing-box 配置结构</a></li><li><a href="https://wiki.metacubex.one/config/" rel="noopener noreferrer" target="_blank">Mihomo 配置文档</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-subscription.html">按链接类型导入节点</a></li><li><a href="blog-v2ray-protocols.html">协议与内核兼容性</a></li><li><a href="blog-v2ray-backup-migrate.html">备份与设备迁移</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

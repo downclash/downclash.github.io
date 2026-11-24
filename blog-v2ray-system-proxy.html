@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>v2rayN 系统代理设置：自动配置、PAC 与退出恢复 | V2Ray 下载站</title>
+<meta content="v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-system-proxy.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-system-proxy.html" property="og:url"/>
+<meta content="v2rayN 系统代理设置：自动配置、PAC 与退出恢复" property="og:title"/>
+<meta content="v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="v2rayN 系统代理设置：自动配置、PAC 与退出恢复" name="twitter:title"/>
+<meta content="v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复",
+  "description": "v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。",
+  "url": "https://v2raydown.com/blog-v2ray-system-proxy.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-system-proxy.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "代理与网络",
+  "@id": "https://v2raydown.com/blog-v2ray-system-proxy.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "v2rayN 系统代理",
+    "PAC",
+    "系统代理不生效",
+    "退出后断网"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "代理与网络",
+      "item": "https://v2raydown.com/tutorials.html#learn-network"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复",
+      "item": "https://v2raydown.com/blog-v2ray-system-proxy.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-network">代理与网络</a><span aria-hidden="true">/</span><span aria-current="page">v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">代理与网络</p>
+<h1>v2rayN 系统代理设置：自动配置、PAC、路由与退出恢复</h1>
+<p class="article-lead">v2rayN 系统代理只影响读取相应设置的应用。核对自动配置、PAC、本地监听端口和核心路由，用显式请求与日志定位未生效原因，并在退出后恢复本客户端设置的代理条目。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">v2rayN 系统代理怎么设置才会生效？</h2><p><strong>先确认节点能连接，再让系统代理指向 v2rayN 的实际本地入口。</strong>通过客户端启用系统代理后，核对系统中的地址、协议和端口，并用浏览器的新请求与客户端日志验证。系统代理负责接入，路由规则决定接入后的出口；只切换“全局”路由不会自动代理所有程序。</p><ol><li>从客户端读取真实 HTTP 或混合入口，确认核心正在监听。</li><li>启用系统代理，检查浏览器有没有独立代理或绕过设置。</li><li>请求进入日志后再判断出站；退出前清除客户端设置的代理。</li></ol></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#layers">v2rayN 系统代理、PAC 和路由有什么区别？</a></li><li><a href="#setup">Windows、macOS 如何启用并核对系统代理？</a></li><li><a href="#verify">用 curl 判断是系统代理还是本地入口的问题</a></li><li><a href="#symptoms">v2rayN 系统代理不生效的排查表</a></li><li><a href="#recover">v2rayN 退出后断网怎么恢复？</a></li><li><a href="#article-faq-heading">v2rayN 系统代理常见问题</a></li><li><a href="#sources">系统代理设置的官方资料</a></li></ul></nav>
+<p>节点测试成功，浏览器却仍然打不开网页，常见原因是请求还没有交给客户端。本文面向桌面版 v2rayN，也适用于理解 V2rayU 的系统代理入口；Android 的 VPN 接口不按这里的桌面设置操作。开始前应已有可用节点，核心能够正常启动，并知道客户端当前监听的地址、端口和协议。</p>
+<h2 id="layers">v2rayN 系统代理、PAC 和路由有什么区别？</h2>
+<p>系统代理向愿意读取该设置的应用提供代理地址；核心路由在收到连接后，决定走远端节点、直连或其他出站。二者处在不同阶段：系统代理填对了，不代表所有请求都走远端节点；核心选择“全局”路由，也不会让不读取代理的应用自动接入。</p>
+<p>PAC 是应用读取的一段代理自动配置脚本，可按请求返回代理或直连。v2rayN 菜单里的“自动配置系统代理”通常表示由客户端写入系统代理设置，不能只凭“自动”两字判断它正在使用 PAC。查看操作系统实际启用的是手动地址还是自动脚本地址，再核对当前版本的<a href="https://github.com/2dust/v2rayN/wiki/Description-of-system-proxy-routing" rel="noopener noreferrer" target="_blank">系统代理与路由说明</a>。</p>
+<h2 id="setup">Windows、macOS 如何启用并核对系统代理？</h2>
+<ol><li>保存原有系统代理、自动配置脚本及企业网络要求。暂时关闭其他会修改代理的客户端，避免两套程序反复覆盖。</li><li>在 v2rayN 选择一个活动节点，确认核心没有启动错误。从客户端设置读取实际 HTTP、SOCKS 或混合入口，不套用网上的默认端口。</li><li>通过客户端的系统代理入口启用代理，再打开操作系统代理设置核对。Windows 可按 <a href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows" rel="noopener noreferrer" target="_blank">Microsoft 的代理设置说明</a>在“设置 → 网络和 Internet → 代理”查看；macOS 在当前网络服务的详情中查看代理项目。</li><li>检查地址指向本机监听入口、端口一致，自动配置脚本没有与手动配置发生意外叠加。若网络配置由组织管理，应按组织要求处理。</li><li>用读取该系统设置的浏览器发起一条新的请求，观察客户端连接或访问日志，再判断路由结果。</li></ol>
+<p>Linux 的图形桌面设置与应用支持情况不同。桌面代理启用后，终端工具仍可能需要独立的代理参数或环境变量；不要用浏览器成功推断整个桌面的每个进程都已接入。</p>
+<h2 id="verify">用 curl 判断是系统代理还是本地入口的问题</h2>
+<p>如果浏览器行为不清楚，可先做一次绕开系统代理设置的对照。以下示例假定 HTTP 入口是 <code>127.0.0.1:10809</code>；这是演示值，运行前必须换成设置中真实的 HTTP 或兼容混合端口。Windows 建议调用 <code>curl.exe</code>，避免旧 PowerShell 的同名别名。</p>
+<pre tabindex="0"><code>curl --noproxy "" --proxy http://127.0.0.1:10809 --head --max-time 15 https://example.com</code></pre><p><code>--noproxy ""</code> 用于本次显式代理测试，避免环境中的 <code>NO_PROXY</code> / <code>no_proxy</code> 绕过列表使请求改走直连；它不会改变客户端路由规则。</p>
+<p><code>example.com</code> 只是测试目标占位。显式代理请求成功，而同一目标的浏览器请求未进入日志，应优先检查浏览器扩展、独立代理、绕过列表与连接缓存。显式请求也失败时，先查本地监听或节点连接，而不是反复切换系统开关。HTTPS 目标通过 HTTP 代理的 CONNECT 隧道访问，代理地址写 <code>http://</code> 并不要求目标改为明文 HTTP。</p>
+<h2 id="symptoms">v2rayN 系统代理不生效的排查表</h2>
+<div aria-label="v2rayN 系统代理不生效的排查表，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">表现</th><th scope="col">优先检查</th><th scope="col">验证结果</th></tr></thead><tbody><tr><td>浏览器没有任何对应日志</td><td>浏览器自身代理、扩展、系统代理地址与绕过项</td><td>新请求进入预期入口</td></tr><tr><td>请求进入，但显示直连出站</td><td>当前路由模式和命中规则</td><td>目标按需求匹配代理或直连</td></tr><tr><td>只有终端失败</td><td>该命令是否读取系统代理，是否遗留环境变量</td><td>显式代理参数能完成同一请求</td></tr><tr><td>设置总被自动改回</td><td>另一客户端、代理守护或组织管理策略</td><td>明确唯一负责修改设置的程序</td></tr><tr><td>浏览器可用但游戏不通</td><td>游戏是否支持 HTTP/SOCKS，以及 UDP 需求</td><td>确认是否需要应用入口或 TUN</td></tr></tbody></table></div>
+<h2 id="recover">v2rayN 退出后断网怎么恢复？</h2>
+<p>结束使用时，先通过客户端清除它设置的系统代理，停止 TUN，再退出程序。随后验证普通直连站点。如果客户端异常退出，系统仍指向已经关闭的本机端口，浏览器就可能全部报代理连接失败；重新打开客户端执行清除，或在系统中恢复之前记录的地址。</p>
+<p>只移除确认由自己设置的项目。公司原有的代理和 PAC 不能随意清空。恢复后重新打开目标应用，必要时重建原有连接再测试；不要通过关闭防火墙或证书检查来修复本地代理指向错误。如果系统代理无法覆盖需要的应用，再阅读 <a href="blog-v2ray-tun.html">TUN 教程</a>。</p>
+<section class="article-faq" id="article-faq"><h2 id="article-faq-heading">v2rayN 系统代理常见问题</h2><details class="faq-entry"><summary><h3>“自动配置系统代理”就是 PAC 模式吗？</h3></summary><div><p>不能只凭菜单中的“自动”判断。它也可能表示客户端自动写入固定代理地址。到操作系统查看实际启用的是手动代理还是自动配置脚本，再对照该版本说明；PAC 和核心路由是不同阶段的规则。</p></div></details><details class="faq-entry"><summary><h3>浏览器能上网，为什么终端还是不能用？</h3></summary><div><p>终端中的工具未必读取桌面系统代理。先用该工具的显式代理参数测试同一目标，再决定是否配置环境变量或 TUN；浏览器成功只说明浏览器的这条请求可用。</p></div></details><details class="faq-entry"><summary><h3>关闭 v2rayN 后还需要关闭系统代理吗？</h3></summary><div><p>需要确认由客户端设置的代理已清除。如果系统仍指向停止监听的本机端口，网页可能报代理连接失败。优先通过客户端正常清除；已有企业代理的设备应恢复此前记录的组织设置。</p>
+</div></details></section><h2 id="sources">系统代理设置的官方资料</h2>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN/wiki/Description-of-system-proxy-routing" rel="noopener noreferrer" target="_blank">v2rayN：系统代理与核心路由</a></li><li><a href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows" rel="noopener noreferrer" target="_blank">Microsoft：Windows 代理设置</a></li><li><a href="https://curl.se/docs/manpage.html" rel="noopener noreferrer" target="_blank">curl：proxy、head 与超时参数</a></li></ul><p>界面名称随客户端与系统版本变化；实际监听入口和请求日志比开关名称更能说明连接状态。</p>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-ports.html">读取真实本地端口并排查冲突</a></li><li><a href="blog-v2ray-routing.html">理解核心收到流量后的规则分流</a></li><li><a href="blog-v2ray-terminal-proxy.html">为终端单独设置代理</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

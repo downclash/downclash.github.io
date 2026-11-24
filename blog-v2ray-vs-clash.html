@@ -1,225 +1,158 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V2Ray vs Clash 详细对比：哪个代理工具更适合你？ | V2Ray 下载站</title>
-  <meta name="description" content="从协议支持、配置方式、性能表现、易用性等维度全面对比 V2Ray 和 Clash，帮助你选择最适合自己的代理工具。包含详细的优缺点分析和选择建议。">
-  <meta name="keywords" content="V2Ray, Clash, 代理工具对比, V2Ray vs Clash, 代理软件推荐, V2Ray和Clash区别, 代理工具哪个好">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://v2raydown.com/blog-v2ray-vs-clash.html">
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://v2raydown.com/blog-v2ray-vs-clash.html">
-  <meta property="og:title" content="V2Ray vs Clash 详细对比：哪个代理工具更适合你？">
-  <meta property="og:description" content="从协议支持、配置方式、性能表现、易用性等维度全面对比 V2Ray 和 Clash。">
-  <meta property="og:image" content="https://v2raydown.com/assets/images/og-image.svg">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-04-28">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="V2Ray vs Clash 详细对比：哪个代理工具更适合你？">
-  <meta name="twitter:description" content="从协议支持、配置方式、性能表现、易用性等维度全面对比 V2Ray 和 Clash。">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','system-ui','Noto Sans SC','sans-serif']}}}}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "V2Ray vs Clash 详细对比：哪个代理工具更适合你？",
-    "description": "从协议支持、配置方式、性能表现、易用性等维度全面对比 V2Ray 和 Clash。",
-    "author": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "publisher": { "@type": "Organization", "name": "V2Ray 下载站" },
-    "datePublished": "2026-04-28",
-    "dateModified": "2026-04-28",
-    "mainEntityOfPage": "https://v2raydown.com/blog-v2ray-vs-clash.html"
-  }
-  </script>
-</head>
-<body class="antialiased selection:bg-blue-500/20">
-  <div class="fixed inset-0 z-[-1] bg-grid" style="background-color: var(--bg-primary);">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[560px] bg-purple-600/12 blur-[180px] rounded-full pointer-events-none"></div>
-  </div>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比 | V2Ray 下载站</title>
+<meta content="对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。" name="description"/>
+<meta content="V2Ray, Clash, 代理工具对比, V2Ray vs Clash, 代理软件推荐, V2Ray和Clash区别, 代理工具哪个好" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-vs-clash.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
 
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b" style="background: var(--header-bg); border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html#home" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <img src="assets/images/favicon.svg" alt="V2Ray" class="w-8 h-8">
-        </div>
-        <span class="font-bold text-lg tracking-tight" style="color: var(--text-primary);">V2Ray</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="index.html#home" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">首页</a>
-        <a href="index.html#download" class="text-sm font-medium transition-colors" style="color: var(--text-muted);">下载</a>
-        <a href="blogs.html" class="text-sm font-medium text-blue-400">博客</a>
-      </nav>
-      <div class="flex items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-          <i data-lucide="moon" class="w-4 h-4 moon-icon" style="color: var(--text-secondary);"></i>
-          <i data-lucide="sun" class="w-4 h-4 sun-icon" style="color: var(--text-secondary);"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <main class="pt-24 pb-20">
-    <article class="max-w-3xl mx-auto px-6">
-      <nav class="mb-8 flex items-center gap-2 text-xs" style="color: var(--text-dim);">
-        <a href="index.html" class="hover:text-blue-400 transition-colors">首页</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <a href="blogs.html" class="hover:text-blue-400 transition-colors">博客</a>
-        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-        <span style="color: var(--text-muted);">对比评测</span>
-      </nav>
-
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">对比评测</span>
-      </div>
-
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6" style="color: var(--text-primary);">V2Ray vs Clash 详细对比：哪个代理工具更适合你？</h1>
-
-      <div class="flex items-center gap-4 mb-12 text-sm" style="color: var(--text-dim);">
-        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> 2026-04-28</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 阅读约 10 分钟</span>
-      </div>
-
-      <div class="article-content">
-        <p>在代理工具的选择上，V2Ray 和 Clash 是目前最受欢迎的两个选项。它们各有优势，适合不同的使用场景和用户群体。本文将从多个维度进行全面对比，帮助你做出最佳选择。</p>
-
-        <h2>一、协议支持对比</h2>
-
-        <h3>V2Ray 的协议支持</h3>
-        <p>V2Ray 原生支持以下协议：</p>
-        <ul>
-          <li><strong>VMess：</strong>V2Ray 自研协议，加密传输，安全性高</li>
-          <li><strong>VLESS：</strong>VMess 的轻量版，去除加密开销，配合 TLS 使用</li>
-          <li><strong>Trojan：</strong>伪装成 HTTPS 流量，隐蔽性强</li>
-          <li><strong>Shadowsocks：</strong>经典代理协议，速度快</li>
-          <li><strong>WireGuard：</strong>新一代 VPN 协议，速度极快</li>
-        </ul>
-
-        <h3>Clash 的协议支持</h3>
-        <p>Clash 核心（Premium/Meta）支持：</p>
-        <ul>
-          <li>Shadowsocks、ShadowsocksR</li>
-          <li>VMess、VLESS（通过 Clash.Meta 内核）</li>
-          <li>Trojan</li>
-          <li>Hysteria、TUIC（新一代协议）</li>
-          <li>WireGuard</li>
-        </ul>
-
-        <p><strong>结论：</strong>V2Ray 在协议支持上更加原生和全面，特别是在 VMess/VLESS 方面。Clash.Meta 内核的协议支持已经非常接近，差距不大。</p>
-
-        <h2>二、配置方式对比</h2>
-
-        <h3>V2Ray 的配置</h3>
-        <p>V2Ray 使用 JSON 格式的配置文件，结构较为复杂。但 V2RayN/V2RayNG/V2RayU 等客户端已经极大地简化了操作，支持订阅链接一键导入，普通用户无需手动编辑配置文件。</p>
-
-        <h3>Clash 的配置</h3>
-        <p>Clash 使用 YAML 格式的配置文件，结构清晰，可读性更好。Clash 的 Rule Provider 机制让规则管理更加灵活，支持从远程 URL 加载规则集。</p>
-
-        <p><strong>结论：</strong>Clash 的配置更直观，规则管理更灵活。V2Ray 的图形化客户端弥补了配置复杂度的不足，对普通用户来说差异不大。</p>
-
-        <h2>三、分流能力对比</h2>
-
-        <p>两者都支持智能分流，但实现方式不同：</p>
-
-        <h3>V2Ray 的分流</h3>
-        <p>V2Ray 通过 routing 配置实现分流，支持域名匹配、IP 匹配、GeoIP 等。V2RayN 等客户端提供了预设的路由规则，可以一键切换"绕过大陆"等模式。</p>
-
-        <h3>Clash 的分流</h3>
-        <p>Clash 的分流能力是其最大亮点。Rule Provider 机制支持从远程加载和更新规则集，规则类型丰富（DOMAIN、DOMAIN-SUFFIX、IP-CIDR、GEOIP 等），支持规则组和策略组的灵活组合。</p>
-
-        <p><strong>结论：</strong>Clash 在分流能力上有明显优势，规则管理更加灵活和可维护。</p>
-
-        <h2>四、性能对比</h2>
-
-        <p>在实际使用中，两者的性能差异并不明显：</p>
-        <ul>
-          <li><strong>速度：</strong>主要取决于代理协议和服务器，与客户端工具关系不大</li>
-          <li><strong>资源占用：</strong>V2Ray 的 Go 内核和 Clash 的 Go 内核资源占用相当</li>
-          <li><strong>连接稳定性：</strong>两者都表现良好，取决于协议配置</li>
-        </ul>
-
-        <h2>五、跨平台支持</h2>
-
-        <h3>V2Ray 的平台支持</h3>
-        <ul>
-          <li>Windows：V2RayN</li>
-          <li>macOS：V2RayU、V2RayXS</li>
-          <li>Android：V2RayNG</li>
-          <li>iOS：FoXray、Shadowrocket（第三方）</li>
-          <li>Linux：命令行客户端</li>
-        </ul>
-
-        <h3>Clash 的平台支持</h3>
-        <ul>
-          <li>Windows：Clash for Windows</li>
-          <li>macOS：ClashX、ClashX Pro</li>
-          <li>Android：ClashMeta for Android</li>
-          <li>iOS：Stash、Shadowrocket（第三方）</li>
-          <li>Linux：Clash 命令行</li>
-        </ul>
-
-        <p><strong>结论：</strong>两者都有完善的跨平台支持，生态都很成熟。</p>
-
-        <h2>六、社区与生态</h2>
-
-        <p>V2Ray 由 V2Fly 社区维护，历史悠久，文档完善。Clash 生态同样活跃，Clash.Meta 内核持续更新。大多数机场同时支持 V2Ray 和 Clash 格式的订阅。</p>
-
-        <h2>七、如何选择？</h2>
-
-        <h3>选择 V2Ray 如果你：</h3>
-        <ul>
-          <li>偏好简单直接的客户端操作（V2RayN/V2RayNG 非常易用）</li>
-          <li>主要使用 VMess/VLESS 协议</li>
-          <li>需要在 Windows 上使用（V2RayN 功能最全面）</li>
-          <li>偏好轻量级工具</li>
-        </ul>
-
-        <h3>选择 Clash 如果你：</h3>
-        <ul>
-          <li>需要精细的规则管理和分流控制</li>
-          <li>喜欢折腾配置，享受自定义的乐趣</li>
-          <li>使用支持 Clash 订阅格式的机场</li>
-          <li>需要 TUN 模式（全局透明代理）</li>
-        </ul>
-
-        <h2>总结</h2>
-
-        <p>V2Ray 和 Clash 都是优秀的代理工具，没有绝对的优劣之分。对于大多数普通用户，V2RayN/V2RayNG 的简单易用是最大优势；对于喜欢精细控制的进阶用户，Clash 的规则管理更加强大。建议根据自己的使用习惯和机场支持情况来选择。</p>
-      </div>
-
-      <div class="mt-16 pt-8" style="border-top: 1px solid var(--border-primary);">
-        <h3 class="text-xl font-bold mb-6" style="color: var(--text-primary);">相关文章</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="blog-v2ray-protocols.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">协议解析</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 支持的协议详解</h4>
-          </a>
-          <a href="blog-v2ray-speed.html" class="glass-card rounded-xl p-4 group">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">优化技巧</span>
-            <h4 class="text-sm font-semibold mt-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">V2Ray 速度优化技巧</h4>
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <footer class="border-t" style="border-color: var(--border-primary); background: var(--bg-secondary);">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs" style="color: var(--text-dim);">&copy; 2024-2026 V2Ray. 本站仅为信息介绍，与 V2Ray 官方无关。</p>
-      <a href="index.html" class="text-sm text-blue-400 hover:text-blue-300 transition-colors">返回首页</a>
-    </div>
-  </footer>
-  <script src="assets/js/main.js"></script>
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-vs-clash.html" property="og:url"/>
+<meta content="V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比 | V2Ray 下载站" property="og:title"/>
+<meta content="对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-04-28" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比 | V2Ray 下载站" name="twitter:title"/>
+<meta content="对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比",
+  "description": "对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "datePublished": "2026-04-28",
+  "dateModified": "2026-11-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-vs-clash.html"
+  },
+  "inLanguage": "zh-CN",
+  "@id": "https://v2raydown.com/blog-v2ray-vs-clash.html#article",
+  "url": "https://v2raydown.com/blog-v2ray-vs-clash.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "articleSection": "概念与诊断"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "概念与诊断",
+      "item": "https://v2raydown.com/tutorials.html#learn-advanced-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比",
+      "item": "https://v2raydown.com/blog-v2ray-vs-clash.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a aria-current="page" href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-advanced-guides">概念与诊断</a><span aria-hidden="true">/</span><span aria-current="page">V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比</span></nav>
+<div class="content-hero page-heading"><p class="eyebrow">对比评测</p><h1>V2Ray 与 Clash 怎么选：客户端、订阅格式与分流对比</h1><p class="article-lead">对比 v2rayN、v2rayNG 与 Mihomo 生态的客户端工作流，说明 V2Ray 与 Xray、sing-box 的关系、节点链接和 YAML 订阅区别，以及迁移前的兼容性检查。</p><p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 7 分钟</p><p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div><div class="article-content">
+<p>选择客户端时，先看设备、现有订阅和需要的分流方式。“V2Ray”和“Clash”常被用来概括两类工具，但它们既可能指内核，也可能指图形客户端。把同一层的产品放在一起比较，才能作出有用的选择。</p>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#names">厘清内核与客户端</a></li><li><a href="#workflow">两种常见使用方式</a></li><li><a href="#comparison">订阅、分流与接管方式对比</a></li><li><a href="#choose">按现有条件选择</a></li><li><a href="#migration">更换客户端前检查</a></li><li><a href="#sources">资料来源与继续阅读</a></li></ul></nav>
+<h2 id="names">厘清内核与客户端</h2>
+<p><strong>V2Fly / V2Ray、Xray、sing-box</strong> 是不同的核心项目。<strong>v2rayN、v2rayNG、V2rayU</strong> 则提供安装、订阅管理、节点选择等界面；实际能力取决于集成的核心和版本。v2rayN 项目已明确支持 Windows、Linux、macOS，并列出 Xray、sing-box 等内核，不能再把它归为仅 Windows 的 V2Ray 外壳。</p>
+<p><strong>Mihomo</strong> 是当前 Clash 兼容生态中的核心之一，其文档覆盖节点、代理组、规则集、DNS 与 TUN。比较时应明确所用客户端及内核，而不是用旧版 Clash 的能力代替所有 Mihomo 客户端。已有 Clash 配置的用户也应核对其中的扩展字段和内核要求。</p>
+<h2 id="workflow">两种常见使用方式</h2>
+<h3>以节点为中心：导入、选择、再配置路由</h3>
+<p>在 v2rayN / v2rayNG 这类客户端中，用户通常导入节点分享链接或客户端支持的订阅，选择活动节点，再选择路由方案与接管方式。节点记录主要描述如何连接服务器；仅有节点列表，不代表已经拥有完整的分流规则。</p>
+<h3>以配置为中心：节点、代理组和规则协作</h3>
+<p>Clash / Mihomo 格式配置常通过 YAML 描述节点、代理组、DNS 和规则，并可引用远程 provider。用户在代理组中选择或自动测试节点，由规则决定连接交给哪个组。不同客户端可能对订阅进行合并或覆写，因此要分清订阅原文与最终生效配置。</p>
+<p>这两种工作流存在交集。部分客户端支持多种格式或自定义配置，但支持导入某类节点，不等于完整保留另一种配置中的 DNS、规则、策略组和扩展字段。</p>
+<h2 id="comparison">订阅、分流与接管方式对比</h2>
+<div aria-label="订阅、分流与接管方式对比，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>比较项</th><th>v2rayN / v2rayNG 等</th><th>Mihomo 生态客户端</th></tr></thead><tbody><tr><td>常见输入</td><td>节点分享链接、节点订阅，或指定核心的自定义配置</td><td>Clash / Mihomo YAML 与 provider；具体导入支持看客户端</td></tr><tr><td>节点选择</td><td>通常选择活动节点，更多组合依客户端与核心而定</td><td>常用 select、url-test、fallback 等代理组</td></tr><tr><td>规则管理</td><td>图形路由方案或核心 routing / route 配置</td><td>规则指向节点 / 代理组，可配 rule-provider</td></tr><tr><td>协议能力</td><td>核对实际 Xray / sing-box / V2Fly 核心及版本</td><td>核对 Mihomo 版本、协议及传输字段</td></tr><tr><td>桌面流量接管</td><td>系统代理或客户端提供的 TUN</td><td>系统代理或客户端提供的 TUN</td></tr><tr><td>Android 接管</td><td>v2rayNG 通过系统 VPN 服务接收流量</td><td>Android 客户端通常也需系统 VPN 权限</td></tr><tr><td>排查入口</td><td>活动节点、核心日志、路由命中、应用接入方式</td><td>最终配置、代理组选择、连接日志、规则与 DNS</td></tr></tbody></table></div>
+<p>两边都能做规则分流。复杂程度由实际规则和界面决定；不能仅凭 JSON 或 YAML 的格式判断哪一方功能更强。性能也应在同设备、同网络、同服务器和相近配置下测量，本文不按软件名称给出速度排名。</p>
+<h2 id="choose">按现有条件选择</h2>
+<div aria-label="按现有条件选择，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th>你已有的条件</th><th>可以先看</th><th>选择前确认</th></tr></thead><tbody><tr><td>Windows / Linux / macOS，已有节点分享链接</td><td><a href="blog-v2rayn-guide.html">v2rayN 使用教程</a></td><td>架构、核心及协议组合是否支持</td></tr><tr><td>Android，已有 v2rayNG 格式订阅</td><td><a href="blog-v2rayng-android.html">v2rayNG 配置教程</a></td><td>订阅导入、VPN 权限、分应用代理范围</td></tr><tr><td>Mac，习惯菜单栏管理代理</td><td><a href="blog-v2rayu-macos.html">V2rayU 安装指南</a></td><td>Intel / Apple Silicon 包及所需功能</td></tr><tr><td>已有完整 Mihomo YAML，含代理组和规则</td><td>兼容该配置的 Mihomo 客户端</td><td>内核要求与覆写规则是否保留</td></tr><tr><td>需要特定协议扩展或传输方式</td><td><a href="blog-v2ray-protocols.html">协议与内核兼容性说明</a></td><td>服务器、分享格式、客户端界面和核心四者都支持</td></tr></tbody></table></div>
+<p>首次使用可先从<a href="clients.html">客户端选择页</a>核对平台，再到<a href="download.html">下载中心</a>查看项目发布来源。</p>
+<h2 id="migration">更换客户端前检查</h2>
+<ol><li><strong>保留原配置。</strong>备份节点和自定义规则，在新客户端完成验证后再切换日常使用。</li><li><strong>确认订阅格式。</strong>优先向配置提供者获取目标客户端支持的格式，不能只更改链接后缀就假定完成转换。</li><li><strong>逐项核对节点。</strong>地址、认证、安全层、SNI、传输、路径、flow 等字段都要保留；“导入成功”只证明解析器接受了输入。</li><li><strong>重新核对规则与 DNS。</strong>节点导入一般不能证明代理组、域名规则、远程规则集和 DNS 策略已经等价迁移。</li><li><strong>逐层验证。</strong>先让单个节点和目标网站可用，再验证本地服务直连、需要代理的应用以及 TUN / VPN。</li></ol>
+<p class="notice">订阅 URL 与节点链接可能包含账户凭据。需要转换时，应先确认工具来源与处理方式，避免把完整链接提交到不明在线服务。</p>
+<p>如果新客户端中节点测速正常、应用却不能访问，先查接管方式和分流。具体检查顺序见<a href="faq.html">常见问题</a>与<a href="blog-v2ray-speed.html">连接与速度排查</a>。</p>
+<h2 id="sources">资料来源与继续阅读</h2>
+<p>内容核对：2026-11-24。选择建议依据上述使用条件整理；各客户端的具体功能以其当前发布说明为准。</p>
+<ul class="source-list"><li><a href="https://github.com/2dust/v2rayN" rel="noopener noreferrer" target="_blank">v2rayN：平台与核心说明</a>、<a href="https://github.com/2dust/v2rayN/wiki" rel="noopener noreferrer" target="_blank">项目 Wiki</a></li><li><a href="https://github.com/2dust/v2rayNG" rel="noopener noreferrer" target="_blank">v2rayNG 项目说明</a></li><li><a href="https://www.v2fly.org/config/routing.html" rel="noopener noreferrer" target="_blank">V2Fly：路由配置</a></li><li><a href="https://wiki.metacubex.one/config/proxy-groups/" rel="noopener noreferrer" target="_blank">Mihomo：代理组</a>、<a href="https://wiki.metacubex.one/config/proxies/" rel="noopener noreferrer" target="_blank">出站代理</a></li></ul>
+<p>继续阅读：<a href="tutorials.html">新手教程</a> · <a href="docs.html">配置文档</a>。</p>
+</div>
+<section class="related-guides article-content"><h2>相关文章</h2><ul><li><a href="blog-v2ray-protocols.html">协议解析 · V2Ray 支持的协议详解</a></li><li><a href="blog-v2ray-speed.html">优化技巧 · V2Ray 速度优化技巧</a></li></ul></section>
+<section class="related-guides article-content"><h2>按操作继续学习</h2><ul><li><a href="blog-v2ray-config-formats.html">格式兼容与转换边界</a></li><li><a href="blog-v2ray-geodata.html">规则资源的差异</a></li><li><a href="blog-v2ray-backup-migrate.html">迁移与回退</a></li></ul></section>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

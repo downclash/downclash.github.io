@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<script>try { document.documentElement.classList.toggle("light-mode", localStorage.getItem("v2ray-theme") !== "dark"); } catch (e) { document.documentElement.classList.add("light-mode"); }</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trojan 节点配置：密码、TLS、SNI 与连接排查 | V2Ray 下载站</title>
+<meta content="Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。" name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://v2raydown.com/blog-v2ray-trojan.html" rel="canonical"/>
+<link href="assets/images/favicon.ico?v=20261124-3" rel="icon" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+<link href="assets/images/favicon.png?v=20261124-3" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16.png?v=20261124-3" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/apple-touch-icon.png?v=20261124-3" rel="apple-touch-icon" sizes="180x180"/>
+
+
+<meta content="article" property="og:type"/>
+<meta content="https://v2raydown.com/blog-v2ray-trojan.html" property="og:url"/>
+<meta content="Trojan 节点配置：密码、TLS、SNI 与连接排查" property="og:title"/>
+<meta content="Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。" property="og:description"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" property="og:image"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="2026-11-24" property="article:modified_time"/>
+<meta content="2026-11-24" property="article:published_time"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Trojan 节点配置：密码、TLS、SNI 与连接排查" name="twitter:title"/>
+<meta content="Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。" name="twitter:description"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<meta content="V2Ray 下载站" property="og:site_name"/>
+<meta content="https://v2raydown.com/assets/images/og-image.png" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查",
+  "description": "Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。",
+  "url": "https://v2raydown.com/blog-v2ray-trojan.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://v2raydown.com/blog-v2ray-trojan.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/faq.html#site-info"
+  },
+  "datePublished": "2026-11-24",
+  "dateModified": "2026-11-24",
+  "inLanguage": "zh-CN",
+  "articleSection": "协议与移动端",
+  "@id": "https://v2raydown.com/blog-v2ray-trojan.html#article",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://v2raydown.com/#organization",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://v2raydown.com/#website",
+    "name": "V2Ray 下载站",
+    "url": "https://v2raydown.com/"
+  },
+  "keywords": [
+    "Trojan 节点配置",
+    "Trojan TLS",
+    "Trojan SNI",
+    "Trojan 连接失败"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://v2raydown.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "教程",
+      "item": "https://v2raydown.com/tutorials.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "协议与移动端",
+      "item": "https://v2raydown.com/tutorials.html#learn-protocol-mobile"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查",
+      "item": "https://v2raydown.com/blog-v2ray-trojan.html"
+    }
+  ]
+}
+</script></head>
+<body class="article-page">
+<a class="skip-link" href="#main-content">跳至正文</a>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="V2Ray 下载站首页" class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a>
+<nav aria-label="主导航" class="site-nav"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+<div class="header-actions">
+<button aria-label="切换深色主题" class="theme-toggle" id="themeToggle" type="button"><svg aria-hidden="true" class="moon-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.9 13.2A8.5 8.5 0 0 1 10.8 3.1 8.5 8.5 0 1 0 20.9 13.2Z"></path></svg><svg aria-hidden="true" class="sun-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+<button aria-controls="mobileMenu" aria-expanded="false" aria-label="展开导航菜单" class="menu-button" id="mobileMenuBtn" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+</div>
+</div>
+<nav aria-label="移动端导航" class="mobile-navigation hidden" id="mobileMenu"><a href="./">首页</a><a href="download.html">下载</a><a href="clients.html">客户端</a><a aria-current="page" href="tutorials.html">教程</a><a href="docs.html">文档</a><a href="faq.html">常见问题</a><a href="blogs.html">博客</a></nav>
+</header>
+<main class="article-main" id="main-content">
+<article class="content-shell tutorial-article">
+<nav aria-label="面包屑" class="article-breadcrumb"><a href="./">首页</a><span aria-hidden="true">/</span><a href="tutorials.html">教程</a><span aria-hidden="true">/</span><a href="tutorials.html#learn-protocol-mobile">协议与移动端</a><span aria-hidden="true">/</span><span aria-current="page">Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查</span></nav>
+<div class="content-hero page-heading">
+<p class="eyebrow">协议与移动端</p>
+<h1>Trojan 节点配置教程：密码、TLS、SNI 与传输兼容检查</h1>
+<p class="article-lead">Trojan 节点配置要同时核对密码、服务器地址、TLS、SNI 和传输类型。按 v2rayN、v2rayNG 或 V2rayU 的实际内核检查导入结果，定位证书、认证和连接错误，保留证书验证。</p>
+<p class="article-meta">更新于 <time datetime="2026-11-24">2026-11-24</time> · 阅读约 5 分钟 · 菜单与字段以所用版本为准</p>
+<p class="article-byline">资料整理：<a href="faq.html#site-info" rel="author">V2Ray 下载站</a> · 独立资料站，依据项目文档整理</p></div>
+<div class="article-content"><section aria-labelledby="quick-answer" class="quick-answer"><h2 id="quick-answer">Trojan 节点怎么配置并验证？</h2><p>导入 Trojan 订阅或节点链接后，先核对远端地址、端口、密码、TLS 名称和服务端要求的传输，再设为活动节点。开启对应的代理入口，用真实请求检查 TLS、认证与目标响应；出现证书错误时修正原因并保留验证。</p><ul><li>连接超时先查地址、端口与解析。</li><li>TLS 错误先查时间、SNI、证书与节点来源。</li><li>握手后失败再核对密码、传输和服务端兼容要求。</li></ul></section>
+<nav aria-label="本文目录" class="article-toc"><strong>本文目录</strong><ul><li><a href="#scope">Trojan 节点需要核对哪个客户端与内核？</a></li><li><a href="#parameters">Trojan 密码、TLS 与 SNI 怎么填写</a></li><li><a href="#import">Trojan 订阅导入与第一次连接步骤</a></li><li><a href="#tls">Trojan 证书验证失败时先修正什么</a></li><li><a href="#diagnose">Trojan 连不上：按错误阶段检查</a></li><li><a href="#restore">Trojan 配置修改后的对照与恢复</a></li><li><a href="#article-faq-heading">Trojan 节点常见问题</a></li><li><a href="#sources">官方依据</a></li></ul></nav>
+<p>Trojan 节点通常把身份认证放在 TLS 连接中完成。拿到节点后，既要检查密码，也要检查连接地址、服务器名称与传输方式；“端口是 443”并不意味着配置一定正确。本教程针对已有节点的客户端配置，不指导创建服务端。</p>
+<h2 id="scope">Trojan 节点需要核对哪个客户端与内核？</h2>
+<p>v2rayN、v2rayNG 和 V2rayU 是配置界面，真正处理 Trojan 的是运行中的内核。先记录它的名称与版本，再看提供方给的是通用节点链接、某种核心 JSON，还是包含完整路由的订阅。相同的 Trojan 协议不代表所有传输扩展和复用方式都能跨核心照搬。</p>
+<p>V2Fly、Xray、sing-box 分别提供 Trojan 出站说明。它们组织 JSON 字段的方式不同，GUI 还可能在启动时重新生成配置。使用 Xray 时可对照其 <a href="https://xtls.github.io/config/outbounds/trojan.html" rel="noopener noreferrer" target="_blank">Trojan 出站文档</a>核对字段，其他内核查相应文档。优先使用客户端支持的导入方式，手工参数只用于核对，不把另一内核的完整配置直接覆盖到当前目录。</p>
+<h2 id="parameters">Trojan 密码、TLS 与 SNI 怎么填写</h2>
+<div aria-label="Trojan 密码、TLS 与 SNI 怎么填写，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">项目</th><th scope="col">填写依据</th><th scope="col">容易混淆的内容</th></tr></thead><tbody>
+<tr><th scope="row">服务器地址与端口</th><td>节点提供方的实际入口</td><td>端口可以不是 443，本机 HTTP / SOCKS 端口不是远端端口</td></tr>
+<tr><th scope="row">密码</th><td>原配置中的完整密码</td><td>它不是 VMess UUID，也不是 TLS 证书私钥</td></tr>
+<tr><th scope="row">TLS 名称 / SNI</th><td>服务端接受且证书适用的名称</td><td>连接 IP 与 TLS 名称可能不同，不随意填常见网站域名</td></tr>
+<tr><th scope="row">传输及扩展</th><td>服务端指定的 WebSocket、gRPC、封装或复用设置</td><td>不能从节点备注推断这些参数，也不能只改客户端让服务端跟随改变</td></tr>
+</tbody></table></div>
+<p>密码含特殊字符时，分享链接需要正确编码。导入后发现长度、符号或尾部不一致，优先重新获取完整链接；不要在在线网站上反复转码真实密码。将密码展示为星号也不代表导出的配置或二维码已经脱敏。</p>
+<h2 id="import">Trojan 订阅导入与第一次连接步骤</h2>
+<ol><li>保留现有可用配置与原始节点来源，确认设备本身能联网。</li><li>HTTP(S) 订阅添加到订阅管理并更新；<code>trojan://</code> 节点链接从剪贴板、二维码等对应入口导入。</li><li>在节点编辑信息中核对密码、远端地址、TLS 和传输要求，保存提供方给出的附加选项。</li><li>把该节点设为活动节点，启动核心。桌面端开启适合的代理入口；Android 允许 VPN 连接。</li><li>请求同一个 HTTPS 页面，再看核心日志里该请求经过的出站和错误阶段。</li></ol>
+<p>如果列表里有多个相同名称，给测试副本添加能区分的备注。这样测速、选中节点和最终请求更容易对应，不会因为导入成功却仍使用旧节点而误判。</p>
+<h2 id="tls">Trojan 证书验证失败时先修正什么</h2>
+<p><a href="https://www.v2fly.org/config/protocols/trojan.html" rel="noopener noreferrer" target="_blank">V2Fly Trojan 文档</a>说明其应运行在正确配置的 TLS 隧道中。发生证书错误时，先核对系统日期与时间，再看证书要求的名称是否与 SNI 一致，最后确认配置来源是否更新了入口或证书。按提供方说明使用私有 CA 的场景，需要核对其信任配置，不能将不认识的证书随意设为系统信任。</p>
+<p>不要勾选“跳过证书验证”作为长期修复。即使请求暂时能打开，也无法确认连接端身份正确。若底层日志显示根本未到达 TLS 阶段，优先查 DNS、地址与端口，而不是修改密码或证书设置。</p>
+<h2 id="diagnose">Trojan 连不上：按错误阶段检查</h2>
+<div aria-label="Trojan 连不上：按错误阶段检查，可横向滚动" class="content-table" role="region" tabindex="0"><table><thead><tr><th scope="col">现象</th><th scope="col">优先检查</th><th scope="col">验证结果</th></tr></thead><tbody>
+<tr><td>导入后字段为空</td><td>链接是否完整、导入入口是否支持格式</td><td>地址、密码和安全参数能正确保存</td></tr>
+<tr><td>域名错误或超时</td><td>节点域名解析、远端端口、网络路径</td><td>能进入 TLS 握手</td></tr>
+<tr><td>证书不匹配或不受信</td><td>时间、SNI、证书链和提供方说明</td><td>启用验证时仍能完成握手</td></tr>
+<tr><td>认证失败或握手后断开</td><td>密码、传输、服务端兼容要求</td><td>目标请求通过当前出站完成</td></tr>
+<tr><td>网页可用，语音或游戏不通</td><td>应用流量入口与端到端 UDP 支持</td><td>单独验证受影响业务，不能用网页替代</td></tr>
+</tbody></table></div>
+<p>复用、传输扩展与 UDP 封装都有版本和对端要求。保持配置提供方的适配值，不将某个开关当作所有 Trojan 节点的通用提速方案。需要升级时同时核对客户端与实际内核，而非仅比较界面版本号。</p>
+<h2 id="restore">Trojan 配置修改后的对照与恢复</h2>
+<p>只改变一项已确认错误的设置，重新建立连接并复测。无改善就恢复，避免同时改密码、DNS、TUN 与路由。若所有 Trojan 节点失败，但其他协议可用，记录它们是否共享同一入口、网络与证书条件，再交给配置提供方进一步核对。</p>
+<p>退出使用时清除系统代理或断开 VPN。反馈材料保留失败时间、系统、客户端和内核版本，删除密码与完整订阅；普通的截图备注也可能包含用户标识。具体的接管和日志排查可继续查阅相关教程。</p>
+<section aria-labelledby="article-faq"><section class="article-faq" id="article-faq"><h2 id="article-faq-heading">Trojan 节点常见问题</h2><details class="faq-entry"><summary><h3>Trojan 节点一定使用 443 端口吗？</h3></summary><div><p>不一定。远端端口由服务端配置决定，应填写提供方给出的实际值；443 只是常见选择之一，不能凭协议名替换导入的端口。还要区分远端端口与本机 HTTP / SOCKS 监听端口。</p></div></details><details class="faq-entry"><summary><h3>Trojan 密码与 VMess UUID 可以互换吗？</h3></summary><div><p>不能。它们属于不同协议的认证参数，客户端必须使用当前节点认可的身份。导入后密码缺失或符号变化时，重新获取完整链接，不拿其他节点的身份字段代替。</p></div></details><details class="faq-entry"><summary><h3>同一个 Trojan 节点换内核就一定能用吗？</h3></summary><div><p>不一定。基本协议之外还可能有传输、复用或 UDP 封装要求，客户端也可能无法完整导入新字段。换内核前核对双方文档与提供方配置，保存原设置后再验证实际连接。</p></div></details></section></section>
+<h2 id="sources">官方依据</h2>
+<ul class="source-list"><li><a href="https://www.v2fly.org/config/protocols/trojan.html" rel="noopener noreferrer" target="_blank">V2Fly Trojan：TLS 与协议配置</a></li><li><a href="https://xtls.github.io/config/outbounds/trojan.html" rel="noopener noreferrer" target="_blank">Xray Trojan 出站</a></li><li><a href="https://sing-box.sagernet.org/configuration/outbound/trojan/" rel="noopener noreferrer" target="_blank">sing-box Trojan：TLS、传输与网络类型</a></li><li><a href="https://sing-box.sagernet.org/configuration/shared/tls/" rel="noopener noreferrer" target="_blank">sing-box TLS：名称与验证字段</a></li></ul>
+<section class="related-guides"><h2>继续阅读</h2><ul><li><a href="blog-v2ray-subscription.html">如何导入订阅与节点</a></li><li><a href="blog-v2ray-ipv6-udp.html">单独诊断 IPv6 与 UDP</a></li><li><a href="blog-v2ray-logs.html">连接日志读取方法</a></li></ul><p><a href="tutorials.html">返回教程目录</a> · <a href="faq.html">常见问题</a> · <a href="docs.html">核心配置文档</a></p></section>
+</div>
+</article>
+</main>
+<footer class="site-footer"><div class="content-shell">
+<div class="footer-grid">
+<div><a class="site-brand" href="./"><img alt="" height="32" src="assets/images/logo.png?v=20261124-3" width="32"/><span>V2Ray 下载站</span></a><p>独立整理 v2rayN、v2rayNG 与 V2rayU 的客户端下载来源、安装配置、协议和故障排查。软件能力与系统要求以对应项目的发布说明为准。</p><p>本站与 V2Fly、Xray 及各客户端开发团队无隶属关系，不提供节点、订阅或代理服务。</p></div>
+<div><h2>按平台下载</h2><ul><li><a href="download.html?platform=windows">Windows · v2rayN</a></li><li><a href="download.html?platform=macos">macOS · v2rayN / V2rayU</a></li><li><a href="download.html?platform=android">Android · v2rayNG</a></li><li><a href="download.html?platform=linux">Linux · v2rayN</a></li><li><a href="download.html?platform=ios">iOS / iPadOS 兼容工具</a></li></ul></div>
+<div><h2>教程与资料</h2><ul><li><a href="clients.html">客户端选择指南</a></li><li><a href="tutorials.html">新手使用教程</a></li><li><a href="docs.html">配置与内核文档</a></li><li><a href="faq.html">常见问题与排查</a></li><li><a href="blogs.html">全部技术文章</a></li><li><a href="faq.html#site-info">关于本站与内容来源</a></li></ul></div>
+</div>
+<div class="footer-bottom"><p>© 2026 v2raydown.com · V2Ray 下载站</p><p>下载查看项目来源，配置核对实际版本。</p></div>
+</div></footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
